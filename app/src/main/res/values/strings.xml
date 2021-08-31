@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WPRK_concept</string>
+    <string name="podcasts">Podcasts</string>
+    <string name="live">Live</string>
+    <string name="account">Account</string>
+
+</resources>
