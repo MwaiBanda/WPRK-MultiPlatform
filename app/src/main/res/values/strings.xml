@@ -3,5 +3,6 @@
     <string name="podcasts">Podcasts</string>
     <string name="live">Live</string>
     <string name="account">Account</string>
+    <string name="player_screen">PlayerScreen</string>
 
 </resources>

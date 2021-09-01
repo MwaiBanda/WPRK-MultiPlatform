@@ -13,5 +13,6 @@ sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon:
     object Podcasts : Screen(route ="podcasts",resourceId = R.string.podcasts, icon = Icons.Default.BookOnline, "Podcasts")
     object Live : Screen(route ="live",resourceId = R.string.live, icon = Icons.Default.LiveTv, "Home")
     object Account : Screen(route ="account",resourceId = R.string.account, icon = Icons.Default.PersonAdd, "Account")
+    object PlayerScreen: Screen(route ="playerScreen",resourceId = R.string.player_screen, icon = Icons.Default.PersonAdd, "-")
 
 }

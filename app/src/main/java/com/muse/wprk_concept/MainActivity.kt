@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -50,6 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import com.muse.wprk_concept.composables.PlayerScreen
 
 import java.nio.file.Files.size
 
@@ -64,6 +66,7 @@ class MainActivity : ComponentActivity() {
                         composable("podcasts") { PodcastsHome(paddingValues = PaddingValues()) }
                         composable("live") { Live(paddingValues = PaddingValues()) }
                         composable("account") { Account(paddingValues = PaddingValues()) }
+                        composable("playerScreen") { PlayerScreen(navController = navController) }
                     }
             }
         }
@@ -111,10 +114,14 @@ fun wprk_conceptApp(content: @Composable (PaddingValues, NavHostController) -> U
                 bottomBar = {
                     Column(modifier = Modifier.background(color = Color.Magenta)) {
                         Divider(color = Color.Black)
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier
+                            .height(10.dp),
+
+                        )
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .clickable { navController.navigate(Screen.PlayerScreen.route) },
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Row {
