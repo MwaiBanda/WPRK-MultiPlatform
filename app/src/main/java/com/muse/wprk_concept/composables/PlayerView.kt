@@ -1,12 +1,20 @@
 package com.muse.wprk_concept.composables
 
 
+import android.content.Context
 import android.net.Uri
 import android.support.v4.media.MediaBrowserCompat
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Pause
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,32 +40,13 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 
+class Person(val first: String, val last: String)
 @Composable
-fun PlayerScreen(navController: NavHostController?){
-
-    val context = LocalContext.current
+fun PlayerView(player: SimpleExoPlayer,context: ProvidableCompositionLocal<Context>){
+    val context = context.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
-
-    var autoPlay by remember { mutableStateOf(true) }
-    var window by remember { mutableStateOf(0)}
-    var position by remember{ mutableStateOf(0L) }
-
-
-
-
-    val player = remember {
-        SimpleExoPlayer.Builder(context).build().apply {
-            val mediaItem: MediaItem =
-                MediaItem.fromUri("https://firebasestorage.googleapis.com/v0/b/mwai-banda-1557193356993.appspot.com/o/bensound-beyondtheline.mp3?alt=media&token=a10f9e8c-6c7b-4106-b946-9f10964ddbe3")
-            setMediaItem(mediaItem)
-            prepare()
-            seekTo(position)
-            play()
-        }
-    }
-
-
 
     val playerView = remember {
         val playerView = PlayerView(context)
@@ -78,25 +67,69 @@ fun PlayerScreen(navController: NavHostController?){
         playerView
     }
 
-    AndroidView(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        factory = { _ ->
-            playerView
+
+        AndroidView(
+
+            factory = { _ ->
+                playerView
+            }
+        )
+
+
+
+
+}
+
+@Composable
+fun PLayerControlsWrapper(player: Player) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom
+    )  {
+        PlayerControls(player = player)
+    }
+}
+
+@Composable
+fun PlayerControls(player: Player) {
+    Row(
+        Modifier
+            .fillMaxWidth(0.9f),
+
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        IconButton(onClick = {}){
+            Icon(imageVector = Icons.Filled.Pause, contentDescription = "")
         }
-    )
-    DisposableEffect(key1 = player) {
-        onDispose {
-            player.release()
+        IconButton(onClick = { player.pause() }){
+            Icon(imageVector = Icons.Filled.Pause, contentDescription = "", modifier = Modifier.background(
+                Color.White))
+        }
+        IconButton(onClick = {}){
+            Icon(imageVector = Icons.Filled.Pause, contentDescription = "")
         }
     }
 }
 
-
-
 @Composable
 @Preview
 fun PlayerScreenPreview(){
-    PlayerScreen(navController = null)
+    val context = LocalContext
+    val current = context.current
+    val player = remember {
+        SimpleExoPlayer.Builder(current).build().apply {
+            val dataSourceFactory = DefaultDataSourceFactory(
+                current,
+                Util.getUserAgent(current, current.packageName)
+            )
+            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(MediaItem.fromUri(Uri.parse("http://wprk.broadcasttool.stream:80/stream")))
+
+            setMediaSource(source)
+            prepare()
+            play()
+        }
+    }
+
+    PlayerView( player = player, context = context)
 }

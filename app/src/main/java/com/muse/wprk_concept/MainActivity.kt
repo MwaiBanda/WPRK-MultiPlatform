@@ -3,6 +3,7 @@ package com.muse.wprk_concept
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Base64
@@ -14,11 +15,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,37 +40,45 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.filled.Bluetooth
-import androidx.compose.material.icons.filled.PlayCircle
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import com.muse.wprk_concept.composables.PlayerScreen
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.Util
+import com.muse.wprk_concept.composables.DetailScreen
+import com.muse.wprk_concept.composables.PlayerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 
-import java.nio.file.Files.size
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            wprk_conceptApp { modifier, navController ->
-
+            WPRKEntry { navController, player, context ->
                     NavHost(navController = navController, startDestination = Screen.Live.route) {
                         composable("podcasts") { PodcastsHome(paddingValues = PaddingValues()) }
                         composable("live") { Live(paddingValues = PaddingValues()) }
                         composable("account") { Account(paddingValues = PaddingValues()) }
-                        composable("playerScreen") { PlayerScreen(navController = navController) }
+                        composable("playerDetail") { DetailScreen(player = player) }
+                        composable("playerView") { PlayerView(player = player, context = context) }
                     }
             }
+
         }
     }
 }
 
 @Composable
-fun wprk_conceptApp(content: @Composable (PaddingValues, NavHostController) -> Unit) {
+fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>) -> Unit) {
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
     val bottomTabs = listOf(
@@ -86,6 +90,28 @@ fun wprk_conceptApp(content: @Composable (PaddingValues, NavHostController) -> U
         "Home", "Podcasts", "Account"
     )
     val navController = rememberNavController()
+    val context = LocalContext
+    val current = context.current
+    val player = remember {
+
+        SimpleExoPlayer.Builder(current).build().apply {
+            val dataSourceFactory = DefaultDataSourceFactory(
+                current,
+                Util.getUserAgent(current, current.packageName)
+            )
+            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(MediaItem.fromUri(Uri.parse("http://wprk.broadcasttool.stream:80/stream")))
+
+            setMediaSource(source)
+            prepare()
+        }
+
+    }
+
+    var isPlaying by remember { mutableStateOf(false) }
+    var currentTitle by remember { mutableStateOf("")}
+
+
     WPRK_conceptTheme {
         // A surface container using the 'background' color from the theme
         Surface(color = MaterialTheme.colors.background) {
@@ -121,7 +147,7 @@ fun wprk_conceptApp(content: @Composable (PaddingValues, NavHostController) -> U
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { navController.navigate(Screen.PlayerScreen.route) },
+                                .clickable { navController.navigate(Screen.DetailScreen.route) },
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Row {
@@ -137,8 +163,8 @@ fun wprk_conceptApp(content: @Composable (PaddingValues, NavHostController) -> U
                                 Spacer(modifier = Modifier.width(15.dp))
 
                                 Column() {
-                                    Text("Podcast Title", fontWeight = FontWeight.Bold)
-                                    Text("This is a description", color = Color.Gray)
+                                    Text("WPRPK Live", fontWeight = FontWeight.Bold)
+                                    Text(if (currentTitle == "null") "" else currentTitle, color = Color.White, modifier = Modifier.fillMaxWidth(0.7f))
                                 }
                             }
                             Row {
@@ -146,8 +172,25 @@ fun wprk_conceptApp(content: @Composable (PaddingValues, NavHostController) -> U
                                     Icon(Icons.Default.Bluetooth, "")
                                 }
                                 Spacer(modifier = Modifier.width(10.dp))
-                                IconButton(onClick = { /*TODO*/ }) {
-                                    Icon(Icons.Default.PlayCircle, "")
+                                IconButton(onClick = {
+                                    when(player.isPlaying) {
+                                        true -> player.pause().also { isPlaying = false }.also { Log.d("MAIN", player.mediaMetadata.description.toString() )}
+                                        false -> player.play()
+                                            .also { isPlaying = true }
+                                            .also{ currentTitle = player.mediaMetadata.title.toString()}
+                                            .also { scope.launch {
+                                                while(isPlaying) {
+                                                    delay(2000L)
+                                                    currentTitle = player.mediaMetadata.title.toString()
+                                                    if (!isPlaying) break
+                                                }
+                                            } }
+                                }}){
+                                    Icon(
+                                        when(isPlaying) {
+                                            true -> Icons.Default.PauseCircle
+                                            false -> Icons.Default.PlayCircle
+                                        }, "")
                                 }
                             }
                         }
@@ -179,10 +222,10 @@ fun wprk_conceptApp(content: @Composable (PaddingValues, NavHostController) -> U
                         }
                     }
                 },
-                content = { modifier ->
+                content = {
                     // Vertical scroller is a composable that adds the ability to scroll through the
                     // child views
-                    content(modifier, navController)
+                    content(navController, player, context)
                 }
             )
 
@@ -213,8 +256,6 @@ fun DrawerHeader(){
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    wprk_conceptApp{ modifier, _ ->
-        PodcastsHome(paddingValues = modifier)
-    }
+
 }
 
