@@ -29,7 +29,7 @@ fun DetailScreen(player: SimpleExoPlayer) {
             contentDescription = "", 
             modifier = Modifier.size(width = 50.dp, height = 50.dp))
         Spacer(modifier = Modifier.height(35.dp))
-        LinearProgressIndicator(progress = position.toFloat())
+        LinearProgressIndicator(progress = player.currentPosition.toFloat())
     }
     player.seekTo(window, position)
 }

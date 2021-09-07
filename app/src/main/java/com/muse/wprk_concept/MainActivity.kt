@@ -10,6 +10,8 @@ import android.util.Base64
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -46,10 +48,13 @@ import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.text.font.FontWeight
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.MediaItem.fromUri
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.muse.wprk_concept.composables.DetailScreen
@@ -77,6 +82,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>) -> Unit) {
     val scope = rememberCoroutineScope()
@@ -99,10 +105,17 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                 current,
                 Util.getUserAgent(current, current.packageName)
             )
+            val media = MediaItem.Builder()
+                .setUri("http://wprk.broadcasttool.stream:80/stream")
+                .setLiveTargetOffsetMs(5000)
+                .setLiveMaxPlaybackSpeed(1.02f)
+                .build()
+
             val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(MediaItem.fromUri(Uri.parse("http://wprk.broadcasttool.stream:80/stream")))
+                .createMediaSource(media)
 
             setMediaSource(source)
+            setHandleAudioBecomingNoisy(true)
             prepare()
         }
 
@@ -110,7 +123,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
 
     var isPlaying by remember { mutableStateOf(false) }
     var currentTitle by remember { mutableStateOf("")}
-
+    var count by remember { mutableStateOf(0) }
 
     WPRK_conceptTheme {
         // A surface container using the 'background' color from the theme
@@ -120,7 +133,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                 topBar = {
                     TopAppBar(
                     title = {
-                        Text(text = "WPRK")
+                        Text(text = "WPRK", fontWeight = FontWeight.ExtraBold)
                     },
                     navigationIcon = { IconButton(onClick = {
                         if (scaffoldState.drawerState.isClosed)
@@ -138,7 +151,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                     DrawerHeader()
                 },
                 bottomBar = {
-                    Column(modifier = Modifier.background(color = Color.Magenta)) {
+                    Column(modifier = Modifier.background(color = Color.parse("#ffafcc"))) {
                         Divider(color = Color.Black)
                         Spacer(modifier = Modifier
                             .height(10.dp),
@@ -163,36 +176,88 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                 Spacer(modifier = Modifier.width(15.dp))
 
                                 Column() {
-                                    Text("WPRPK Live", fontWeight = FontWeight.Bold)
-                                    Text(if (currentTitle == "null") "" else currentTitle, color = Color.White, modifier = Modifier.fillMaxWidth(0.7f))
+                                    Row(horizontalArrangement = Arrangement.Center) {
+                                        Text(
+                                            "WPRPK Live",
+                                            fontWeight = FontWeight.ExtraBold,
+                                            color = Color.White
+                                        )
+                                        Spacer(modifier = Modifier.width(5.dp))
+                                        Icon(
+                                            imageVector = Icons.Filled.Podcasts,
+                                            contentDescription = "",
+                                            tint = Color.Red,
+                                            modifier = Modifier
+                                                .size(18.dp, 18.dp)
+                                                .offset(y = 2.dp)
+                                        )
+                                    }
+                                    AnimatedContent(
+                                        targetState = count,
+                                        transitionSpec = {
+                                            if (targetState > initialState) {
+                                                    slideInHorizontally({ width -> (width + (width.toDouble()  * 0.3).toInt()) }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000)) + fadeIn(animationSpec = tween(delayMillis = 3000))  with
+                                                            slideOutHorizontally({ width -> -(width + (width.toDouble()  * 0.3).toInt()) }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000))
+                                            } else {
+                                                slideInHorizontally({ width -> -(width + (width.toDouble()  * 0.3).toInt())  }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000)) + fadeIn(animationSpec = tween(delayMillis = 3000))  with
+                                                        slideOutHorizontally({ width -> (width + (width.toDouble()  * 0.3).toInt())  }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000))
+                                            }.using(
+                                                SizeTransform(clip = true)
+                                            )
+                                        }
+                                    ) { targetCount ->
+                                        Text(
+                                            if (currentTitle == "") "Tune In..." else currentTitle,
+                                            color = Color.White,
+                                            maxLines = 1,
+                                            modifier = Modifier.fillMaxWidth(0.7f)
+                                        )
+                                    }
                                 }
                             }
-                            Row {
-                                IconButton(onClick = { /*TODO*/ }) {
-                                    Icon(Icons.Default.Bluetooth, "")
+                            Row(horizontalArrangement = Arrangement.SpaceAround) {
+                                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.offset(x = (-5).dp)) {
+                                    Icon(Icons.Default.Bluetooth, "", tint = Color.White)
                                 }
-                                Spacer(modifier = Modifier.width(10.dp))
                                 IconButton(onClick = {
                                     when(player.isPlaying) {
-                                        true -> player.pause().also { isPlaying = false }.also { Log.d("MAIN", player.mediaMetadata.description.toString() )}
-                                        false -> player.play()
-                                            .also { isPlaying = true }
+                                        true  ->    player.pause()
+                                            .also {
+                                                isPlaying = false
+                                                count--
+                                            }
+
+                                        false ->    player.play()
+                                            .also {
+                                                isPlaying = true
+                                                count++
+                                            }
                                             .also{ currentTitle = player.mediaMetadata.title.toString()}
+                                            .also { Log.d("MAIN", currentTitle )}
                                             .also { scope.launch {
                                                 while(isPlaying) {
-                                                    delay(2000L)
-                                                    currentTitle = player.mediaMetadata.title.toString()
                                                     if (!isPlaying) break
+                                                    delay(1000L)
+                                                    currentTitle = player.mediaMetadata.title.toString()
+                                                    delay(19000L)
+                                                    count++
                                                 }
-                                            } }
-                                }}){
+                                              }
+                                            }
+                                }}, modifier = Modifier.offset(x = (-10).dp)){
                                     Icon(
                                         when(isPlaying) {
                                             true -> Icons.Default.PauseCircle
                                             false -> Icons.Default.PlayCircle
-                                        }, "")
+                                        },
+                                        "",
+                                        tint = Color.White,
+                                        modifier = Modifier.size(44.dp, 44.dp)
+                                    )
                                 }
+
                             }
+
                         }
                         Spacer(modifier = Modifier.height(10.dp))
                         BottomNavigation(
@@ -259,3 +324,4 @@ fun DefaultPreview() {
 
 }
 
+fun Color.Companion.parse(colorString: String): Color = Color(color = android.graphics.Color.parseColor(colorString))
