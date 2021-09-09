@@ -87,4 +87,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.14.2'
     implementation "com.google.android.exoplayer:exoplayer-core:2.14.2"
 
+    //Acc
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.18.0"
+
 }

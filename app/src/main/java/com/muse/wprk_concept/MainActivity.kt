@@ -50,6 +50,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.text.font.FontWeight
+import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.MediaItem.fromUri
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -77,7 +79,6 @@ class MainActivity : ComponentActivity() {
                         composable("playerView") { PlayerView(player = player, context = context) }
                     }
             }
-
         }
     }
 }
@@ -85,6 +86,18 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>) -> Unit) {
+    // Remember a SystemUiController
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = MaterialTheme.colors.isLight
+
+    SideEffect {
+        // Update all of the system bar colors to be transparent, and use
+        // dark icons if we're in light theme
+        systemUiController.setSystemBarsColor(
+            color = Color.Black,
+            darkIcons = useDarkIcons
+        )
+    }
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
     val bottomTabs = listOf(
@@ -151,17 +164,23 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                     DrawerHeader()
                 },
                 bottomBar = {
-                    Column(modifier = Modifier.background(color = Color.parse("#ffafcc"))) {
-                        Divider(color = Color.Black)
+                    Column(
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Spacer(modifier = Modifier
                             .height(10.dp),
-
                         )
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { navController.navigate(Screen.DetailScreen.route) },
-                            horizontalArrangement = Arrangement.SpaceBetween
+                                .fillMaxWidth(0.95f)
+                                .height(65.dp)
+                                .clickable { navController.navigate(Screen.DetailScreen.route) }
+                                .clip(RoundedCornerShape(10.dp))
+                                .background(color = Color.parse("#ffafcc")),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+
                         ) {
                             Row {
                                 Spacer(modifier = Modifier.width(10.dp))
@@ -197,20 +216,20 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                         transitionSpec = {
                                             if (targetState > initialState) {
                                                     slideInHorizontally({ width -> (width + (width.toDouble()  * 0.3).toInt()) }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000)) + fadeIn(animationSpec = tween(delayMillis = 3000))  with
-                                                            slideOutHorizontally({ width -> -(width + (width.toDouble()  * 0.3).toInt()) }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000))
+                                                            slideOutHorizontally({ width -> -(width +  (width.toDouble()  * 0.3).toInt())  }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000))
                                             } else {
-                                                slideInHorizontally({ width -> -(width + (width.toDouble()  * 0.3).toInt())  }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000)) + fadeIn(animationSpec = tween(delayMillis = 3000))  with
+                                                slideInHorizontally({ width -> -(width +  (width.toDouble()  * 0.3).toInt()) }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000)) + fadeIn(animationSpec = tween(delayMillis = 3000))  with
                                                         slideOutHorizontally({ width -> (width + (width.toDouble()  * 0.3).toInt())  }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000))
                                             }.using(
                                                 SizeTransform(clip = true)
                                             )
-                                        }
-                                    ) { targetCount ->
+                                        },
+                                        modifier = Modifier.fillMaxWidth(0.7f)
+                                    ) { 
                                         Text(
                                             if (currentTitle == "") "Tune In..." else currentTitle,
                                             color = Color.White,
                                             maxLines = 1,
-                                            modifier = Modifier.fillMaxWidth(0.7f)
                                         )
                                     }
                                 }
@@ -259,7 +278,6 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                             }
 
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
                         BottomNavigation(
                             backgroundColor = Color.Black,
                             contentColor = Color.White
