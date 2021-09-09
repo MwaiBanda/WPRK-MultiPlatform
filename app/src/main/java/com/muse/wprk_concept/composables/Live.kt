@@ -109,7 +109,7 @@ fun Live(paddingValues: PaddingValues,) {
 
                 }
             }
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
@@ -138,9 +138,9 @@ fun ScheduleUnit(title: String, author: String, time: String) {
             ) {
                     IconButton(
                         onClick = { /*TODO*/ },
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(20.dp),
                     ) {
-                        Icon(Icons.Default.Alarm, contentDescription = "Access alarm")
+                        Icon(Icons.Default.Alarm, contentDescription = "Access alarm",tint = Color.Gray)
                     }
 
 
