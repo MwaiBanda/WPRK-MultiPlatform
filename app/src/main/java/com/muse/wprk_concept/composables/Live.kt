@@ -105,7 +105,7 @@ fun Live(paddingValues: PaddingValues,) {
             ) {
                 itemsIndexed((0..6).toList()) { i, item ->
 
-                    ScheduleUnit(title = "The mark show", author = "Mark", time = "20:30")
+                    ScheduleUnit(title = "The Mark Show", author = "Mark", time = "8:30pm")
 
                 }
             }
@@ -136,15 +136,19 @@ fun ScheduleUnit(title: String, author: String, time: String) {
             Column(
                 horizontalAlignment = Alignment.End
             ) {
-                    IconButton(
+                IconButton(
                         onClick = { /*TODO*/ },
                         modifier = Modifier.size(20.dp),
-                    ) {
-                        Icon(Icons.Default.Alarm, contentDescription = "Access alarm",tint = Color.Gray)
-                    }
+                ) {
+                    Icon(
+                        Icons.Default.Alarm,
+                        contentDescription = "Access alarm",
+                        tint = Color.LightGray
+                    )
+                }
+                Spacer(modifier = Modifier.height(2.dp))
 
-
-                Text(text = time)
+                Text(text = time, fontWeight = FontWeight.Thin)
             }
 
         }
