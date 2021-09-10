@@ -1,12 +1,10 @@
 package com.muse.wprk_concept.composables
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -21,14 +19,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Live(paddingValues: PaddingValues,) {
+fun Live(paddingValues: PaddingValues, gradient: Brush) {
     val days = listOf(
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     )
@@ -37,12 +39,46 @@ fun Live(paddingValues: PaddingValues,) {
 
     LazyColumn(
         modifier = Modifier
+            .background(gradient)
             .fillMaxSize()
             .padding(start = 10.dp),
     ) {
+
         item {
-            Text(text = "Shows", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp)
-            Text(text = "Currently Scheduled Today ", fontWeight = FontWeight.Thin, color = Color.Gray)
+            Row (
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = "Shows", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp, color = Color.White)
+                Spacer(modifier = Modifier.fillMaxWidth(0.6f))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(end = 10.dp)
+                    .border(
+                        BorderStroke(
+                            1.dp,
+                            color = Color.White
+                        ), RoundedCornerShape(10.dp)
+                    )
+                    .size(width = 100.dp, height = 43.dp)
+
+                ) {
+                    Text(
+                        text = buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                                append("91.5")
+                            }
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold, fontSize = 13.sp)) {
+                                append("FM")
+                            } },
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.White
+                    )
+                }
+            }
+            Text(text = "Currently Scheduled Today ", color = Color.White)
             Spacer(modifier = Modifier.height(20.dp))
         }
         item {
@@ -64,7 +100,7 @@ fun Live(paddingValues: PaddingValues,) {
         }
         item {
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "Schedule", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp)
+            Text(text = "Schedule", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp,  color = Color.White)
             Spacer(modifier = Modifier.height(20.dp))
         }
         item {
@@ -83,7 +119,7 @@ fun Live(paddingValues: PaddingValues,) {
                                 .width(90.dp)
                                 .height(90.dp)
                         )
-                        Text(text = days[item])
+                        Text(text = days[item],  color = Color.White)
                     }
 
                     if (i == 6) Spacer(modifier = Modifier.width(10.dp))
@@ -93,8 +129,8 @@ fun Live(paddingValues: PaddingValues,) {
         item {
 
             Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Scheduled Shows", fontSize = 30.sp, fontWeight = FontWeight.Bold)
-            Text(text = "Listings", fontWeight = FontWeight.Thin, color = Color.Gray)
+            Text(text = "Scheduled Shows", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Color.White)
+            Text(text = "Listings", fontWeight = FontWeight.Bold, color = Color.White)
 
         }
         item {
@@ -116,7 +152,7 @@ fun Live(paddingValues: PaddingValues,) {
 
 @Composable
 fun ScheduleUnit(title: String, author: String, time: String) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp),
@@ -130,8 +166,8 @@ fun ScheduleUnit(title: String, author: String, time: String) {
             Column(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text(text = title)
-                Text(text = "by $author", color = Color.Gray, fontWeight = FontWeight.Thin)
+                Text(text = title, color = Color.White, fontWeight = FontWeight.ExtraBold)
+                Text(text = "by $author", color = Color.White, fontWeight = FontWeight.Normal)
             }
             Column(
                 horizontalAlignment = Alignment.End
@@ -148,7 +184,7 @@ fun ScheduleUnit(title: String, author: String, time: String) {
                 }
                 Spacer(modifier = Modifier.height(2.dp))
 
-                Text(text = time, fontWeight = FontWeight.Thin)
+                Text(text = time, fontWeight = FontWeight.Normal, color = Color.White)
             }
 
         }
@@ -158,5 +194,7 @@ fun ScheduleUnit(title: String, author: String, time: String) {
 @Preview
 @Composable
 fun Preview() {
-    Live(paddingValues = PaddingValues())
+    val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
+
+    Live(paddingValues = PaddingValues(), gradient = gradient)
 }

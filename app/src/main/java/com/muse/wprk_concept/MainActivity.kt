@@ -1,12 +1,7 @@
 package com.muse.wprk_concept
 
 import android.content.Context
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -32,13 +26,9 @@ import androidx.navigation.compose.rememberNavController
 import com.muse.wprk_concept.composables.Account
 import com.muse.wprk_concept.composables.Live
 import com.muse.wprk_concept.ui.theme.WPRK_conceptTheme
-import java.lang.StringBuilder
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import com.muse.wprk_concept.main.PodcastsHome
 import com.muse.wprk_concept.main.Screen
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,21 +37,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.core.view.WindowCompat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.MediaItem.fromUri
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.muse.wprk_concept.composables.DetailScreen
 import com.muse.wprk_concept.composables.PlayerView
-import kotlinx.coroutines.CoroutineScope
+import com.muse.wprk_concept.data.MenuOption
 import kotlinx.coroutines.delay
 
 
@@ -70,11 +59,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WPRKEntry { navController, player, context ->
-                    NavHost(navController = navController, startDestination = Screen.Live.route) {
-                        composable("podcasts") { PodcastsHome(paddingValues = PaddingValues()) }
-                        composable("live") { Live(paddingValues = PaddingValues()) }
-                        composable("account") { Account(paddingValues = PaddingValues()) }
+            WPRKEntry { navController, player, context, gradient ->
+                NavHost(navController = navController, startDestination = Screen.Live.route) {
+                        composable("podcasts") { PodcastsHome(paddingValues = PaddingValues(), gradient = gradient) }
+                        composable("live") { Live(paddingValues = PaddingValues(), gradient = gradient) }
+                        composable("account") { Account(paddingValues = PaddingValues(), gradient = gradient) }
                         composable("playerDetail") { DetailScreen(player = player) }
                         composable("playerView") { PlayerView(player = player, context = context) }
                     }
@@ -85,8 +74,9 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>) -> Unit) {
+fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>, Brush) -> Unit) {
     // Remember a SystemUiController
+    val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
 
@@ -161,7 +151,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                     contentColor = Color.White
                 ) },
                 drawerContent = {
-                    DrawerHeader()
+                    DrawerContent(gradient = gradient)
                 },
                 bottomBar = {
                     Column(
@@ -308,7 +298,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                 content = {
                     // Vertical scroller is a composable that adds the ability to scroll through the
                     // child views
-                    content(navController, player, context)
+                    content(navController, player, context, gradient)
                 }
             )
 
@@ -317,24 +307,72 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
 }
 
 @Composable
-fun DrawerHeader(){
+fun DrawerContent(gradient: Brush){
+    val menuItems = listOf(
+        MenuOption("Spotify Playlist", Icons.Filled.PlaylistPlay),
+        MenuOption("Support WPRK", Icons.Filled.AddModerator),
+        MenuOption("Recent Spins", Icons.Filled.History),
+        MenuOption("Get Involved", Icons.Filled.AttachMoney),
+        MenuOption("Services", Icons.Filled.AddChart),
+        MenuOption("About Us", Icons.Filled.Info),
+        MenuOption("Logout", Icons.Filled.Logout),
+
+
+        )
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
+            .background(gradient)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ){
-       Box(
+        Spacer(modifier = Modifier.height(60.dp))
+        Box(
            modifier = Modifier
                .size(width = 150.dp, height = 150.dp)
                .clip(RoundedCornerShape(10.dp))
                .background(Color.Gray)
        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Divider()
+        Spacer(modifier = Modifier.height(40.dp))
+       menuItems.forEach { menuItem ->
+           Column(
+               modifier = Modifier
+                   .clickable {  }
+           ) {
+               MenuItem(name = menuItem.name, icon = menuItem.icon, gradient = gradient)
+           }
+       }
+
     }
 }
+
+@Composable
+fun MenuItem(name: String, icon: ImageVector, gradient: Brush){
+    Spacer(modifier = Modifier.height(20.dp))
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .clip(RoundedCornerShape(50))
+            .fillMaxWidth(0.55f)
+            .alpha(0.35f)
+            .background(Color.Black)
+            .height(55.dp)
+    ) {
+        Row {
+            Icon(
+                imageVector = icon,
+                contentDescription = "Menu Icon",
+                tint = Color.White,
+                modifier = Modifier.padding(start = 10.dp)
+
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(text = name, fontWeight = FontWeight.ExtraBold, color = Color.White)
+        }
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable

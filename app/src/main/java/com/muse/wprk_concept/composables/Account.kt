@@ -3,13 +3,16 @@ package com.muse.wprk_concept.composables
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,64 +30,82 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Brush
 
 @Composable
-fun Account(paddingValues: PaddingValues) {
+fun Account(paddingValues: PaddingValues, gradient: Brush) {
     val buttonName = listOf("Account", "Card", "Deals")
     var selected by remember { mutableStateOf(0) }
 
-    Column(
-
+    LazyColumn(
         Modifier
             .fillMaxSize()
-            .padding(paddingValues = PaddingValues())
-            .padding(10.dp)
+            .background(gradient)
+            .padding(start = 10.dp)
     ) {
-        Text(text = "Account", fontSize = 40.sp, fontWeight = FontWeight.ExtraBold)
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Box(
+        item {
+            Text(text = "Account", fontSize = 40.sp, fontWeight = FontWeight.ExtraBold)
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+        item {
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Color.Gray)
-                    .width(180.dp)
-                    .height(180.dp)
-            )
+                    .fillMaxWidth()
+            ) {
+                Box(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                        .width(180.dp)
+                        .height(180.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        Row (
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
-                ) {
-            buttonName.forEachIndexed { index, button ->
-             Button(
-                 onClick = { selected = index },
-                 modifier = Modifier.size(width = 100.dp, height = 43.dp),
-                 colors = ButtonDefaults.buttonColors(
-                     backgroundColor = if (selected == index) Color.parse("#ffafcc") else Color.White
-                 ),
-                 border = BorderStroke( 1.dp, color = Color.Gray)
-             ) {
-                 Text(
-                     button,
-                     color = if (selected == index) Color.White else Color.Black,
-                     fontWeight = FontWeight.Bold
-                 )
-             }
-         }
+
+        item {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                buttonName.forEachIndexed { index, button ->
+                    OutlinedButton(
+                        border = BorderStroke(
+                            2.dp,
+                            color = if (selected == index) Color.Gray else Color.White
+                        ),
+                        shape = RoundedCornerShape(50),
+                        onClick = { selected = index },
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(50))
+
+                            .size(width = 100.dp, height = 43.dp)
+                        ,
+                        contentPadding = PaddingValues(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = if (selected == index) Color.parse("#ffafcc") else Color.Transparent
+                        ),
+                    ) {
+                        Text(
+                            button,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
 
 
+            }
         }
-        Column {
-            when (selected) {
-                0 -> AccountDetail()
-                1 -> CardDetail()
-                2 -> DealsDetail()
+        item {
+            Column {
+                when (selected) {
+                    0 -> AccountDetail()
+                    1 -> CardDetail()
+                    2 -> DealsDetail()
+                }
             }
         }
     }
@@ -131,7 +152,8 @@ fun DealsDetail() {
 @Composable
 @Preview
 fun preview(){
-    Account(paddingValues = PaddingValues())
+    val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
+    Account(paddingValues = PaddingValues(), gradient = gradient)
 }
 
 fun Color.Companion.parse(colorString: String): Color = Color(color = android.graphics.Color.parseColor(colorString))
