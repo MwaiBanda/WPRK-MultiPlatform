@@ -30,7 +30,6 @@ import com.muse.wprk_concept.main.PodcastsHome
 import com.muse.wprk_concept.main.Screen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.*
@@ -83,13 +82,13 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
 
     SideEffect {
         // Update all of the system bar colors to be transparent, and use
-        // dark icons if we're in light theme
-        systemUiController.setStatusBarColor(
-            color = Color.Black,
+        // dark icons if we're in light themeET
+        systemUiController.setNavigationBarColor(
+            color = Color.parse("#BDBDBD"),
             darkIcons = useDarkIcons
         )
-        systemUiController.setNavigationBarColor(
-            color = Color.LightGray,
+        systemUiController.setStatusBarColor (
+            color = Color.Black,
             darkIcons = useDarkIcons
         )
     }
@@ -274,8 +273,8 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
 
                         }
                         BottomNavigation(
-                            backgroundColor = Color.LightGray,
-                            contentColor = Color.Black
+                            backgroundColor = Color.parse("#BDBDBD"),
+                            contentColor = Color.White
                         ) {
                             val navBackStackEntry by navController.currentBackStackEntryAsState()
                             val currentDestination = navBackStackEntry?.destination

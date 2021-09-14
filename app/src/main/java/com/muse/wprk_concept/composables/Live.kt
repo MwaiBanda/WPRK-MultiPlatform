@@ -11,11 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessAlarm
 import androidx.compose.material.icons.filled.Alarm
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,16 +24,29 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.time.DayOfWeek
+import java.util.*
 
 @Composable
 fun Live(paddingValues: PaddingValues, gradient: Brush) {
-    val days = listOf(
+    var days = remember { mutableStateListOf (
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-    )
-    val rowState = rememberLazyListState()
+    )}
+    val showState = rememberLazyListState()
+    val scheduleState = rememberLazyListState()
+    val mainColumnState = rememberLazyListState()
     val columnState = rememberLazyListState()
 
+    LaunchedEffect(key1 = false){
+        val calender = Calendar.getInstance()
+        val intDay = calender.get(Calendar.DAY_OF_WEEK)
+        val currentDate = days[intDay - 1]
+        while(currentDate != days.first()) {
+            days.add(days.lastIndex, days.removeAt(0))
+        }
+    }
     LazyColumn(
+        state = mainColumnState,
         modifier = Modifier
             .background(gradient)
             .fillMaxSize()
@@ -56,13 +65,13 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .padding(end = 10.dp)
-                    .border(
-                        BorderStroke(
-                            1.dp,
-                            color = Color.White
-                        ), RoundedCornerShape(10.dp)
-                    )
-                    .size(width = 100.dp, height = 43.dp)
+                        .border(
+                            BorderStroke(
+                                1.dp,
+                                color = Color.White
+                            ), RoundedCornerShape(10.dp)
+                        )
+                        .size(width = 100.dp, height = 43.dp)
 
                 ) {
                     Text(
@@ -82,7 +91,7 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
             Spacer(modifier = Modifier.height(20.dp))
         }
         item {
-            LazyRow(state = rowState, modifier = Modifier.fillMaxWidth()) {
+            LazyRow(state = showState, modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed((0..6).toList()) { i, item ->
 
 
@@ -104,7 +113,7 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
             Spacer(modifier = Modifier.height(20.dp))
         }
         item {
-            LazyRow(state = columnState, modifier = Modifier.fillMaxWidth()) {
+            LazyRow(state = scheduleState, modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed((0..6).toList()) { i, item ->
 
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
@@ -136,7 +145,7 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
         item {
             Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
-                state = LazyListState(),
+                state = columnState,
                 modifier = Modifier.height(300.dp)
             ) {
                 itemsIndexed((0..6).toList()) { i, item ->
