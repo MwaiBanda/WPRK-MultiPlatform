@@ -1,5 +1,6 @@
 package com.muse.wprk_concept.composables
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -9,14 +10,15 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessAlarm
 import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -24,19 +26,34 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.time.DayOfWeek
+import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberImagePainter
+import com.muse.wprk_concept.composables.Live.LiveViewModel
 import java.util.*
+import androidx.compose.runtime.getValue
+import com.muse.wprk_concept.data.*
 
 @Composable
-fun Live(paddingValues: PaddingValues, gradient: Brush) {
+fun Live(paddingValues: PaddingValues, gradient: Brush, model: LiveViewModel) {
     var days = remember { mutableStateListOf (
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     )}
+    val lifecycle = LocalLifecycleOwner.current
     val showState = rememberLazyListState()
     val scheduleState = rememberLazyListState()
     val mainColumnState = rememberLazyListState()
     val columnState = rememberLazyListState()
+    var shows = remember { mutableStateListOf<Show>()}
+    var scheduledShows = remember { mutableStateListOf<Show>()}
 
+    var currentDay by remember { mutableStateOf(0) }
+    var selectedDate = remember { mutableStateOf(model.currentDay()) }
+    model.selectedDate.observe(lifecycle, { newValue ->
+        currentDay = newValue })
+    model.shows.observe(lifecycle,{ newShows ->
+        shows.swapList(newShows)
+        scheduledShows.swapList(shows.filter { it.getFormattedDate(showTime = ShowTime.START) == selectedDate.value })
+    })
     LaunchedEffect(key1 = false){
         val calender = Calendar.getInstance()
         val intDay = calender.get(Calendar.DAY_OF_WEEK)
@@ -44,6 +61,7 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
         while(currentDate != days.first()) {
             days.add(days.lastIndex, days.removeAt(0))
         }
+
     }
     LazyColumn(
         state = mainColumnState,
@@ -92,18 +110,31 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
         }
         item {
             LazyRow(state = showState, modifier = Modifier.fillMaxWidth()) {
-                itemsIndexed((0..6).toList()) { i, item ->
+                itemsIndexed(shows) { i, show ->
 
 
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
                     Box(
-                        modifier = Modifier
+                        Modifier
                             .clip(RoundedCornerShape(10.dp))
                             .background(Color.Gray)
-                            .width(175.dp)
-                            .height(180.dp)
-                    )
-                    if (i == 6) Spacer(modifier = Modifier.width(10.dp))
+
+                    ) {
+                        Image(
+                            painter = rememberImagePainter(
+                                data = show.image,
+                                onExecute = { _, _ -> true },
+                                builder = {
+                                    crossfade(true)
+                                }
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(175.dp)
+                                .height(180.dp)
+                        )
+                    }
+                    if (show == shows.last()) Spacer(modifier = Modifier.width(10.dp))
                 }
             }
         }
@@ -118,8 +149,20 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
 
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
                     Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.clickable {
+                            model.onSelectedChange(i)
+                            selectedDate = when (i) {
+                                0 -> {
+                                    mutableStateOf(model.currentDay())
+                                }
+                                else -> {
+                                    mutableStateOf(model.getDayByOffset(i.toLong()))
+                                }
+                            }
+                            scheduledShows.swapList(shows.filter { it.getFormattedDate(showTime = ShowTime.START) == selectedDate.value })
+                            Log.d("MAIN", "[SELECTED] ${selectedDate}")
+                        }
                     ) {
                         Box(
                             modifier = Modifier
@@ -148,10 +191,8 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
                 state = columnState,
                 modifier = Modifier.height(300.dp)
             ) {
-                itemsIndexed((0..6).toList()) { i, item ->
-
-                    ScheduleUnit(title = "The Mark Show", author = "Mark", time = "8:30pm")
-
+                items(scheduledShows) { item ->
+                    ScheduleUnit(title = "${item.title}", category = "${item.category}", time = "${item.getTime(showTime = ShowTime.START)}")
                 }
             }
             Spacer(modifier = Modifier.height(30.dp))
@@ -160,7 +201,7 @@ fun Live(paddingValues: PaddingValues, gradient: Brush) {
 }
 
 @Composable
-fun ScheduleUnit(title: String, author: String, time: String) {
+fun ScheduleUnit(title: String, category: String, time: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -176,7 +217,7 @@ fun ScheduleUnit(title: String, author: String, time: String) {
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(text = title, color = Color.White, fontWeight = FontWeight.ExtraBold)
-                Text(text = "by $author", color = Color.White, fontWeight = FontWeight.Normal)
+                Text(text = "$category", color = Color.White, fontWeight = FontWeight.Normal)
             }
             Column(
                 horizontalAlignment = Alignment.End
@@ -205,5 +246,9 @@ fun ScheduleUnit(title: String, author: String, time: String) {
 fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
 
-    Live(paddingValues = PaddingValues(), gradient = gradient)
+    Live(paddingValues = PaddingValues(), gradient = gradient, model = hiltViewModel<LiveViewModel>())
+}
+fun <T> SnapshotStateList<T>.swapList(newList: List<T>){
+    clear()
+    addAll(newList)
 }

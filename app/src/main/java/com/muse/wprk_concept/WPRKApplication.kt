@@ -11,6 +11,7 @@ import java.lang.StringBuilder
 
 
 @HiltAndroidApp
-class WPRKApplication() : Application() { }
+class WPRKApplication() : Application() {
+}
 
 

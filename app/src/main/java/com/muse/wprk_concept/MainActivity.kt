@@ -42,13 +42,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.muse.wprk_concept.composables.DetailScreen
+import com.muse.wprk_concept.composables.Live.LiveViewModel
 import com.muse.wprk_concept.composables.PlayerView
 import com.muse.wprk_concept.data.MenuOption
 import kotlinx.coroutines.delay
@@ -62,7 +65,7 @@ class MainActivity : ComponentActivity() {
             WPRKEntry { navController, player, context, gradient ->
                 NavHost(navController = navController, startDestination = Screen.Live.route) {
                         composable("podcasts") { PodcastsHome(paddingValues = PaddingValues(), gradient = gradient) }
-                        composable("live") { Live(paddingValues = PaddingValues(), gradient = gradient) }
+                        composable("live") { Live(paddingValues = PaddingValues(), gradient = gradient, model = hiltViewModel<LiveViewModel>()) }
                         composable("account") { Account(paddingValues = PaddingValues(), gradient = gradient) }
                         composable("playerDetail") { DetailScreen(player = player) }
                         composable("playerView") { PlayerView(player = player, context = context) }
@@ -70,6 +73,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 
 @OptIn(ExperimentalAnimationApi::class)
