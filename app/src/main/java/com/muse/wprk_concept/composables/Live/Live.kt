@@ -31,10 +31,11 @@ import coil.compose.rememberImagePainter
 import com.muse.wprk_concept.composables.Live.LiveViewModel
 import java.util.*
 import androidx.compose.runtime.getValue
+import coil.transform.RoundedCornersTransformation
 import com.muse.wprk_concept.data.*
 
 @Composable
-fun Live(paddingValues: PaddingValues, gradient: Brush, model: LiveViewModel) {
+fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
     var days = remember { mutableStateListOf (
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     )}
@@ -45,15 +46,15 @@ fun Live(paddingValues: PaddingValues, gradient: Brush, model: LiveViewModel) {
     val columnState = rememberLazyListState()
     var shows = remember { mutableStateListOf<Show>()}
     var scheduledShows = remember { mutableStateListOf<Show>()}
-
     var currentDay by remember { mutableStateOf(0) }
-    var selectedDate = remember { mutableStateOf(model.currentDay()) }
-    model.selectedDate.observe(lifecycle, { newValue ->
-        currentDay = newValue })
-    model.shows.observe(lifecycle,{ newShows ->
+    var selectedDate = remember { mutableStateOf(liveViewModel.currentDay()) }
+    liveViewModel.selectedDate.observe(lifecycle){ newValue ->
+        currentDay = newValue
+    }
+    liveViewModel.shows.observe(lifecycle){ newShows ->
         shows.swapList(newShows)
         scheduledShows.swapList(shows.filter { it.getFormattedDate(showTime = ShowTime.START) == selectedDate.value })
-    })
+    }
     LaunchedEffect(key1 = false){
         val calender = Calendar.getInstance()
         val intDay = calender.get(Calendar.DAY_OF_WEEK)
@@ -114,18 +115,13 @@ fun Live(paddingValues: PaddingValues, gradient: Brush, model: LiveViewModel) {
 
 
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
-                    Box(
-                        Modifier
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color.Gray)
-
-                    ) {
+                    Box {
                         Image(
                             painter = rememberImagePainter(
                                 data = show.image,
                                 onExecute = { _, _ -> true },
                                 builder = {
-                                    crossfade(true)
+                                    transformations(RoundedCornersTransformation(10f))
                                 }
                             ),
                             contentDescription = null,
@@ -151,13 +147,13 @@ fun Live(paddingValues: PaddingValues, gradient: Brush, model: LiveViewModel) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.clickable {
-                            model.onSelectedChange(i)
+                            liveViewModel.onSelectedChange(i)
                             selectedDate = when (i) {
                                 0 -> {
-                                    mutableStateOf(model.currentDay())
+                                    mutableStateOf(liveViewModel.currentDay())
                                 }
                                 else -> {
-                                    mutableStateOf(model.getDayByOffset(i.toLong()))
+                                    mutableStateOf(liveViewModel.getDayByOffset(i.toLong()))
                                 }
                             }
                             scheduledShows.swapList(shows.filter { it.getFormattedDate(showTime = ShowTime.START) == selectedDate.value })
@@ -245,8 +241,7 @@ fun ScheduleUnit(title: String, category: String, time: String) {
 @Composable
 fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
-
-    Live(paddingValues = PaddingValues(), gradient = gradient, model = hiltViewModel<LiveViewModel>())
+    Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>())
 }
 fun <T> SnapshotStateList<T>.swapList(newList: List<T>){
     clear()

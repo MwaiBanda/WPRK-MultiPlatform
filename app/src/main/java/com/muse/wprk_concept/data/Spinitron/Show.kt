@@ -1,8 +1,11 @@
 package com.muse.wprk_concept.data
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
+import com.muse.wprk_concept.data.Spinitron.Links
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -65,6 +68,7 @@ fun Show.getFormattedDate(showTime: ShowTime): LocalDate {
     }
     return date!!
 }
+
 
 data class Shows(
     @SerializedName("items")

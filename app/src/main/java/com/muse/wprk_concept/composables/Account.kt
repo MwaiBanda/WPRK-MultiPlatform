@@ -38,7 +38,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.muse.wprk_concept.R
 
 @Composable
-fun Account(paddingValues: PaddingValues, gradient: Brush) {
+fun Account(gradient: Brush) {
     val buttonName = listOf("Account", "Card", "Deals")
     var selected by remember { mutableStateOf(0) }
 
@@ -232,7 +232,7 @@ fun DealsDetail() {
 @Preview
 fun preview(){
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
-    Account(paddingValues = PaddingValues(), gradient = gradient)
+    Account(gradient = gradient)
 }
 
 fun Color.Companion.parse(colorString: String): Color = Color(color = android.graphics.Color.parseColor(colorString))

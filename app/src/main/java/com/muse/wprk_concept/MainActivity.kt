@@ -19,14 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.muse.wprk_concept.composables.Account
 import com.muse.wprk_concept.composables.Live
 import com.muse.wprk_concept.ui.theme.WPRK_conceptTheme
-import com.muse.wprk_concept.main.PodcastsHome
+import com.muse.wprk_concept.main.PodcastHome
 import com.muse.wprk_concept.main.Screen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -43,16 +39,18 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.*
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.jakewharton.threetenabp.AndroidThreeTen
 import com.muse.wprk_concept.composables.DetailScreen
 import com.muse.wprk_concept.composables.Live.LiveViewModel
 import com.muse.wprk_concept.composables.PlayerView
+import com.muse.wprk_concept.composables.Podcasts.PodcastDetail
+import com.muse.wprk_concept.composables.Podcasts.PodcastViewModel
 import com.muse.wprk_concept.data.MenuOption
 import kotlinx.coroutines.delay
 
@@ -64,30 +62,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             WPRKEntry { navController, player, context, gradient ->
                 NavHost(navController = navController, startDestination = Screen.Live.route) {
-                        composable("podcasts") { PodcastsHome(paddingValues = PaddingValues(), gradient = gradient) }
-                        composable("live") { Live(paddingValues = PaddingValues(), gradient = gradient, model = hiltViewModel<LiveViewModel>()) }
-                        composable("account") { Account(paddingValues = PaddingValues(), gradient = gradient) }
-                        composable("playerDetail") { DetailScreen(player = player) }
-                        composable("playerView") { PlayerView(player = player, context = context) }
+                    composable(Screen.Live.route) { Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>()) }
+                    composable(Screen.Podcasts.route) { PodcastHome(navController = navController, gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>()) }
+                    composable(Screen.PodcastDetail.route, arguments = listOf(navArgument("showID"){ defaultValue = "" })){ backStackEntry ->
+                        PodcastDetail(navController = navController, showID = backStackEntry.arguments?.getString("showID"))
                     }
+                    composable(Screen.Account.route) { Account(gradient = gradient) }
+                    composable(Screen.PlayerDetail.route) { DetailScreen(player = player) }
+                    composable(Screen.PlayerScreen.route){ PlayerView(player = player, context = context) }
+                }
             }
         }
     }
-
-
 }
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>, Brush) -> Unit) {
-    // Remember a SystemUiController
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
 
     SideEffect {
-        // Update all of the system bar colors to be transparent, and use
-        // dark icons if we're in light themeET
         systemUiController.setNavigationBarColor(
             color = Color.parse("#BDBDBD"),
             darkIcons = useDarkIcons
@@ -174,7 +170,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                             modifier = Modifier
                                 .fillMaxWidth(0.95f)
                                 .height(65.dp)
-                                .clickable { navController.navigate(Screen.DetailScreen.route) }
+                                .clickable { navController.navigate(Screen.PlayerDetail.route) }
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(color = Color.parse("#ffafcc")),
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -305,12 +301,9 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                     }
                 },
                 content = {
-                    // Vertical scroller is a composable that adds the ability to scroll through the
-                    // child views
                     content(navController, player, context, gradient)
                 }
             )
-
         }
     }
 }
