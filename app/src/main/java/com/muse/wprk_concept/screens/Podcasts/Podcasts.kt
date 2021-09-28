@@ -28,9 +28,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
-import com.muse.wprk_concept.composables.Podcasts.PodcastViewModel
-import com.muse.wprk_concept.composables.swapList
+import com.muse.wprk_concept.screens.Podcasts.PodcastViewModel
+import com.muse.wprk_concept.screens.swapList
 import com.muse.wprk_concept.data.Transistor.Podcast
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun PodcastHome(navController: NavHostController, gradient: Brush, podcastViewModel: PodcastViewModel) {
@@ -52,8 +54,10 @@ fun PodcastHome(navController: NavHostController, gradient: Brush, podcastViewMo
         item {
             LazyRow(state = LazyListState(), modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed(podcasts) { i, podcast ->
+                    var imageURL = URLEncoder.encode(podcast.attributes.image_url, StandardCharsets.UTF_8.toString())
+
                     if (i != 0) Spacer(modifier = Modifier.width(8.dp))
-                    Box(Modifier.clickable { navController.navigate("podcastDetail/${podcast.id}") }) {
+                    Box(Modifier.clickable { navController.navigate("podcastDetail/${podcast.id}/$imageURL/${podcast.attributes.title}/${podcast.attributes.description}") }) {
                         Image(
                             painter = rememberImagePainter(
                                 data = podcast.attributes.image_url,

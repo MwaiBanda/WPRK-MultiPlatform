@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.muse.wprk_concept.composables.Account
-import com.muse.wprk_concept.composables.Live
+import com.muse.wprk_concept.screens.Account
+import com.muse.wprk_concept.screens.Live
 import com.muse.wprk_concept.ui.theme.WPRK_conceptTheme
 import com.muse.wprk_concept.main.PodcastHome
 import com.muse.wprk_concept.main.Screen
@@ -46,11 +46,11 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.muse.wprk_concept.composables.DetailScreen
-import com.muse.wprk_concept.composables.Live.LiveViewModel
-import com.muse.wprk_concept.composables.PlayerView
-import com.muse.wprk_concept.composables.Podcasts.PodcastDetail
-import com.muse.wprk_concept.composables.Podcasts.PodcastViewModel
+import com.muse.wprk_concept.screens.DetailScreen
+import com.muse.wprk_concept.screens.Live.LiveViewModel
+import com.muse.wprk_concept.screens.PlayerView
+import com.muse.wprk_concept.screens.Podcasts.PodcastDetail
+import com.muse.wprk_concept.screens.Podcasts.PodcastViewModel
 import com.muse.wprk_concept.data.MenuOption
 import kotlinx.coroutines.delay
 
@@ -60,16 +60,32 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             WPRKEntry { navController, player, context, gradient ->
                 NavHost(navController = navController, startDestination = Screen.Live.route) {
                     composable(Screen.Live.route) { Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>()) }
                     composable(Screen.Podcasts.route) { PodcastHome(navController = navController, gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>()) }
-                    composable(Screen.PodcastDetail.route, arguments = listOf(navArgument("showID"){ defaultValue = "" })){ backStackEntry ->
-                        PodcastDetail(navController = navController, showID = backStackEntry.arguments?.getString("showID"))
-                    }
                     composable(Screen.Account.route) { Account(gradient = gradient) }
                     composable(Screen.PlayerDetail.route) { DetailScreen(player = player) }
-                    composable(Screen.PlayerScreen.route){ PlayerView(player = player, context = context) }
+                    composable(Screen.PlayerScreen.route){ PlayerView(player = player, context = context)}
+                    composable(
+                            Screen.PodcastDetail.route,
+                            arguments = listOf(
+                                navArgument("showID"){ defaultValue = "" },
+                                navArgument("imageURL"){ defaultValue = ""},
+                                navArgument("title"){ defaultValue = ""},
+                                navArgument("subTitle"){ defaultValue = ""}
+                            )){ backStackEntry ->
+                            PodcastDetail(
+                                navController = navController,
+                                thumbnailURL = backStackEntry.arguments?.getString("imageURL"),
+                                showID = backStackEntry.arguments?.getString("showID"),
+                                title = backStackEntry.arguments?.getString("title"),
+                                description = backStackEntry.arguments?.getString("subTitle"),
+                                gradient = gradient,
+                                podcastViewModel = hiltViewModel<PodcastViewModel>()
+                            )
+                    }
                 }
             }
         }

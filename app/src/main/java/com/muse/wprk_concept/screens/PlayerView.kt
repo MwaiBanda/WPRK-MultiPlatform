@@ -1,13 +1,10 @@
-package com.muse.wprk_concept.composables
+package com.muse.wprk_concept.screens
 
 
 import android.content.Context
 import android.net.Uri
-import android.support.v4.media.MediaBrowserCompat
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
@@ -21,23 +18,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
-import androidx.navigation.NavDeepLinkRequest.Builder.Companion.fromUri
-import androidx.navigation.NavHostController
-import com.google.android.exoplayer2.C
-import com.google.android.exoplayer2.C.USAGE_MEDIA
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.audio.AudioAttributes
-import com.google.android.exoplayer2.offline.DownloadHelper.createMediaSource
-import com.google.android.exoplayer2.source.MediaSourceFactory
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.source.hls.HlsMediaSource
-import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player

@@ -1,5 +1,6 @@
 package com.muse.wprk_concept.data.Transistor
 
 data class Episodes(
-    val `data`: List<Data>
+    val data: List<Episode>
+
 )

@@ -1,4 +1,4 @@
-package com.muse.wprk_concept.composables
+package com.muse.wprk_concept.screens
 
 import android.util.Log
 import androidx.compose.foundation.*
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
-import com.muse.wprk_concept.composables.Live.LiveViewModel
+import com.muse.wprk_concept.screens.Live.LiveViewModel
 import java.util.*
 import androidx.compose.runtime.getValue
 import coil.transform.RoundedCornersTransformation
@@ -48,6 +48,9 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
     var scheduledShows = remember { mutableStateListOf<Show>()}
     var currentDay by remember { mutableStateOf(0) }
     var selectedDate = remember { mutableStateOf(liveViewModel.currentDay()) }
+    var selectedDateString by remember {
+        mutableStateOf("")
+    }
     liveViewModel.selectedDate.observe(lifecycle){ newValue ->
         currentDay = newValue
     }
@@ -156,6 +159,7 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
                                     mutableStateOf(liveViewModel.getDayByOffset(i.toLong()))
                                 }
                             }
+                            selectedDateString = selectedDate.value.toString()
                             scheduledShows.swapList(shows.filter { it.getFormattedDate(showTime = ShowTime.START) == selectedDate.value })
                             Log.d("MAIN", "[SELECTED] ${selectedDate}")
                         }
@@ -178,7 +182,11 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
 
             Spacer(modifier = Modifier.height(10.dp))
             Text(text = "Scheduled Shows", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Color.White)
-            Text(text = "Listings", fontWeight = FontWeight.Bold, color = Color.White)
+            Row {
+                Text(text = "Listings", fontWeight = FontWeight.Bold, color = Color.White)
+                Spacer(modifier = Modifier.fillMaxWidth())
+                Text(text = selectedDateString, fontWeight = FontWeight.Bold, color = Color.White)
+            }
 
         }
         item {

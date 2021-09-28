@@ -1,10 +1,8 @@
-package com.muse.wprk_concept.composables.Live
+package com.muse.wprk_concept.screens.Live
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
-import com.jakewharton.threetenabp.AndroidThreeTen
 import com.muse.wprk_concept.data.Show
 import com.muse.wprk_concept.remote.SpinitronRepository
 import com.muse.wprk_concept.utilities.Constants.SPINITRON_KEY
@@ -13,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import java.util.*
-import javax.annotation.meta.When
 import javax.inject.Inject
 
 @HiltViewModel
