@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
 @Composable
-fun PodcastDetail(navController: NavHostController, showID: String?, podcastViewModel: PodcastViewModel){
+fun PodcastDetail(navController: NavHostController, showID: String?){
     Column {
         Text(text = showID ?: "Undefined")
 

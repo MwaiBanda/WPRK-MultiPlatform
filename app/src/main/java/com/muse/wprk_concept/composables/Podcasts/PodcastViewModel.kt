@@ -1,8 +1,11 @@
 package com.muse.wprk_concept.composables.Podcasts
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.*
+import com.muse.wprk_concept.composables.Live.LocalDateEx
 import com.muse.wprk_concept.data.Show
 import com.muse.wprk_concept.data.Transistor.Podcast
 import com.muse.wprk_concept.remote.TransistorRepository
@@ -11,6 +14,7 @@ import com.muse.wprk_concept.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,6 +55,12 @@ class PodcastViewModel @Inject constructor(
             completion(result)
         }
     }
+    fun currentDay(): LocalDate {
+        return LocalDateEx.getNow()
+    }
 
+    fun getDayByOffset(offset: Long): LocalDate {
+        return currentDay().plusDays(offset)
+    }
 
 }

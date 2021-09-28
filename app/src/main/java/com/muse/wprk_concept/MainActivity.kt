@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -172,7 +173,10 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                 .height(65.dp)
                                 .clickable { navController.navigate(Screen.PlayerDetail.route) }
                                 .clip(RoundedCornerShape(10.dp))
-                                .background(color = Color.parse("#ffafcc")),
+                                .background(color = Color.parse("#ffafcc"))
+                                .border(1.dp, color = Color.White, RoundedCornerShape(10.dp))
+                                ,
+
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
 
