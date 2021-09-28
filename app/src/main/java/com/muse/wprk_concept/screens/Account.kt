@@ -31,133 +31,70 @@ import com.muse.wprk_concept.R
 
 @Composable
 fun Account(gradient: Brush) {
-    val buttonName = listOf("Account", "Card", "Deals")
-    var selected by remember { mutableStateOf(0) }
+    //val paddingValues = PaddingValues(10.dp)
 
     LazyColumn(
         Modifier
             .fillMaxSize()
             .background(gradient)
-            .padding(start = 10.dp)
     ) {
         item {
-            Text(text = "Account", fontSize = 40.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
-            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                modifier = Modifier.padding(10.dp)
+            ){
+                Text(text = "Businesses", fontSize = 40.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
+                Spacer(modifier = Modifier.height(20.dp))
+            }
         }
         item {
             Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
             ) {
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(Color.Gray)
-                        .width(180.dp)
-                        .height(180.dp)
-                )
+                MembershipCard()
+                Spacer(modifier = Modifier.height(15.dp))
             }
-            Spacer(modifier = Modifier.height(20.dp))
         }
 
         item {
             Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
+                Modifier.padding(10.dp)
             ) {
-                buttonName.forEachIndexed { index, button ->
-                    OutlinedButton(
-                        border = BorderStroke(
-                            2.dp,
-                            color = if (selected == index) Color.Gray else Color.White
-                        ),
-                        shape = RoundedCornerShape(50),
-                        onClick = { selected = index },
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(50))
-
-                            .size(width = 100.dp, height = 43.dp)
-                        ,
-                        contentPadding = PaddingValues(0.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = if (selected == index) Color.parse("#ffafcc") else Color.Transparent
-                        ),
-                    ) {
-                        Text(
-                            button,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-
-
+                BusinessCard()
             }
         }
-        item {
-            Spacer(modifier = Modifier.height(15.dp))
-            Column {
-                when (selected) {
-                    0 -> AccountDetail()
-                    1 -> CardDetail()
-                    2 -> DealsDetail()
-                }
-            }
-        }
+
     }
 }
 
 @Composable
-fun MyButton(
-    button_name: String,
-    modifier: Modifier
-) {
-    Button(
-        onClick = {},
-        modifier = modifier.size(width = 100.dp, height = 43.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor =
-        Color.Gray),
-        border = BorderStroke(
-            1.dp,
-            color = Color.Gray
-        )
+fun BusinessCard() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(150.dp)
+            .padding(10.dp)
+
     ) {
-        Text(
-            text = button_name,
-            color = Color.White,
-            fontWeight = FontWeight.Bold
-        )
+        Row(Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+
+            Column(
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = "Business Name", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Column() {
+                    Text(text = "Business Description")
+                    Text(text = "Business Description")
+                    Text(text = "Business Description")
+                }
+            }
+
+        }
     }
 }
 
-@Composable
-fun TextFieldSample() {
-    val labels by remember { mutableStateOf(listOf<String>(
-        "name", "Email", "R-Number", "Phone Number", "Address", "State", "Zip Code"
-    ))}
-    var details by remember { mutableStateOf(listOf<String>(
-        "Jane Doe", "jane_doe@gmail.com", "R0912392", "(405) 486-654", "apex avenue, west finley", "FL", "54665"
-    ))}
-
-    for (i in 0..details.lastIndex) {
-
-        OutlinedTextField(value = details[i],
-            onValueChange = {details },
-            Modifier.fillMaxWidth(),
-            label = {
-                Text(text = labels[i], fontWeight = FontWeight.Bold, color = Color.White)
-                    },
-            keyboardOptions = KeyboardOptions(
-                KeyboardCapitalization.None, keyboardType = KeyboardType.Text
-            )
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-
-    }
-
-}
 
 @Composable
 fun MembershipCard() {
@@ -165,7 +102,7 @@ fun MembershipCard() {
     Spacer(modifier = Modifier.height(10.dp))
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .width(220.dp)
             .height(220.dp)
             .clip(RoundedCornerShape(20.dp))
     ) {
@@ -176,55 +113,17 @@ fun MembershipCard() {
             modifier = Modifier
                 .width(390.dp)
                 .clip(RoundedCornerShape(20.dp))
+                .border(1.dp, color = Color.White, RoundedCornerShape(20.dp))
         )
-
-
-
     }
 }
 
-
-@Composable
-fun AccountDetail() {
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp)
-                .padding(10.dp)
-                .verticalScroll(rememberScrollState()),
-
-        ) {
-                    TextFieldSample()
-        }
-
-}
-
-
-
-@Composable
-fun CardDetail() {
-    Column(
-        modifier = Modifier.fillMaxWidth()
-            .padding()
-
-    ) {
-        MembershipCard()
-    }
-
-}
-
-@Composable
-fun DealsDetail() {
-    Text("Deals", color = Color.Black)
-}
 
 
 @Composable
 @Preview
 fun preview(){
-    val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
-    Account(gradient = gradient)
+    BusinessCard()
 }
 
 fun Color.Companion.parse(colorString: String): Color = Color(color = android.graphics.Color.parseColor(colorString))

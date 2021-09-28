@@ -33,12 +33,16 @@ import java.util.*
 import androidx.compose.runtime.getValue
 import coil.transform.RoundedCornersTransformation
 import com.muse.wprk_concept.data.*
+import com.muse.wprk_concept.parse
 
 @Composable
 fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
     var days = remember { mutableStateListOf (
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     )}
+    var abrev_days = remember { mutableStateListOf (
+        "Sun", "Mon", "Tue", "Wed", "Th", "Fri", "Sat"
+    ) }
     val lifecycle = LocalLifecycleOwner.current
     val showState = rememberLazyListState()
     val scheduleState = rememberLazyListState()
@@ -167,10 +171,14 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
                         Box(
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .background(Color.Gray)
+                                .background(color = Color.parse("#ffafcc"))
                                 .width(90.dp)
                                 .height(90.dp)
-                        )
+                                .border(1.dp, color = Color.White, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = abrev_days[item], color = Color.White, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                        }
                         Text(text = days[item],  color = Color.White)
                     }
 
@@ -200,47 +208,6 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
                 }
             }
             Spacer(modifier = Modifier.height(30.dp))
-        }
-    }
-}
-
-@Composable
-fun ScheduleUnit(title: String, category: String, time: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp),
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .padding(end = 10.dp)
-                .fillMaxWidth()
-        ) {
-            Column(
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(text = title, color = Color.White, fontWeight = FontWeight.ExtraBold)
-                Text(text = "$category", color = Color.White, fontWeight = FontWeight.Normal)
-            }
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-                IconButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier.size(20.dp),
-                ) {
-                    Icon(
-                        Icons.Default.Alarm,
-                        contentDescription = "Access alarm",
-                        tint = Color.LightGray
-                    )
-                }
-                Spacer(modifier = Modifier.height(2.dp))
-
-                Text(text = time, fontWeight = FontWeight.Normal, color = Color.White)
-            }
-
         }
     }
 }
