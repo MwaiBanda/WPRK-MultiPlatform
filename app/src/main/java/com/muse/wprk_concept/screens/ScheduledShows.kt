@@ -1,4 +1,4 @@
-package com.muse.wprk_concept.composables
+package com.muse.wprk_concept.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon

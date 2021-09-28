@@ -6,9 +6,11 @@ import androidx.lifecycle.*
 import com.muse.wprk_concept.data.Transistor.Episode
 import com.muse.wprk_concept.data.Transistor.Podcast
 import com.muse.wprk_concept.remote.TransistorRepository
+import com.muse.wprk_concept.screens.Live.LocalDateEx
 import com.muse.wprk_concept.utilities.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -75,6 +77,12 @@ class PodcastViewModel @Inject constructor(
         }
 
     }
+    fun currentDay(): LocalDate {
+        return LocalDateEx.getNow()
+    }
 
+    fun getDayByOffset(offset: Long): LocalDate {
+        return currentDay().plusDays(offset)
+    }
 
 }

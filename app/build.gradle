@@ -110,10 +110,5 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.0.3'
 
 
-    //Webkit
-    implementation("androidx.webkit:webkit:1.4.0")
-
-    // Spotify API
-    implementation 'com.spotify.android:auth:1.2.5'
 
 }

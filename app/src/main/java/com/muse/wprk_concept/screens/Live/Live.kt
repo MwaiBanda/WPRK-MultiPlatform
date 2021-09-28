@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import coil.transform.RoundedCornersTransformation
 import com.muse.wprk_concept.data.*
 import com.muse.wprk_concept.parse
+import com.muse.wprk_concept.screens.ScheduleUnit as ScheduleUnit1
 
 @Composable
 fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
@@ -204,7 +205,7 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
                 modifier = Modifier.height(300.dp)
             ) {
                 items(scheduledShows) { item ->
-                    ScheduleUnit(title = "${item.title}", category = "${item.category}", time = "${item.getTime(showTime = ShowTime.START)}")
+                    ScheduleUnit1(title = "${item.title}", category = "${item.category}", time = "${item.getTime(showTime = ShowTime.START)}")
                 }
             }
             Spacer(modifier = Modifier.height(30.dp))
