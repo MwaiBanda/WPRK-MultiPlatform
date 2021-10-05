@@ -1,16 +1,12 @@
 package com.muse.wprk_concept.screens.Podcasts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
@@ -27,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.muse.wprk_concept.data.Transistor.Episode
+import com.muse.wprk_concept.screens.Components.EpisodeRow
 import com.muse.wprk_concept.screens.swapList
 
 @Composable
@@ -114,20 +111,7 @@ fun PodcastDetail(
                         if (episodes.first() == episode) {
                             Divider(modifier = Modifier.padding(end = 10.dp))
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Column(Modifier.clickable { onEpisodeClick(episode.attributes.media_url) }) {
-                            Text(text = "EPISODE ${episode.attributes.number}", fontSize = 12.sp)
-                            Text(text = episode.attributes.title, fontWeight = FontWeight.ExtraBold)
-                            Text(text = episode.attributes.description, maxLines = 3)
-                            Row {
-                                Icon(
-                                    imageVector = Icons.Default.PlayCircleOutline,
-                                    contentDescription = null
-                                )
-                                Text(text = episode.attributes.duration_in_mmss)
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(10.dp))
+                        EpisodeRow(onEpisodeClick = { onEpisodeClick(it)}, episode = episode)
                         if (episodes.last() != episode) {
                             Divider(modifier = Modifier.padding(end = 10.dp))
                         } else {
@@ -142,3 +126,4 @@ fun PodcastDetail(
 
     }
 }
+

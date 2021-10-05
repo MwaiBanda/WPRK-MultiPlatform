@@ -29,13 +29,11 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.muse.wprk_concept.data.Show
-import com.muse.wprk_concept.data.ShowTime
+import com.muse.wprk_concept.data.Transistor.Episode
 import com.muse.wprk_concept.data.Transistor.Podcast
-import com.muse.wprk_concept.data.getFormattedDate
-import com.muse.wprk_concept.data.getTime
 import com.muse.wprk_concept.parse
+import com.muse.wprk_concept.screens.Components.EpisodeRow
 import com.muse.wprk_concept.screens.Podcasts.PodcastViewModel
-import com.muse.wprk_concept.screens.ScheduleUnit
 import com.muse.wprk_concept.screens.swapList
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -45,16 +43,9 @@ fun PodcastHome(
     navController: NavHostController,
     gradient: Brush,
     podcastViewModel: PodcastViewModel,
-    onSwitchToDefault: () -> Unit
+    onSwitchToDefault: () -> Unit,
+    onEpisodeClick: (String) -> Unit
 ) {
-    var days = remember { mutableStateListOf (
-        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-    )}
-    var abrev_days = remember { mutableStateListOf (
-        "Sun", "Mon", "Tue", "Wed", "Th", "Fri", "Sat"
-            ) }
-    var selectedDate = remember { mutableStateOf(podcastViewModel.currentDay()) }
-
     var podcasts = remember { mutableStateListOf<Podcast>() }
     val scrollState = rememberScrollState()
     val lifecycle = LocalLifecycleOwner.current
@@ -65,10 +56,21 @@ fun PodcastHome(
     var shows = remember { mutableStateListOf<Show>()}
     var scheduledShows = remember { mutableStateListOf<Show>()}
     var currentDay by remember { mutableStateOf(0) }
-
+    var currentShow by remember { mutableStateOf(0) }
+    var episodes = remember { mutableStateListOf<Episode>()}
+    val navigateToDetail: (Podcast, String) -> Unit = { podcast, imageURL ->
+        navController.navigate("podcastDetail/${podcast.id}/$imageURL/${podcast.attributes.title}/${podcast.attributes.description}")
+    }
     podcastViewModel.podcasts.observe(LocalLifecycleOwner.current) { newPodcasts ->
         podcasts.swapList(newPodcasts)
     }
+    podcastViewModel.episode.observe(LocalLifecycleOwner.current) { newEpisodes ->
+
+            episodes.swapList(newEpisodes)
+
+
+    }
+
     LazyColumn(
         Modifier
             .fillMaxSize()
@@ -127,9 +129,8 @@ fun PodcastHome(
             LazyRow(state = LazyListState(), modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed(podcasts) { i, podcast ->
                     var imageURL = URLEncoder.encode(podcast.attributes.image_url, StandardCharsets.UTF_8.toString())
-
                     if (i != 0) Spacer(modifier = Modifier.width(8.dp))
-                    Box(Modifier.clickable { navController.navigate("podcastDetail/${podcast.id}/$imageURL/${podcast.attributes.title}/${podcast.attributes.description}") }) {
+                    Box(Modifier.clickable { navigateToDetail(podcast, imageURL) }) {
                         Image(
                             painter = rememberImagePainter(
                                 data = podcast.attributes.image_url,
@@ -166,23 +167,23 @@ fun PodcastHome(
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.clickable {
-                            selectedDate = when (i) {
-                                0 -> {
-                                    mutableStateOf(podcastViewModel.currentDay())
-                                }
-                                else -> {
-                                    mutableStateOf(podcastViewModel.getDayByOffset(i.toLong()))
-                                }
-                            }
-                            scheduledShows.swapList(shows.filter { it.getFormattedDate(showTime = ShowTime.START) == selectedDate.value })
-                            Log.d("MAIN", "[SELECTED] ${selectedDate}")
+                        currentShow = podcasts.indexOf(item)
+                            Log.d("MAIN", "[INDEX] $currentShow")
+                            podcastViewModel.getEpisodes(item.id)
                         }
                     ) {
                         Box(
                             modifier = Modifier
-                                .clip(RoundedCornerShape(25f
-                                ))
-                                .background(color = Color.parse("#ffafcc"))
+                                .clip(
+                                    RoundedCornerShape(
+                                        25f
+                                    )
+                                )
+                                .background(
+                                    color = if (currentShow == i) Color.Transparent else Color.parse(
+                                        "#ffafcc"
+                                    )
+                                )
                                 .height(65.dp)
                                 .border(1.dp, color = Color.White, RoundedCornerShape(25f))
                                 .padding(horizontal = 15.dp)
@@ -202,23 +203,44 @@ fun PodcastHome(
             Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 state = columnState,
-                modifier = Modifier.height(300.dp)
+                modifier = Modifier.height(400.dp)
             ) {
-                items(scheduledShows) { item ->
-                    ScheduleUnit(title = "${item.title}", category = "${item.category}", time = "${item.getTime(showTime = ShowTime.START)}")
+                itemsIndexed(episodes) { i, item ->
+                    if(i < 4) {
+                        EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episode = item)
+                    }
+                    if(i == episodes.lastIndex) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { navigateToDetail(podcasts[currentShow], getURL(podcasts, currentShow))
+                                },
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(text = "${podcasts[currentShow].relationships.episodes.data.count()} Episodes Available")
+                            Text(text = "See More", fontWeight = FontWeight.Bold,  color = Color.White, modifier = Modifier.padding(end = 15.dp))
+                        }
+                        Spacer(modifier = Modifier.height(35.dp))
+
+                    }
+
                 }
             }
             Spacer(modifier = Modifier.height(30.dp))
         }
     }
 }
+fun getURL(list: List<Podcast>, index: Int): String {
+    return URLEncoder.encode(list[index].attributes.image_url, StandardCharsets.UTF_8.toString())
+}
+
 
 @Composable
 @Preview
 fun PodcastsHomePreview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
     val navController = rememberNavController()
-    PodcastHome(navController = navController,gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>()){
+    PodcastHome(navController = navController,gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>(), onSwitchToDefault =  {}){
 
     }
 }

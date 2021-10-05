@@ -67,7 +67,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             WPRKEntry { navController, player, context, gradient ->
                 NavHost(navController = navController, startDestination = Screen.Live.route) {
                     composable(Screen.Live.route) {
@@ -78,8 +77,10 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Screen.Podcasts.route) {
                         val context = context.current
-                        PodcastHome(navController = navController, gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>()){
+                        PodcastHome(navController = navController, gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>(), onSwitchToDefault = {
                             switchToDefault(context, player)
+                        }){ episodeURL ->
+                            switchToURL(episodeURL, context, player)
                         }
                     }
                     composable(Screen.Account.route) { Account(gradient = gradient) }
@@ -104,27 +105,7 @@ class MainActivity : ComponentActivity() {
                                 gradient = gradient,
                                 podcastViewModel = hiltViewModel<PodcastViewModel>()
                         ) { episodeURL ->
-                            player.apply {
-                                val dataSourceFactory = DefaultDataSourceFactory(
-                                    context, Util.getUserAgent(
-                                        context,
-                                        context.packageName
-                                    )
-                                )
-
-                                val sourceURL = MediaItem.Builder()
-                                    .setUri(episodeURL)
-                                    .setLiveTargetOffsetMs(5000)
-                                    .setLiveMaxPlaybackSpeed(1.02f)
-                                    .build()
-
-                                val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                                    .createMediaSource(sourceURL)
-
-                                setMediaSource(source)
-                                setHandleAudioBecomingNoisy(true)
-                                prepare()
-                            }
+                            switchToURL(episodeURL, context, player)
                         }
                     }
                 }
@@ -155,6 +136,30 @@ class MainActivity : ComponentActivity() {
             setHandleAudioBecomingNoisy(true)
             prepare()
         }
+    }
+    private fun switchToURL(URL: String, context: Context, player: SimpleExoPlayer) {
+        player.apply {
+            val dataSourceFactory = DefaultDataSourceFactory(
+                context, Util.getUserAgent(
+                    context,
+                    context.packageName
+                )
+            )
+
+            val sourceURL = MediaItem.Builder()
+                .setUri(URL)
+                .setLiveTargetOffsetMs(5000)
+                .setLiveMaxPlaybackSpeed(1.02f)
+                .build()
+
+            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(sourceURL)
+
+            setMediaSource(source)
+            setHandleAudioBecomingNoisy(true)
+            prepare()
+        }
+
     }
 }
 
@@ -251,12 +256,10 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(0.95f)
-                                .height(65.dp)
-                                .clickable { navController.navigate(Screen.PlayerDetail.route) }
+                                .height(65.dp) // ADD Clickable Navigate to Detail
                                 .clip(RoundedCornerShape(10.dp))
                                 .background(color = Color.parse("#ffafcc"))
-                                .border(1.dp, color = Color.White, RoundedCornerShape(10.dp))
-                                ,
+                                .border(1.dp, color = Color.White, RoundedCornerShape(10.dp)),
 
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
