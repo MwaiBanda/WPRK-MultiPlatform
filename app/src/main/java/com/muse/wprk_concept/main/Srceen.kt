@@ -1,7 +1,6 @@
 package com.muse.wprk_concept.main
 
 import androidx.annotation.StringRes
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BookOnline
 import androidx.compose.material.icons.filled.LiveTv

@@ -7,10 +7,9 @@ import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Alarm
+import androidx.compose.material.icons.filled.Podcasts
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -28,16 +27,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
+import coil.transform.RoundedCornersTransformation
+import com.muse.wprk_concept.data.Show
+import com.muse.wprk_concept.data.ShowTime
+import com.muse.wprk_concept.data.getFormattedDate
+import com.muse.wprk_concept.data.getTime
+import com.muse.wprk_concept.parse
 import com.muse.wprk_concept.screens.Live.LiveViewModel
 import java.util.*
-import androidx.compose.runtime.getValue
-import coil.transform.RoundedCornersTransformation
-import com.muse.wprk_concept.data.*
-import com.muse.wprk_concept.parse
 import com.muse.wprk_concept.screens.ScheduleUnit as ScheduleUnit1
 
 @Composable
-fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
+fun Live(gradient: Brush, liveViewModel: LiveViewModel, onSwitchToDefault: () -> Unit) {
     var days = remember { mutableStateListOf (
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     )}
@@ -72,6 +73,7 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
         }
 
     }
+
     LazyColumn(
         state = mainColumnState,
         modifier = Modifier
@@ -86,7 +88,7 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ){
                 Text(text = "Shows", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp, color = Color.White)
-                Spacer(modifier = Modifier.fillMaxWidth(0.6f))
+                Spacer(modifier = Modifier.fillMaxWidth(0.53f))
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
@@ -101,17 +103,34 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
                         .size(width = 100.dp, height = 43.dp)
 
                 ) {
-                    Text(
-                        text = buildAnnotatedString {
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
-                                append("91.5")
-                            }
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold, fontSize = 13.sp)) {
-                                append("FM")
-                            } },
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
-                    )
+                    Row(Modifier.clickable { onSwitchToDefault() }) {
+                        Text(
+                            text = buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                                    append("91.5")
+                                }
+                                withStyle(
+                                    style = SpanStyle(
+                                        fontWeight = FontWeight.ExtraBold,
+                                        fontSize = 13.sp
+                                    )
+                                ) {
+                                    append("FM")
+                                }
+                            },
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White
+                        )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Icon(
+                            imageVector = Icons.Filled.Podcasts,
+                            contentDescription = "",
+                            tint = Color.Red,
+                            modifier = Modifier
+                                .size(18.dp, 18.dp)
+                                .offset(y = 2.dp)
+                        )
+                    }
                 }
             }
             Text(text = "Currently Scheduled Today ", color = Color.White)
@@ -217,7 +236,9 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel) {
 @Composable
 fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
-    Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>())
+    Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>()) {
+
+    }
 }
 fun <T> SnapshotStateList<T>.swapList(newList: List<T>){
     clear()

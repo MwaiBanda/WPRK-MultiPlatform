@@ -29,7 +29,7 @@ data class Show(
 )
 
 fun Show.getDate(showTime: ShowTime): String {
-    var date = when(showTime) {
+    val date = when(showTime) {
         ShowTime.START -> {
             start.dropLast(14)
         }
@@ -40,7 +40,7 @@ fun Show.getDate(showTime: ShowTime): String {
     return date
 }
 fun Show.getTime(showTime: ShowTime): String {
-    var timeStr = when(showTime) {
+    val timeStr = when(showTime) {
         ShowTime.START -> {
             start.drop(11).dropLast(8)
         }
@@ -54,7 +54,7 @@ fun Show.getTime(showTime: ShowTime): String {
 
 fun Show.getFormattedDate(showTime: ShowTime): LocalDate {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    var date = when(showTime) {
+    val date = when(showTime) {
         ShowTime.START -> {
             LocalDate.parse(getDate(showTime = ShowTime.START), formatter)
         }

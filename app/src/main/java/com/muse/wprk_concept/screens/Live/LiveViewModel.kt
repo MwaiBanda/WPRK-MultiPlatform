@@ -21,8 +21,8 @@ class LiveViewModel @Inject constructor(
 {
     private val _shows: MutableLiveData<List<Show>> = MutableLiveData()
     var shows: LiveData<List<Show>> = _shows
-    var loadError = mutableStateOf("")
-    var isLoading = mutableStateOf(false)
+    private var loadError = mutableStateOf("")
+    private var isLoading = mutableStateOf(false)
 
     private val _selectedDate = MutableLiveData(0)
     var selectedDate: LiveData<Int> = _selectedDate

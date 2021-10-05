@@ -1,13 +1,11 @@
 package com.muse.wprk_concept.screens.Podcasts
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -17,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -29,10 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
-import com.google.android.material.appbar.AppBarLayout
 import com.muse.wprk_concept.data.Transistor.Episode
 import com.muse.wprk_concept.screens.swapList
-import com.muse.wprk_concept.utilities.Resource
 
 @Composable
 fun PodcastDetail(
@@ -42,9 +37,10 @@ fun PodcastDetail(
     title: String?,
     description: String?,
     gradient: Brush,
-    podcastViewModel: PodcastViewModel
+    podcastViewModel: PodcastViewModel,
+    onEpisodeClick: (String) -> Unit
 ){
-    var episodes = remember { mutableStateListOf<Episode>() }
+    val episodes = remember { mutableStateListOf<Episode>() }
     podcastViewModel.episode.observe(LocalLifecycleOwner.current){ newEpisodes ->
         episodes.swapList(newEpisodes)
     }
@@ -119,7 +115,7 @@ fun PodcastDetail(
                             Divider(modifier = Modifier.padding(end = 10.dp))
                         }
                         Spacer(modifier = Modifier.height(10.dp))
-                        Column {
+                        Column(Modifier.clickable { onEpisodeClick(episode.attributes.media_url) }) {
                             Text(text = "EPISODE ${episode.attributes.number}", fontSize = 12.sp)
                             Text(text = episode.attributes.title, fontWeight = FontWeight.ExtraBold)
                             Text(text = episode.attributes.description, maxLines = 3)

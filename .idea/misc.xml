@@ -26,13 +26,12 @@
         <entry key="../../../../../../layout/compose-model-1632590769388.xml" value="0.1" />
         <entry key="../../../../../../layout/compose-model-1632619409289.xml" value="0.20092592592592592" />
         <entry key="../../../../../../layout/compose-model-1632718276987.xml" value="0.11944444444444445" />
-        <entry key="../../../../../../layout/compose-model-1632819408526.xml" value="0.20016891891891891" />
         <entry key="app/src/main/res/layout/layout.xml" value="0.13949275362318841" />
         <entry key="app/src/main/res/layout/surface.xml" value="0.13949275362318841" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

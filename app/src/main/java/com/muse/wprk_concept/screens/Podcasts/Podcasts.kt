@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Podcasts
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +16,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,20 +28,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
-import com.muse.wprk_concept.screens.Podcasts.PodcastViewModel
-import com.muse.wprk_concept.screens.ScheduleUnit
-import com.muse.wprk_concept.screens.swapList
 import com.muse.wprk_concept.data.Show
 import com.muse.wprk_concept.data.ShowTime
 import com.muse.wprk_concept.data.Transistor.Podcast
 import com.muse.wprk_concept.data.getFormattedDate
 import com.muse.wprk_concept.data.getTime
 import com.muse.wprk_concept.parse
+import com.muse.wprk_concept.screens.Podcasts.PodcastViewModel
+import com.muse.wprk_concept.screens.ScheduleUnit
+import com.muse.wprk_concept.screens.swapList
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 @Composable
-fun PodcastHome(navController: NavHostController, gradient: Brush, podcastViewModel: PodcastViewModel) {
+fun PodcastHome(
+    navController: NavHostController,
+    gradient: Brush,
+    podcastViewModel: PodcastViewModel,
+    onSwitchToDefault: () -> Unit
+) {
     var days = remember { mutableStateListOf (
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     )}
@@ -66,7 +76,51 @@ fun PodcastHome(navController: NavHostController, gradient: Brush, podcastViewMo
             .padding(start = 10.dp)
     ) {
         item {
-            Text(text = "Today's Picks", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp, color = Color.White)
+            Row (
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Text(text = "Podcasts", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp, color = Color.White)
+                Spacer(modifier = Modifier.fillMaxWidth(0.45f))
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(end = 10.dp)
+                        .border(
+                            BorderStroke(
+                                1.dp,
+                                color = Color.White
+                            ), RoundedCornerShape(10.dp)
+                        )
+                        .size(width = 100.dp, height = 43.dp)
+
+                ) {
+                    Row(Modifier.clickable { onSwitchToDefault() }) {
+                    Text(
+                        text = buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                                append("91.5")
+                            }
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold, fontSize = 13.sp)) {
+                                append("FM")
+                            } },
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.White
+                    )
+                        Spacer(modifier = Modifier.width(5.dp))
+                        Icon(
+                            imageVector = Icons.Filled.Podcasts,
+                            contentDescription = "",
+                            tint = Color.Red,
+                            modifier = Modifier
+                                .size(18.dp, 18.dp)
+                                .offset(y = 2.dp)
+                        )
+                    }
+                }
+            }
+            Text(text = "Discover Featured Podcasts", color = Color.White)
             Spacer(modifier = Modifier.height(20.dp))
         }
         item {
@@ -99,7 +153,9 @@ fun PodcastHome(navController: NavHostController, gradient: Brush, podcastViewMo
 
         item {
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "Schedule", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp,  color = Color.White)
+            Text(text = "Featured Episodes", fontWeight = FontWeight.ExtraBold, fontSize = 40.sp,  color = Color.White)
+            Text(text = "Discover Popular Episodes", color = Color.White)
+
             Spacer(modifier = Modifier.height(20.dp))
         }
         item {
@@ -124,29 +180,24 @@ fun PodcastHome(navController: NavHostController, gradient: Brush, podcastViewMo
                     ) {
                         Box(
                             modifier = Modifier
-                                .clip(CircleShape)
+                                .clip(RoundedCornerShape(25f
+                                ))
                                 .background(color = Color.parse("#ffafcc"))
-                                .width(90.dp)
-                                .height(90.dp)
-                                .border(1.dp, color = Color.White, CircleShape),
+                                .height(65.dp)
+                                .border(1.dp, color = Color.White, RoundedCornerShape(25f))
+                                .padding(horizontal = 15.dp)
+                            ,
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(text = abrev_days[i], color = Color.White, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                            Text(text = item.attributes.title, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                         }
-                        Text(text = days[i],  color = Color.White)
                     }
 
                     if (i == 6) Spacer(modifier = Modifier.width(10.dp))
                 }
             }
         }
-        item {
 
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(text = "Scheduled Shows", fontSize = 30.sp, fontWeight = FontWeight.Bold, color = Color.White)
-            Text(text = "Listings", fontWeight = FontWeight.Bold, color = Color.White)
-
-        }
         item {
             Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
@@ -167,5 +218,7 @@ fun PodcastHome(navController: NavHostController, gradient: Brush, podcastViewMo
 fun PodcastsHomePreview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
     val navController = rememberNavController()
-    PodcastHome(navController = navController,gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>())
+    PodcastHome(navController = navController,gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>()){
+
+    }
 }

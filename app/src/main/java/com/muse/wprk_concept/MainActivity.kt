@@ -7,53 +7,59 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import com.muse.wprk_concept.screens.Account
-import com.muse.wprk_concept.screens.Live
-import com.muse.wprk_concept.ui.theme.WPRK_conceptTheme
-import com.muse.wprk_concept.main.PodcastHome
-import com.muse.wprk_concept.main.Screen
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import coil.compose.rememberImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import com.muse.wprk_concept.data.MenuOption
+import com.muse.wprk_concept.main.PodcastHome
+import com.muse.wprk_concept.main.Screen
+import com.muse.wprk_concept.screens.Account
 import com.muse.wprk_concept.screens.DetailScreen
+import com.muse.wprk_concept.screens.Live
 import com.muse.wprk_concept.screens.Live.LiveViewModel
 import com.muse.wprk_concept.screens.PlayerView
 import com.muse.wprk_concept.screens.Podcasts.PodcastDetail
 import com.muse.wprk_concept.screens.Podcasts.PodcastViewModel
-import com.muse.wprk_concept.data.MenuOption
+import com.muse.wprk_concept.ui.theme.WPRK_conceptTheme
+import com.muse.wprk_concept.utilities.Constants.DEFAULT_STREAM
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -64,8 +70,18 @@ class MainActivity : ComponentActivity() {
 
             WPRKEntry { navController, player, context, gradient ->
                 NavHost(navController = navController, startDestination = Screen.Live.route) {
-                    composable(Screen.Live.route) { Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>()) }
-                    composable(Screen.Podcasts.route) { PodcastHome(navController = navController, gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>()) }
+                    composable(Screen.Live.route) {
+                        val context = context.current
+                        Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>()) {
+                        switchToDefault(context, player)
+                        }
+                    }
+                    composable(Screen.Podcasts.route) {
+                        val context = context.current
+                        PodcastHome(navController = navController, gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>()){
+                            switchToDefault(context, player)
+                        }
+                    }
                     composable(Screen.Account.route) { Account(gradient = gradient) }
                     composable(Screen.PlayerDetail.route) { DetailScreen(player = player) }
                     composable(Screen.PlayerScreen.route){ PlayerView(player = player, context = context)}
@@ -77,7 +93,9 @@ class MainActivity : ComponentActivity() {
                                 navArgument("title"){ defaultValue = ""},
                                 navArgument("subTitle"){ defaultValue = ""}
                             )){ backStackEntry ->
-                            PodcastDetail(
+
+                        val context = context.current
+                        PodcastDetail(
                                 navController = navController,
                                 thumbnailURL = backStackEntry.arguments?.getString("imageURL"),
                                 showID = backStackEntry.arguments?.getString("showID"),
@@ -85,10 +103,57 @@ class MainActivity : ComponentActivity() {
                                 description = backStackEntry.arguments?.getString("subTitle"),
                                 gradient = gradient,
                                 podcastViewModel = hiltViewModel<PodcastViewModel>()
-                            )
+                        ) { episodeURL ->
+                            player.apply {
+                                val dataSourceFactory = DefaultDataSourceFactory(
+                                    context, Util.getUserAgent(
+                                        context,
+                                        context.packageName
+                                    )
+                                )
+
+                                val sourceURL = MediaItem.Builder()
+                                    .setUri(episodeURL)
+                                    .setLiveTargetOffsetMs(5000)
+                                    .setLiveMaxPlaybackSpeed(1.02f)
+                                    .build()
+
+                                val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                                    .createMediaSource(sourceURL)
+
+                                setMediaSource(source)
+                                setHandleAudioBecomingNoisy(true)
+                                prepare()
+                            }
+                        }
                     }
                 }
             }
+
+        }
+
+    }
+    private fun switchToDefault(context: Context, player: SimpleExoPlayer) {
+        player.apply {
+            val dataSourceFactory = DefaultDataSourceFactory(
+                context, Util.getUserAgent(
+                    context,
+                    context.packageName
+                )
+            )
+
+            val sourceURL = MediaItem.Builder()
+                .setUri(DEFAULT_STREAM)
+                .setLiveTargetOffsetMs(5000)
+                .setLiveMaxPlaybackSpeed(1.02f)
+                .build()
+
+            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(sourceURL)
+
+            setMediaSource(source)
+            setHandleAudioBecomingNoisy(true)
+            prepare()
         }
     }
 }
@@ -206,25 +271,35 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                         .background(Color.Gray)
                                         .width(45.dp)
                                         .height(45.dp)
-                                )
+                                ) {
+                                    Image(painter = rememberImagePainter(
+                                        data = "https://firebasestorage.googleapis.com/v0/b/wprk-c6825.appspot.com/o/playstore.png?alt=media&token=18e6e49b-27d7-4c02-a303-955f86cddb8c",
+                                        onExecute = { _, _ -> true },
+                                        builder = {
+                                            crossfade(true)
+                                        }
+                                    ),
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentScale = ContentScale.Crop,
+                                        contentDescription = null
+                                    )
+                                }
                                 Spacer(modifier = Modifier.width(15.dp))
 
                                 Column() {
                                     Row(horizontalArrangement = Arrangement.Center) {
                                         Text(
-                                            "WPRPK Live",
+                                            buildAnnotatedString {
+                                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                                                append("WPRK 91.5")
+                                            }
+                                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold, fontSize = 13.sp)) {
+                                                append("FM")
+                                            } },
                                             fontWeight = FontWeight.ExtraBold,
                                             color = Color.White
                                         )
-                                        Spacer(modifier = Modifier.width(5.dp))
-                                        Icon(
-                                            imageVector = Icons.Filled.Podcasts,
-                                            contentDescription = "",
-                                            tint = Color.Red,
-                                            modifier = Modifier
-                                                .size(18.dp, 18.dp)
-                                                .offset(y = 2.dp)
-                                        )
+
                                     }
                                     AnimatedContent(
                                         targetState = count,
@@ -239,7 +314,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                                 SizeTransform(clip = true)
                                             )
                                         },
-                                        modifier = Modifier.fillMaxWidth(0.7f)
+                                        modifier = Modifier.fillMaxWidth(0.8f)
                                     ) { 
                                         Text(
                                             if (currentTitle == "") "Tune In..." else currentTitle,
@@ -249,10 +324,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                     }
                                 }
                             }
-                            Row(horizontalArrangement = Arrangement.SpaceAround) {
-                                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.offset(x = (-5).dp)) {
-                                    Icon(Icons.Default.Bluetooth, "", tint = Color.White)
-                                }
+
                                 IconButton(onClick = {
                                     when(player.isPlaying) {
                                         true  ->    player.pause()
@@ -290,7 +362,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                     )
                                 }
 
-                            }
+
 
                         }
                         BottomNavigation(
