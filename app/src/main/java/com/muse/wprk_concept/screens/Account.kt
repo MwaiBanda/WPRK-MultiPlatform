@@ -1,5 +1,7 @@
 package com.muse.wprk_concept.screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,22 +29,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
 import androidx.compose.ui.text.style.TextDecoration
 import com.muse.wprk_concept.MenuItem
 import com.muse.wprk_concept.R
 import com.muse.wprk_concept.data.Business
 import com.muse.wprk_concept.data.MenuOption
-import com.muse.wprk_concept.parse
+//import com.muse.wprk_concept.parse
 
 @Composable
 fun Account(gradient: Brush) {
     //val paddingValues = PaddingValues(10.dp)
-    val deals: String = "Deals"
+    val deals: String = "Featured Deals"
+    val dicoverDeals: String = "Discover Available Deals & Discounts"
     Column(
         Modifier
             .fillMaxSize()
@@ -51,15 +56,24 @@ fun Account(gradient: Brush) {
         Row(
             modifier = Modifier.padding(10.dp)
         ) {
-            Text(
-                text = "Businesses",
-                fontSize = 40.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.White
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-        }
+            Column() {
 
+                Text(
+                    text = "Membership",
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    text = "Become A Member Today",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,12 +89,11 @@ fun Account(gradient: Brush) {
                 .padding(10.dp),
             verticalArrangement = Arrangement.Center
         ) {
-            Divider(color = Color.White)
-            Spacer(modifier = Modifier.height(10.dp))
             Text(text = deals, color = Color.White, fontSize = 40.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(10.dp))
+            Text(text = dicoverDeals, color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Divider(color = Color.White)
-
+            Spacer(modifier = Modifier.height(10.dp))
         }
 
         LazyColumn(
@@ -102,15 +115,15 @@ fun Account(gradient: Brush) {
         }
     }
 }
+
+
+
 @Composable
-fun BusinessCard(name: String, description: String) {
+fun BusinessCard(name: String, description: String, ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(129.dp)
-            .clip(RoundedCornerShape(topEndPercent = 25))
-            .background(color = Color.LightGray)
-            .border(1.dp, color = Color.White, shape = RoundedCornerShape(topEndPercent = 25))
             .padding(10.dp)
 
     ) {
@@ -138,8 +151,6 @@ fun MembershipCard() {
     Spacer(modifier = Modifier.height(10.dp))
     Box(
         modifier = Modifier
-            .height(140.dp)
-            .width(210.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(color = Color.parse("#BDBDBD"))
     ) {
@@ -150,7 +161,6 @@ fun MembershipCard() {
             modifier = Modifier
                 .width(390.dp)
                 .clip(RoundedCornerShape(20.dp))
-                .border(1.dp, color = Color.White, RoundedCornerShape(20.dp))
         )
     }
 }

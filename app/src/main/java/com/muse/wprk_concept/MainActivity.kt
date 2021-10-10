@@ -412,7 +412,7 @@ fun DrawerContent(gradient: Brush){
         MenuOption("Get Involved", Icons.Filled.AttachMoney),
         MenuOption("Services", Icons.Filled.AddChart),
         MenuOption("About Us", Icons.Filled.Info),
-        MenuOption("Logout", Icons.Filled.Logout),
+        //MenuOption("Logout", Icons.Filled.Logout),
 
 
         )
