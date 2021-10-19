@@ -3,7 +3,10 @@ package com.muse.wprk_concept.screens
 import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -38,7 +41,7 @@ import java.util.*
 import com.muse.wprk_concept.screens.ScheduleUnit as ScheduleUnit1
 
 @Composable
-fun Live(gradient: Brush, liveViewModel: LiveViewModel, onSwitchToDefault: () -> Unit) {
+fun Live(gradient: Color, liveViewModel: LiveViewModel, onSwitchToDefault: () -> Unit) {
     var days = remember { mutableStateListOf (
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     )}
@@ -53,6 +56,8 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel, onSwitchToDefault: () ->
     var shows = remember { mutableStateListOf<Show>()}
     var scheduledShows = remember { mutableStateListOf<Show>()}
     var currentDay by remember { mutableStateOf(0) }
+    var count by remember { mutableStateOf(0) }
+
     var selectedDate = remember { mutableStateOf(liveViewModel.currentDay()) }
     var selectedDateString by remember {
         mutableStateOf("")
@@ -71,7 +76,7 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel, onSwitchToDefault: () ->
         while(currentDate != days.first()) {
             days.add(days.lastIndex, days.removeAt(0))
         }
-
+        count = 0
     }
 
     LazyColumn(
@@ -185,7 +190,8 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel, onSwitchToDefault: () ->
                             }
                             selectedDateString = selectedDate.value.toString()
                             scheduledShows.swapList(shows.filter { it.getFormattedDate(showTime = ShowTime.START) == selectedDate.value })
-                            Log.d("MAIN", "[SELECTED] ${selectedDate}")
+                            Log.d("MAIN", "[SELECTED] ${scheduledShows.first()}")
+                            count++
                         }
                     ) {
                         Box(
@@ -215,20 +221,18 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel, onSwitchToDefault: () ->
                 Spacer(modifier = Modifier.fillMaxWidth())
                 Text(text = selectedDateString, fontWeight = FontWeight.Bold, color = Color.White)
             }
-
-        }
-        item {
-            Spacer(modifier = Modifier.height(10.dp))
-            LazyColumn(
-                state = columnState,
-                modifier = Modifier.height(300.dp)
-            ) {
-                items(scheduledShows) { item ->
-                    ScheduleUnit1(title = "${item.title}", category = "${item.category}", time = "${item.getTime(showTime = ShowTime.START)}")
+            Column(modifier = Modifier.offset(y =  if (count == 0) 0.dp else (-140).dp)) {
+                scheduledShows.forEach { item ->
+                    ScheduleUnit1(
+                        title = "${item.title}",
+                        category = "${item.category}",
+                        time = "${item.getTime(showTime = ShowTime.START)}"
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(30.dp))
         }
+
     }
 }
 
@@ -236,7 +240,7 @@ fun Live(gradient: Brush, liveViewModel: LiveViewModel, onSwitchToDefault: () ->
 @Composable
 fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
-    Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>()) {
+    Live(gradient = Color.Black, liveViewModel = hiltViewModel<LiveViewModel>()) {
 
     }
 }

@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -165,20 +164,15 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>, Brush) -> Unit) {
-    val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
+fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>, Color) -> Unit) {
+    val gradient = Color.Black
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
 
     SideEffect {
-        systemUiController.setNavigationBarColor(
-            color = Color.parse("#BDBDBD"),
-            darkIcons = useDarkIcons
-        )
-        systemUiController.setStatusBarColor (
-            color = Color.Black,
-            darkIcons = useDarkIcons
-        )
+        systemUiController.setSystemBarsColor(color = Color.Black,
+            darkIcons = useDarkIcons)
+
     }
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
@@ -364,12 +358,9 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                         modifier = Modifier.size(44.dp, 44.dp)
                                     )
                                 }
-
-
-
                         }
                         BottomNavigation(
-                            backgroundColor = Color.parse("#BDBDBD"),
+                            backgroundColor = Color.Black,
                             contentColor = Color.White
                         ) {
                             val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -388,7 +379,6 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
                                             restoreState = true
                                         }
                                     }
-
                                 )
                             }
 
@@ -404,7 +394,7 @@ fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, Providab
 }
 
 @Composable
-fun DrawerContent(gradient: Brush){
+fun DrawerContent(gradient: Color){
     val menuItems = listOf(
         MenuOption("Spotify Playlist", Icons.Filled.PlaylistPlay),
         MenuOption("Support WPRK", Icons.Filled.AddModerator),
@@ -436,7 +426,7 @@ fun DrawerContent(gradient: Brush){
                modifier = Modifier
                    .clickable {  }
            ) {
-               MenuItem(name = menuItem.name, icon = menuItem.icon, gradient = gradient)
+               MenuItem(name = menuItem.name, icon = menuItem.icon)
            }
        }
 
@@ -444,7 +434,7 @@ fun DrawerContent(gradient: Brush){
 }
 
 @Composable
-fun MenuItem(name: String, icon: ImageVector, gradient: Brush){
+fun MenuItem(name: String, icon: ImageVector){
     Spacer(modifier = Modifier.height(20.dp))
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -474,6 +464,7 @@ fun MenuItem(name: String, icon: ImageVector, gradient: Brush){
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
+
 
 }
 

@@ -13,7 +13,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.SpanStyle
@@ -41,7 +40,7 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun PodcastHome(
     navController: NavHostController,
-    gradient: Brush,
+    gradient: Color,
     podcastViewModel: PodcastViewModel,
     onSwitchToDefault: () -> Unit,
     onEpisodeClick: (String) -> Unit
@@ -65,10 +64,7 @@ fun PodcastHome(
         podcasts.swapList(newPodcasts)
     }
     podcastViewModel.episode.observe(LocalLifecycleOwner.current) { newEpisodes ->
-
             episodes.swapList(newEpisodes)
-
-
     }
 
     LazyColumn(
@@ -203,31 +199,35 @@ fun PodcastHome(
             Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 state = columnState,
-                modifier = Modifier.height(400.dp)
+                modifier = Modifier.height(350.dp)
             ) {
-                itemsIndexed(episodes) { i, item ->
-                    if(i < 4) {
-                        EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episode = item)
-                    }
-                    if(i == episodes.lastIndex) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { navigateToDetail(podcasts[currentShow], getURL(podcasts, currentShow))
-                                },
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(text = "${podcasts[currentShow].relationships.episodes.data.count()} Episodes Available")
-                            Text(text = "See More", fontWeight = FontWeight.Bold,  color = Color.White, modifier = Modifier.padding(end = 15.dp))
+                item {
+                    episodes.forEachIndexed { i, item ->
+                        if(i < 4) {
+                            EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episode = item)
                         }
-                        Spacer(modifier = Modifier.height(35.dp))
+                        if (i == 4 || item.id == episodes.last().id  && episodes.count()  < 5) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { navigateToDetail(podcasts[currentShow], getURL(podcasts, currentShow)) },
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(text = "${if (podcasts.isEmpty()) 0 else podcasts[currentShow].relationships.episodes.data.count()} Episodes Available", fontWeight = FontWeight.Bold)
+                                Text(text = "See More", fontWeight = FontWeight.Bold,  color = Color.White, modifier = Modifier.padding(end = 15.dp))
+                            }
+                            Spacer(modifier = Modifier.height(60.dp))
 
+                        }
                     }
-
                 }
+
+
             }
-            Spacer(modifier = Modifier.height(30.dp))
+
+            Spacer(modifier = Modifier.height(80.dp))
         }
+
     }
 }
 fun getURL(list: List<Podcast>, index: Int): String {
@@ -238,9 +238,9 @@ fun getURL(list: List<Podcast>, index: Int): String {
 @Composable
 @Preview
 fun PodcastsHomePreview() {
-    val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
+
     val navController = rememberNavController()
-    PodcastHome(navController = navController,gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>(), onSwitchToDefault =  {}){
+    PodcastHome(navController = navController,gradient = Color.Black, podcastViewModel = hiltViewModel<PodcastViewModel>(), onSwitchToDefault =  {}){
 
     }
 }

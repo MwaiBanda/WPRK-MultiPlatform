@@ -18,7 +18,7 @@ fun ScheduleUnit(title: String, category: String, time: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp),
+            .height(60.dp),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

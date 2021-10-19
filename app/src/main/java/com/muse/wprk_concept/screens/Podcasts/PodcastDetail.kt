@@ -33,7 +33,7 @@ fun PodcastDetail(
     showID: String?,
     title: String?,
     description: String?,
-    gradient: Brush,
+    gradient: Color,
     podcastViewModel: PodcastViewModel,
     onEpisodeClick: (String) -> Unit
 ){
@@ -103,7 +103,7 @@ fun PodcastDetail(
                     fontWeight = FontWeight.Bold
                 )
 
-                Text(text = description ?: "")
+                Text(text = description ?: "", color = Color.White)
                 Spacer(modifier = Modifier.height(10.dp))
 
                 LazyColumn {
