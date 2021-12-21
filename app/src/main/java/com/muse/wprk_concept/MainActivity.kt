@@ -2,63 +2,33 @@ package com.muse.wprk_concept
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.*
-import coil.compose.rememberImagePainter
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.muse.wprk_concept.data.MenuOption
+import com.muse.wprk_concept.core.NavigationRoutes.*
+import com.muse.wprk_concept.core.utilities.Constants.DEFAULT_STREAM
 import com.muse.wprk_concept.main.PodcastHome
-import com.muse.wprk_concept.main.Screen
-import com.muse.wprk_concept.screens.Account
-import com.muse.wprk_concept.screens.DetailScreen
-import com.muse.wprk_concept.screens.Live
-import com.muse.wprk_concept.screens.Live.LiveViewModel
-import com.muse.wprk_concept.screens.PlayerView
-import com.muse.wprk_concept.screens.Podcasts.PodcastDetail
-import com.muse.wprk_concept.screens.Podcasts.PodcastViewModel
-import com.muse.wprk_concept.ui.theme.WPRK_conceptTheme
-import com.muse.wprk_concept.utilities.Constants.DEFAULT_STREAM
+import com.muse.wprk_concept.presentation.Account
+import com.muse.wprk_concept.presentation.Live
+import com.muse.wprk_concept.presentation.components.PlayerView
+import com.muse.wprk_concept.presentation.podcasts.PodcastDetail
+import com.muse.wprk_concept.presentation.podcasts.PodcastViewModel
+import com.muse.wprk_concept.presentation.shows.LiveViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -66,15 +36,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            WPRKEntry { navController, player, context, gradient ->
-                NavHost(navController = navController, startDestination = Screen.Live.route) {
-                    composable(Screen.Live.route) {
+            WPRKEntry { navController, navPadding, player, context, gradient ->
+                NavHost(
+                    navController = navController,
+                    startDestination = Live.route,
+                    modifier = Modifier
+                        .background(Color.Black)
+                        .padding(navPadding)
+                ) {
+                    composable(Live.route) {
                         val context = context.current
                         Live(gradient = gradient, liveViewModel = hiltViewModel<LiveViewModel>()) {
-                        switchToDefault(context, player)
+                            switchToDefault(context, player)
                         }
                     }
-                    composable(Screen.Podcasts.route) {
+                    composable(Podcasts.route) {
                         val context = context.current
                         PodcastHome(navController = navController, gradient = gradient, podcastViewModel = hiltViewModel<PodcastViewModel>(), onSwitchToDefault = {
                             switchToDefault(context, player)
@@ -82,11 +58,10 @@ class MainActivity : ComponentActivity() {
                             switchToURL(episodeURL, context, player)
                         }
                     }
-                    composable(Screen.Account.route) { Account(gradient = gradient) }
-                    composable(Screen.PlayerDetail.route) { DetailScreen(player = player) }
-                    composable(Screen.PlayerScreen.route){ PlayerView(player = player, context = context)}
+                    composable(Account.route) { Account(gradient = gradient) }
+                    composable(PlayerScreen.route){ PlayerView(player = player, context = context) }
                     composable(
-                            Screen.PodcastDetail.route,
+                            PodcastDetail.route,
                             arguments = listOf(
                                 navArgument("showID"){ defaultValue = "" },
                                 navArgument("imageURL"){ defaultValue = ""},
@@ -124,8 +99,10 @@ class MainActivity : ComponentActivity() {
 
             val sourceURL = MediaItem.Builder()
                 .setUri(DEFAULT_STREAM)
-                .setLiveTargetOffsetMs(5000)
-                .setLiveMaxPlaybackSpeed(1.02f)
+                .setLiveConfiguration(MediaItem.LiveConfiguration.Builder().build().apply {
+                    setPlaybackSpeed(1.02f)
+                    setHandleAudioBecomingNoisy(true)
+                })
                 .build()
 
             val source = ProgressiveMediaSource.Factory(dataSourceFactory)
@@ -147,8 +124,10 @@ class MainActivity : ComponentActivity() {
 
             val sourceURL = MediaItem.Builder()
                 .setUri(URL)
-                .setLiveTargetOffsetMs(5000)
-                .setLiveMaxPlaybackSpeed(1.02f)
+                .setLiveConfiguration(MediaItem.LiveConfiguration.Builder().build().apply {
+                    setPlaybackSpeed(1.02f)
+                    setHandleAudioBecomingNoisy(true)
+                })
                 .build()
 
             val source = ProgressiveMediaSource.Factory(dataSourceFactory)
@@ -158,307 +137,11 @@ class MainActivity : ComponentActivity() {
             setHandleAudioBecomingNoisy(true)
             prepare()
         }
-
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun WPRKEntry(content: @Composable (NavHostController, SimpleExoPlayer, ProvidableCompositionLocal<Context>, Color) -> Unit) {
-    val gradient = Color.Black
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = MaterialTheme.colors.isLight
-
-    SideEffect {
-        systemUiController.setSystemBarsColor(color = Color.Black,
-            darkIcons = useDarkIcons)
-
-    }
-    val scope = rememberCoroutineScope()
-    val scaffoldState = rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
-    val bottomTabs = listOf(
-        Screen.Live,
-        Screen.Podcasts,
-        Screen.Account
-    )
-    val menuNames = listOf(
-        "Home", "Podcasts", "Account"
-    )
-    val navController = rememberNavController()
-    val context = LocalContext
-    val current = context.current
-    val player = remember {
-
-        SimpleExoPlayer.Builder(current).build().apply {
-            val dataSourceFactory = DefaultDataSourceFactory(
-                current,
-                Util.getUserAgent(current, current.packageName)
-            )
-            val media = MediaItem.Builder()
-                .setUri("http://wprk.broadcasttool.stream:80/stream")
-                .setLiveTargetOffsetMs(5000)
-                .setLiveMaxPlaybackSpeed(1.02f)
-                .build()
-
-            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(media)
-
-            setMediaSource(source)
-            setHandleAudioBecomingNoisy(true)
-            prepare()
-        }
-
-    }
-
-    var isPlaying by remember { mutableStateOf(false) }
-    var currentTitle by remember { mutableStateOf("")}
-    var count by remember { mutableStateOf(0) }
-
-    WPRK_conceptTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(color = MaterialTheme.colors.background) {
-            Scaffold(
-                scaffoldState = scaffoldState,
-                topBar = {
-                    TopAppBar(
-                    title = {
-                        Text(text = "WPRK", fontWeight = FontWeight.ExtraBold)
-                    },
-                    navigationIcon = { IconButton(onClick = {
-                        if (scaffoldState.drawerState.isClosed)
-                            scope.launch {
-                                scaffoldState.drawerState.open()
-                            }
-
-                    }) {
-                        Icon(Icons.Default.Menu, "")
-                    } },
-                    backgroundColor = Color.Black,
-                    contentColor = Color.White
-                ) },
-                drawerContent = {
-                    DrawerContent(gradient = gradient)
-                },
-                bottomBar = {
-                    Column(
-                        verticalArrangement = Arrangement.Bottom,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Spacer(modifier = Modifier
-                            .height(10.dp),
-                        )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(0.95f)
-                                .height(65.dp) // ADD Clickable Navigate to Detail
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(color = Color.parse("#ffafcc"))
-                                .border(1.dp, color = Color.White, RoundedCornerShape(10.dp)),
-
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-
-                        ) {
-                            Row {
-                                Spacer(modifier = Modifier.width(10.dp))
-
-                                Box(
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(5.dp))
-                                        .background(Color.Gray)
-                                        .width(45.dp)
-                                        .height(45.dp)
-                                ) {
-                                    Image(painter = rememberImagePainter(
-                                        data = "https://firebasestorage.googleapis.com/v0/b/wprk-c6825.appspot.com/o/playstore.png?alt=media&token=18e6e49b-27d7-4c02-a303-955f86cddb8c",
-                                        onExecute = { _, _ -> true },
-                                        builder = {
-                                            crossfade(true)
-                                        }
-                                    ),
-                                        modifier = Modifier.fillMaxSize(),
-                                        contentScale = ContentScale.Crop,
-                                        contentDescription = null
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(15.dp))
-
-                                Column() {
-                                    Row(horizontalArrangement = Arrangement.Center) {
-                                        Text(
-                                            buildAnnotatedString {
-                                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
-                                                append("WPRK 91.5")
-                                            }
-                                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold, fontSize = 13.sp)) {
-                                                append("FM")
-                                            } },
-                                            fontWeight = FontWeight.ExtraBold,
-                                            color = Color.White
-                                        )
-
-                                    }
-                                    AnimatedContent(
-                                        targetState = count,
-                                        transitionSpec = {
-                                            if (targetState > initialState) {
-                                                    slideInHorizontally({ width -> (width + (width.toDouble()  * 0.3).toInt()) }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000)) + fadeIn(animationSpec = tween(delayMillis = 3000))  with
-                                                            slideOutHorizontally({ width -> -(width +  (width.toDouble()  * 0.3).toInt())  }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000))
-                                            } else {
-                                                slideInHorizontally({ width -> -(width +  (width.toDouble()  * 0.3).toInt()) }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000)) + fadeIn(animationSpec = tween(delayMillis = 3000))  with
-                                                        slideOutHorizontally({ width -> (width + (width.toDouble()  * 0.3).toInt())  }, animationSpec = tween(durationMillis = 9000, delayMillis = 4000))
-                                            }.using(
-                                                SizeTransform(clip = true)
-                                            )
-                                        },
-                                        modifier = Modifier.fillMaxWidth(0.8f)
-                                    ) { 
-                                        Text(
-                                            if (currentTitle == "") "Tune In..." else currentTitle,
-                                            color = Color.White,
-                                            maxLines = 1,
-                                        )
-                                    }
-                                }
-                            }
-
-                                IconButton(onClick = {
-                                    when(player.isPlaying) {
-                                        true  ->    player.pause()
-                                            .also {
-                                                isPlaying = false
-                                                count--
-                                            }
-
-                                        false ->    player.play()
-                                            .also {
-                                                isPlaying = true
-                                                count++
-                                            }
-                                            .also{ currentTitle = player.mediaMetadata.title.toString()}
-                                            .also { Log.d("MAIN", currentTitle )}
-                                            .also { scope.launch {
-                                                while(isPlaying) {
-                                                    if (!isPlaying) break
-                                                    delay(1000L)
-                                                    currentTitle = player.mediaMetadata.title.toString()
-                                                    delay(19000L)
-                                                    count++
-                                                }
-                                              }
-                                            }
-                                }}, modifier = Modifier.offset(x = (-10).dp)){
-                                    Icon(
-                                        when(isPlaying) {
-                                            true -> Icons.Default.PauseCircle
-                                            false -> Icons.Default.PlayCircle
-                                        },
-                                        "",
-                                        tint = Color.White,
-                                        modifier = Modifier.size(44.dp, 44.dp)
-                                    )
-                                }
-                        }
-                        BottomNavigation(
-                            backgroundColor = Color.Black,
-                            contentColor = Color.White
-                        ) {
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
-                            val currentDestination = navBackStackEntry?.destination
-
-                            bottomTabs.forEach { tab ->
-                                BottomNavigationItem(
-                                    icon = { Icon(tab.icon, "") },
-                                    selected = currentDestination?.hierarchy?.any { it.route == tab.route } == true,
-                                    onClick = {
-                                        navController.navigate(tab.route) {
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
-                                            }
-                                            launchSingleTop = true
-                                            restoreState = true
-                                        }
-                                    }
-                                )
-                            }
-
-                        }
-                    }
-                },
-                content = {
-                    content(navController, player, context, gradient)
-                }
-            )
-        }
-    }
-}
-
-@Composable
-fun DrawerContent(gradient: Color){
-    val menuItems = listOf(
-        MenuOption("Spotify Playlist", Icons.Filled.PlaylistPlay),
-        MenuOption("Support WPRK", Icons.Filled.AddModerator),
-        MenuOption("Recent Spins", Icons.Filled.History),
-        MenuOption("Get Involved", Icons.Filled.AttachMoney),
-        MenuOption("Services", Icons.Filled.AddChart),
-        MenuOption("About Us", Icons.Filled.Info),
-        //MenuOption("Logout", Icons.Filled.Logout),
 
 
-        )
-    Column(
-        modifier = Modifier
-            .background(gradient)
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
-    ){
-        Spacer(modifier = Modifier.height(60.dp))
-        Box(
-           modifier = Modifier
-               .size(width = 150.dp, height = 150.dp)
-               .clip(RoundedCornerShape(10.dp))
-               .background(Color.Gray)
-       )
-        Spacer(modifier = Modifier.height(40.dp))
-       menuItems.forEach { menuItem ->
-           Column(
-               modifier = Modifier
-                   .clickable {  }
-           ) {
-               MenuItem(name = menuItem.name, icon = menuItem.icon)
-           }
-       }
-
-    }
-}
-
-@Composable
-fun MenuItem(name: String, icon: ImageVector){
-    Spacer(modifier = Modifier.height(20.dp))
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .clip(RoundedCornerShape(50))
-            .fillMaxWidth(0.55f)
-            .alpha(0.35f)
-            .background(Color.Black)
-            .height(55.dp)
-    ) {
-        Row {
-            Icon(
-                imageVector = icon,
-                contentDescription = "Menu Icon",
-                tint = Color.White,
-                modifier = Modifier.padding(start = 10.dp)
-
-            )
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(text = name, fontWeight = FontWeight.ExtraBold, color = Color.White)
-        }
-    }
-}
 
 
 @Preview(showBackground = true)
@@ -468,4 +151,3 @@ fun DefaultPreview() {
 
 }
 
-fun Color.Companion.parse(colorString: String): Color = Color(color = android.graphics.Color.parseColor(colorString))

@@ -29,13 +29,22 @@
         <entry key="../../../../../../layout/compose-model-1633830224798.xml" value="0.25" />
         <entry key="../../../../../../layout/compose-model-1633830553844.xml" value="0.22" />
         <entry key="../../../../../../layout/compose-model-1633833820317.xml" value="0.33699324324324326" />
+        <entry key="../../../../../../layout/compose-model-1639934903678.xml" value="0.1" />
+        <entry key="../../../../../../layout/compose-model-1639941475379.xml" value="0.1" />
+        <entry key="../../../../../../layout/compose-model-1639943792844.xml" value="0.1" />
+        <entry key="../../../../../../layout/compose-model-1639945262098.xml" value="0.1" />
+        <entry key="../../../../../../layout/compose-model-1639967156292.xml" value="0.25" />
+        <entry key="../../../../../../layout/compose-model-1639968781807.xml" value="0.17222222222222222" />
+        <entry key="../../../../../../layout/compose-model-1639986974325.xml" value="0.17222222222222222" />
+        <entry key="../../../../../../layout/compose-model-1640081908541.xml" value="0.14738175675675674" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.16979166666666667" />
         <entry key="app/src/main/res/layout/layout.xml" value="0.13949275362318841" />
         <entry key="app/src/main/res/layout/surface.xml" value="0.13949275362318841" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
