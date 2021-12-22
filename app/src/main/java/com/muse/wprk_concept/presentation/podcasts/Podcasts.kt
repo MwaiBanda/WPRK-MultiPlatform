@@ -1,26 +1,23 @@
 package com.muse.wprk_concept.main
 
 import android.util.Log
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Podcasts
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +29,7 @@ import coil.transform.RoundedCornersTransformation
 import com.muse.wprk_concept.main.model.Episode
 import com.muse.wprk_concept.main.model.Podcast
 import com.muse.wprk_concept.presentation.components.EpisodeRow
+import com.muse.wprk_concept.presentation.components.LiveButton
 import com.muse.wprk_concept.presentation.parse
 import com.muse.wprk_concept.presentation.podcasts.PodcastViewModel
 import com.muse.wprk_concept.presentation.swapList
@@ -41,9 +39,8 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun PodcastHome(
     navController: NavHostController,
-    gradient: Color,
+    backgroundColor: Color,
     podcastViewModel: PodcastViewModel,
-    onSwitchToDefault: () -> Unit,
     onEpisodeClick: (String) -> Unit
 ) {
     var podcasts = remember { mutableStateListOf<Podcast>() }
@@ -71,7 +68,7 @@ fun PodcastHome(
     LazyColumn(
         Modifier
             .fillMaxSize()
-            .background(gradient)
+            .background(backgroundColor)
             .padding(start = 10.dp)
     ) {
         item {
@@ -81,43 +78,7 @@ fun PodcastHome(
             ){
                 Text(text = "Podcasts", fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.h5,
                     color = Color.White)
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .padding(end = 10.dp)
-                        .border(
-                            BorderStroke(
-                                1.dp,
-                                color = Color.White
-                            ), RoundedCornerShape(10.dp)
-                        )
-                        .size(width = 100.dp, height = 43.dp)
-
-                ) {
-                    Row(Modifier.clickable { onSwitchToDefault() }) {
-                    Text(
-                        text = buildAnnotatedString {
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
-                                append("91.5")
-                            }
-                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold, fontSize = 13.sp)) {
-                                append("FM")
-                            } },
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
-                    )
-                        Spacer(modifier = Modifier.width(5.dp))
-                        Icon(
-                            imageVector = Icons.Filled.Podcasts,
-                            contentDescription = "",
-                            tint = Color.Red,
-                            modifier = Modifier
-                                .size(18.dp, 18.dp)
-                                .offset(y = 2.dp)
-                        )
-                    }
-                }
+                LiveButton(onEpisodeClick)
             }
             Text(text = "Discover Featured Podcasts", color = Color.Gray)
             Spacer(modifier = Modifier.height(20.dp))
@@ -212,7 +173,7 @@ fun PodcastHome(
                 item {
                     episodes.forEachIndexed { i, item ->
                         if(i < 4) {
-                            EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episodeDTO = item)
+                            EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episode = item)
                             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
                         }
                         if (i == 4 || item.id == episodes.last().id  && episodes.count()  < 5) {
@@ -257,7 +218,7 @@ fun getURL(list: List<Podcast>, index: Int): String {
 fun PodcastsHomePreview() {
 
     val navController = rememberNavController()
-    PodcastHome(navController = navController,gradient = Color.Black, podcastViewModel = hiltViewModel<PodcastViewModel>(), onSwitchToDefault =  {}){
+    PodcastHome(navController = navController,backgroundColor = Color.Black, podcastViewModel = hiltViewModel<PodcastViewModel>()){
 
     }
 }

@@ -19,5 +19,5 @@ sealed class NavigationRoutes(
     object PodcastDetail : NavigationRoutes(route ="podcastDetail/{showID}/{imageURL}/{title}/{subTitle}",resourceId = R.string.podcasts, icon = Icons.Default.BookOnline, "Podcasts")
     object Account : NavigationRoutes(route ="account", resourceId = R.string.account, icon = Icons.Default.PersonAdd, tabName = "Account")
     object PlayerScreen: NavigationRoutes(route ="playerScreen")
-    object PlayerDetail: NavigationRoutes(route ="playerDetail")
+    object SplashScreen: NavigationRoutes(route ="splashScreen")
 }

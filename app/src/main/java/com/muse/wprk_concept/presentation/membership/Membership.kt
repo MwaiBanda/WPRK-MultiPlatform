@@ -27,12 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.muse.wprk_concept.R
 import com.muse.wprk_concept.data.Business
+import com.muse.wprk_concept.presentation.components.LiveButton
 
 
 @Composable
-fun Account(gradient: Color) {
-    val deals: String = "Featured Deals"
-    val dicoverDeals: String = "Discover Available Deals & Discounts"
+fun MembershipHome(backgroundColor: Color, onLiveButtonClick: (String) -> Unit) {
     LazyColumn(
         Modifier
             .fillMaxSize()
@@ -42,14 +41,19 @@ fun Account(gradient: Color) {
             Row(
                 modifier = Modifier.padding(10.dp)
             ) {
-                Column() {
-
-                    Text(
-                        text = "Membership",
-                        style = MaterialTheme.typography.h5,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
-                    )
+                Column {
+                    Row (Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Text(
+                            text = "Membership",
+                            style = MaterialTheme.typography.h5,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White
+                        )
+                        LiveButton(onLiveButtonClick)
+                    }
                     Text(
                         text = "Become A Member Today",
                         color = Color.Gray
@@ -76,12 +80,12 @@ fun Account(gradient: Color) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = deals,
+                    text = "Featured Deals",
                     color = Color.White,
                     style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold
                 )
-                Text(text = dicoverDeals, color = Color.Gray)
+                Text(text = "Discover Available Deals & Discounts", color = Color.Gray)
                 Spacer(modifier = Modifier.height(10.dp))
                 Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             }
@@ -199,7 +203,7 @@ fun BusinessCardContent() {
         Business("art","Gabby Shepherd Artist", "WPRK 1 take 201% off select items"),
         Business("media","Aloma Cinema Grill", "1 free movie pass each month per member"),
         Business("café","BAMF Comics & Coffee", "10% off your purchase (cannot be combined with other discounts)"),
-        )
+    )
 
     Spacer(modifier = Modifier.height(5.dp))
     businessItems.forEach { businessItem ->
@@ -215,7 +219,7 @@ fun BusinessCardContent() {
 @Preview 
 fun AccountsPreview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black,  Color.LightGray))
-    Account(gradient = Color.Black)
+    MembershipHome(backgroundColor = Color.Black){ }
 }
 
 fun Color.Companion.parse(colorString: String): Color = Color(color = android.graphics.Color.parseColor(colorString))

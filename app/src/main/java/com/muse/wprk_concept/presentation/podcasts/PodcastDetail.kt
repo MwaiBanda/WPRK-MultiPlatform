@@ -26,6 +26,7 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.muse.wprk_concept.main.model.Episode
 import com.muse.wprk_concept.presentation.components.EpisodeRow
+import com.muse.wprk_concept.presentation.components.ExpandableText
 import com.muse.wprk_concept.presentation.swapList
 
 @Composable
@@ -104,8 +105,7 @@ fun PodcastDetail(
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
                 )
-
-                Text(text = description ?: "", color = Color.White)
+                ExpandableText(text = description ?: "", minimizedMaxLines = 4)
                 Spacer(modifier = Modifier.height(10.dp))
             }
         }
@@ -113,7 +113,7 @@ fun PodcastDetail(
             if (episodes.first() == episode) {
                 Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             }
-            EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episodeDTO = episode)
+            EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episode = episode)
             if (episodes.last() != episode) {
                 Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             }

@@ -18,26 +18,23 @@ import androidx.compose.ui.unit.sp
 import com.muse.wprk_concept.main.model.Episode
 
 @Composable
-fun EpisodeRow(onEpisodeClick: (String) -> Unit, episodeDTO: Episode) {
+fun EpisodeRow(onEpisodeClick: (String) -> Unit, episode: Episode) {
     Spacer(modifier = Modifier.height(10.dp))
-    Column(Modifier.clickable { onEpisodeClick(episodeDTO.episodeURL) }) {
-        Text(text = "EPISODE ${episodeDTO.number}", fontSize = 12.sp, color = Color.White)
-        Text(text = episodeDTO.title, fontWeight = FontWeight.ExtraBold, color = Color.White)
-        Text(
-            text = episodeDTO.description
-                .replace("<div>", "")
-                .replace("</div>", ""),
+    Column(Modifier.clickable { onEpisodeClick(episode.episodeURL) }) {
+        Text(text = "EPISODE ${episode.number}", fontSize = 12.sp, color = Color.White)
+        Text(text = episode.title, fontWeight = FontWeight.ExtraBold, color = Color.White)
+        ExpandableText(text = episode.description
+            .replace("<div>", "")
+            .replace("</div>", ""), minimizedMaxLines = 4)
 
-            maxLines = 3,
-            color = Color.White
-        )
+        Spacer(modifier = Modifier.height(10.dp))
         Row {
             Icon(
                 imageVector = Icons.Default.PlayCircleOutline,
                 contentDescription = null,
                 tint = Color.White
             )
-            Text(text = episodeDTO.duration, color = Color.White)
+            Text(text = episode.duration, color = Color.White)
         }
     }
     Spacer(modifier = Modifier.height(10.dp))
