@@ -7,6 +7,35 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:170153197485:android:b4d1dbe14089c7af366b24",
+        "android_client_info": {
+          "package_name": "com.muse.wprk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "170153197485-2kil1rc8juhm6utg9a5udi5gtaibea2u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdi3LOXVGrlu3JJ2OIO6wMHpOepmR2un0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "170153197485-2kil1rc8juhm6utg9a5udi5gtaibea2u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:170153197485:android:cb9c5a85bb84d9a1366b24",
         "android_client_info": {
           "package_name": "com.muse.wprk_concept"

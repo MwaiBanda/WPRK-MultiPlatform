@@ -10,22 +10,22 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('/Users/mwaibanda/Repository/AndroidDevKeyStore.jdk')
-            storePassword 'Ngosa1978'
+            storeFile file('/Users/mwaibanda/Repository/WPRKKeyStore.jdk')
+            storePassword 'Wprk91.5'
             keyAlias 'Dev'
-            keyPassword 'Ngosa1978'
+            keyPassword 'Wprk91.5'
         }
         release {
-            storeFile file('/Users/mwaibanda/Repository/AndroidDevKeyStore.jdk')
-            storePassword 'Ngosa1978'
+            storeFile file('/Users/mwaibanda/Repository/WPRKKeyStore.jdk')
+            storePassword 'Wprk91.5'
             keyAlias 'Dev'
-            keyPassword 'Ngosa1978'
+            keyPassword 'Wprk91.5'
         }
     }
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.muse.wprk_concept"
+        applicationId "com.muse.wprk"
         minSdk 21
         targetSdk 31
         versionCode 1
