@@ -15,13 +15,13 @@ podacasts which are playable as well.
     <td>Shows</td>
      <td>Podcasts</td>
      <td>Podcast Detail</td>
-     <td>Account</td>
+     <td>Membership</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/49708426/137381124-35cc2edb-b38a-4a4f-8d83-082e46f5e47c.png" width=270 height=480></td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/137381373-07845b6e-e263-4605-8785-484a03a72041.png" width=270 height=480></td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/137381461-da3a3886-75d8-4796-bb3d-c178c3d569ee.png" width=270 height=480></td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/137381608-9e209b13-cde1-4f25-b52a-f9803970ac6a.png" width=270 height=480></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/149205832-bd0d67f2-bb27-49b0-92b6-9ea2b15313f1.JPG" width=270 height=480></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/149205934-289ba6d7-a516-4e34-99a2-15815032a22a.JPG" width=270 height=480></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/149206195-0b2bb1a6-dade-4d9d-87f4-1c74385474c3.JPG" width=270 height=480></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/149206338-ed8162c4-0217-4fc2-824c-303fc54e3199.JPG" width=270 height=480></td>
   </tr>
 </table>
 
