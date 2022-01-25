@@ -25,8 +25,8 @@ fun ScheduledShows(list: List<Show>) {
             }
             ScheduleUnit(
                 title = item.title,
-                category = item.category ?: "WPRK",
-                time = item.getTime(showTime = ShowTime.START),
+                category = if (item.category == "unset") "WPRK" else item.category ?: "WPRK",
+                time = item.getTime(showTime = ShowTime.START).toString(),
                 isLast = { list.last().title == it }
             )
         }

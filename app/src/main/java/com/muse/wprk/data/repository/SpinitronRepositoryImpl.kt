@@ -41,6 +41,6 @@ class SpinitronRepositoryImpl  @Inject constructor(
     }
     companion object {
         const val SHOWS_KEY = "SHOWS"
-        const val MAX_CACHE_TIME: Long = 60 * 2
+        const val MAX_CACHE_TIME: Long = 60 * 45
     }
 }

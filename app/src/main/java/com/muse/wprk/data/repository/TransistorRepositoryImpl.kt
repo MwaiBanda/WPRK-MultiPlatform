@@ -68,6 +68,6 @@ class TransistorRepositoryImpl @Inject constructor(
     }
     companion object {
         const val PODCASTS_KEY = "PODCASTS"
-        const val MAX_CACHE_TIME: Long = 60 * 2
+        const val MAX_CACHE_TIME: Long = 60 * 45
     }
 }

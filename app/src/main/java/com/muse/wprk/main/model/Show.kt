@@ -1,9 +1,15 @@
 package com.muse.wprk.main.model
 
+import android.annotation.SuppressLint
+import android.util.Log
 import com.muse.wprk.core.utilities.ShowTime
 import kotlinx.serialization.Serializable
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Serializable
 data class Show(
@@ -23,7 +29,7 @@ data class Show(
 fun Show.getDate(showTime: ShowTime): String {
     val date = when(showTime) {
         ShowTime.START -> {
-            start.dropLast(14)
+            start.dropLast(5).replace("T", " ")
         }
         ShowTime.END -> {
             end.dropLast(14)
@@ -31,13 +37,47 @@ fun Show.getDate(showTime: ShowTime): String {
     }
     return date
 }
+
+@SuppressLint("SimpleDateFormat")
 fun Show.getTime(showTime: ShowTime): String {
+    val formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
+
     val timeStr = when(showTime) {
         ShowTime.START -> {
-            start.drop(11).dropLast(8)
+            val startTime = start.drop(11).dropLast(8)
+           val date: String = startTime
+               .replaceBefore(
+                   ":",
+                   "${
+                       (startTime
+                           .split(":")
+                           .first()
+                           .toInt()) - 5
+                   }"
+               )
+
+            val res = try {
+                val sdf = SimpleDateFormat("H:mm")
+                val dateObj: Date = sdf.parse(date)
+                System.out.println(dateObj)
+                System.out.println(SimpleDateFormat("K:mm a").format(dateObj))
+                SimpleDateFormat("K:mm a").format(dateObj)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            res.toString()
         }
         ShowTime.END -> {
-            end.drop(11).dropLast(8)
+            val date: String = end.drop(11).dropLast(8)
+            try {
+                val sdf = SimpleDateFormat("HH:mm")
+                val dateObj: Date = sdf.parse(date)
+                System.out.println(dateObj)
+                Log.d("TIME/PW", SimpleDateFormat("KK:mm aa").format(dateObj))
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            date
         }
     }
     return timeStr
@@ -45,16 +85,24 @@ fun Show.getTime(showTime: ShowTime): String {
 
 
 fun Show.getFormattedDate(showTime: ShowTime): LocalDate {
-    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
     val date = when(showTime) {
         ShowTime.START -> {
-            LocalDate.parse(getDate(showTime = ShowTime.START), formatter)
+            val current = getTime(ShowTime.START)
+            val date = (if (current.endsWith("PM") && (current.split(":").first().toInt()) > 6) {
+                 LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter).minusDays(1)
+            }
+             else {
+                 LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter)
+             }).toLocalDate()
+            date
+
         }
         ShowTime.END -> {
-            LocalDate.parse(getDate(showTime = ShowTime.END), formatter)
+            LocalDateTime.parse(getDate(showTime = ShowTime.END), formatter).toLocalDate()
         }
     }
-    return date!!
+    return date
 }
 
 
