@@ -12,12 +12,32 @@ Get app on the app store or playstore available for Android, iPhone & iPad
   </tr>
 </table>
 
-## TechStack
+## Dependencies, Targets & TechStack 
 
 <table>
     <tr>
-    <td><b>Project</b></td>
+    <td><b>Project Structure</b></td>
+    <td><b>Targets</b></td>
+  </tr>
+  <tr>
     <td>Kotlin MultiPlatform Mobile</td>
+    <td>Android, iOS & iPadOS </td>
+  </tr>
+    <tr>
+    <td><b>MultiPlatform</b></td>
+    <td> </td>
+  </tr>
+ <tr>
+    <td>Koin</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>Firebase(Kotlin SDK)</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>Kotlin Serialization </td>
+    <td> </td>
   </tr>
   <tr>
     <td><b>Android</b></td>
@@ -45,6 +65,10 @@ Get app on the app store or playstore available for Android, iPhone & iPad
   </tr>
   </tr>
      <tr>
+    <td>Firebase Auth</td>
+     <td>Firebase Auth</td>
+  </tr>
+  <tr>
     <td> </td>
      <td>Local Notifications</td>
   </tr>
