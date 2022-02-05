@@ -1,4 +1,4 @@
-# WPRK (Android)
+# WPRK (Android & iOS)
 Radio &amp; Podcast Streaming App For WPRK, a licensed FCC broadcast station,
 The app allows users to connect to live music streams and cycle through
 podacasts which are playable as well. 
