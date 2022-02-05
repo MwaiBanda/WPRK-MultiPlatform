@@ -3,6 +3,15 @@ Multiplatform Radio &amp; Podcast Streaming App For WPRK, a licensed FCC broadca
 The app allows users to connect to live music streams and cycle through
 podacasts which are playable as well. 
 
+### Download Via AppStore or PlayStore
+Get app on the app store or playstore available for Android, iPhone & iPad
+<table>
+  <tr>   
+     <td> <a href="https://apps.apple.com/us/app/wprk/id1588434109"  target="_blank" rel="noopener noreferrer"><img src="https://user-images.githubusercontent.com/49708426/137259580-5fbacaac-7fd3-4946-9412-7f1447e19075.png" width=140 height=45></a></td>
+    <td><a href="https://play.google.com/store/apps/details?id=com.muse.wprk"  target="_blank" rel="noopener noreferrer"><img src="https://user-images.githubusercontent.com/49708426/152633576-d28488c9-68e1-4d5e-9922-b502e74d5c00.png"  width=140 height=70></a></td>
+  </tr>
+</table>
+
 ## TechStack
 
 <table>
