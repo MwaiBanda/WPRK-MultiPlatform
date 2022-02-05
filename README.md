@@ -24,7 +24,7 @@ Get app on the app store or playstore available for Android, iPhone & iPad
     <td>Android, iOS & iPadOS </td>
   </tr>
     <tr>
-    <td><b>MultiPlatform</b></td>
+    <td><b>WPRK SDK</b>(MultiPlatform)</td>
     <td> </td>
   </tr>
  <tr>
