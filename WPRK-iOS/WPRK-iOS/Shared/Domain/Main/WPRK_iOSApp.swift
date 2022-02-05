@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import WPRKSDK
+import Firebase
 
 @main
 struct WPRK_iOSApp: App {
     @StateObject private var networkService = NetworkService.sharedInstance
     init() {
+        FirebaseApp.configure()
         authorizeUserNotifications()
+        DependencyRegistryKt.doInitKoin()
     }
     var body: some Scene {
         WindowGroup {

@@ -13,8 +13,8 @@ kotlin {
     //iosSimulatorArm64() sure all ios dependencies support this target
 
     cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
+        summary = "WPRK SDK allows seamlessly integration with WPRK auth, shows & podcast functionality"
+        homepage = "https://wprk.org"
         ios.deploymentTarget = "14.1"
         framework {
             baseName = "WPRKSDK"
@@ -25,8 +25,9 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("dev.gitlive:firebase-auth:1.4.3")
+                implementation("io.insert-koin:koin-core:3.1.4")
             }
-        }
+            }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))

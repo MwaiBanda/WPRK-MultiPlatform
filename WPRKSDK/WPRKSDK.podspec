@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'WPRKSDK'
     spec.version                  = '1.0'
-    spec.homepage                 = 'Link to the Shared Module homepage'
+    spec.homepage                 = 'https://wprk.org'
     spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Some description for the Shared Module'
+    spec.summary                  = 'WPRK SDK allows seamlessly integration with WPRK auth, shows & podcast functionality'
 
     spec.vendored_frameworks      = "build/cocoapods/framework/WPRKSDK.framework"
     spec.libraries                = "c++"

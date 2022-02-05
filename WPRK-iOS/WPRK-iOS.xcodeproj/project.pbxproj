@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */; };
 		81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */; };
 		81721BED27AE265000C86F65 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BEC27AE265000C86F65 /* Preview Assets.xcassets */; };
 		81721BF427AE269C00C86F65 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BF327AE269C00C86F65 /* Assets.xcassets */; };
@@ -43,10 +44,12 @@
 		81721C4327AE26BE00C86F65 /* ContentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2327AE26BE00C86F65 /* ContentAPI.swift */; };
 		81721C4627AE273C00C86F65 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4527AE273C00C86F65 /* Lottie */; };
 		81721C4927AE27C600C86F65 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */; };
+		81C5EC6D27AE7ACB0088C8DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		81721BE227AE264F00C86F65 /* WPRK-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WPRK-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WPRK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81721BE227AE264F00C86F65 /* WPRK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WPRK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPRK_iOSApp.swift; sourceTree = "<group>"; };
 		81721BEC27AE265000C86F65 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		81721BF327AE269C00C86F65 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +84,9 @@
 		81721C1F27AE26BE00C86F65 /* ShowViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowViewModel.swift; sourceTree = "<group>"; };
 		81721C2127AE26BE00C86F65 /* MembershipHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipHome.swift; sourceTree = "<group>"; };
 		81721C2327AE26BE00C86F65 /* ContentAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentAPI.swift; sourceTree = "<group>"; };
+		81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		84A1F8D731A6122DAF479EB7 /* Pods-WPRK-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WPRK-iOS.debug.xcconfig"; path = "Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		ABDE65DDFBF9A162C5CE6A33 /* Pods-WPRK-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WPRK-iOS.release.xcconfig"; path = "Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,24 +96,44 @@
 			files = (
 				81721C4927AE27C600C86F65 /* SDWebImageSwiftUI in Frameworks */,
 				81721C4627AE273C00C86F65 /* Lottie in Frameworks */,
+				638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		043C0BCCE4A0DAD0AED01315 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		207744821D3F2E12E2DF875F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				84A1F8D731A6122DAF479EB7 /* Pods-WPRK-iOS.debug.xcconfig */,
+				ABDE65DDFBF9A162C5CE6A33 /* Pods-WPRK-iOS.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		81721BD927AE264F00C86F65 = {
 			isa = PBXGroup;
 			children = (
 				81721BE427AE264F00C86F65 /* WPRK-iOS */,
 				81721BE327AE264F00C86F65 /* Products */,
+				207744821D3F2E12E2DF875F /* Pods */,
+				043C0BCCE4A0DAD0AED01315 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		81721BE327AE264F00C86F65 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				81721BE227AE264F00C86F65 /* WPRK-iOS.app */,
+				81721BE227AE264F00C86F65 /* WPRK.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -115,6 +141,7 @@
 		81721BE427AE264F00C86F65 /* WPRK-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */,
 				81721BF527AE26BE00C86F65 /* Shared */,
 				81721BF327AE269C00C86F65 /* Assets.xcassets */,
 				81721BEB27AE265000C86F65 /* Preview Content */,
@@ -288,9 +315,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81721BF027AE265000C86F65 /* Build configuration list for PBXNativeTarget "WPRK-iOS" */;
 			buildPhases = (
+				A225F75443864861A0E66B62 /* [CP] Check Pods Manifest.lock */,
 				81721BDE27AE264F00C86F65 /* Sources */,
 				81721BDF27AE264F00C86F65 /* Frameworks */,
 				81721BE027AE264F00C86F65 /* Resources */,
+				E35C40CA36EDE419B301CD23 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -302,7 +331,7 @@
 				81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */,
 			);
 			productName = "WPRK-iOS";
-			productReference = 81721BE227AE264F00C86F65 /* WPRK-iOS.app */;
+			productReference = 81721BE227AE264F00C86F65 /* WPRK.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -330,8 +359,8 @@
 			);
 			mainGroup = 81721BD927AE264F00C86F65;
 			packageReferences = (
-				81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios.git" */,
+				81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */,
 			);
 			productRefGroup = 81721BE327AE264F00C86F65 /* Products */;
 			projectDirPath = "";
@@ -347,6 +376,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81C5EC6D27AE7ACB0088C8DB /* GoogleService-Info.plist in Resources */,
 				81721C2727AE26BE00C86F65 /* noConnection.json in Resources */,
 				81721BF427AE269C00C86F65 /* Assets.xcassets in Resources */,
 				81721BED27AE265000C86F65 /* Preview Assets.xcassets in Resources */,
@@ -354,6 +384,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A225F75443864861A0E66B62 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WPRK-iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E35C40CA36EDE419B301CD23 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		81721BDE27AE264F00C86F65 /* Sources */ = {
@@ -515,6 +587,7 @@
 		};
 		81721BF127AE265000C86F65 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84A1F8D731A6122DAF479EB7 /* Pods-WPRK-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -533,9 +606,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mwaibanda.WPRK-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 0.0.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
+				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -544,6 +617,7 @@
 		};
 		81721BF227AE265000C86F65 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABDE65DDFBF9A162C5CE6A33 /* Pods-WPRK-iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -562,9 +636,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mwaibanda.WPRK-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 0.0.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
+				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -595,7 +669,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -603,7 +677,7 @@
 				kind = branch;
 			};
 		};
-		81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+		81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
 			requirement = {
@@ -616,12 +690,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		81721C4527AE273C00C86F65 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = 81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios.git" */;
 			productName = Lottie;
 		};
 		81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			package = 81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */;
 			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */

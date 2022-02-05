@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @ObservedObject var networkService: NetworkService
 
     var body: some View {
