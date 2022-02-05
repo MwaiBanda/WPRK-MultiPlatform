@@ -6,6 +6,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "WPRK_concept"
-include ':app'
+rootProject.name = "WPRK-MultiPlatform"
+include ':WPRK-Android'
 include ':WPRKSDK'
