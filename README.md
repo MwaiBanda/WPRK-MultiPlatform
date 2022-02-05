@@ -95,13 +95,23 @@ Get app on the app store or playstore available for Android, iPhone & iPad
     <td>Shows</td>
      <td>Podcasts</td>
      <td>Podcast Detail</td>
-     <td>Membership</td>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/49708426/149205832-bd0d67f2-bb27-49b0-92b6-9ea2b15313f1.JPG" width=320 height=450></td>
     <td><img src="https://user-images.githubusercontent.com/49708426/149205934-289ba6d7-a516-4e34-99a2-15815032a22a.JPG" width=320 height=450</td>
     <td><img src="https://user-images.githubusercontent.com/49708426/149206195-0b2bb1a6-dade-4d9d-87f4-1c74385474c3.JPG" width=320 height=450</td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/149206338-ed8162c4-0217-4fc2-824c-303fc54e3199.JPG" width=320 height=450</td>
+  </tr>
+  <tr>
+     <td>Membership</td>
+     <td> </td>
+     <td> </td>
+
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/49708426/149206338-ed8162c4-0217-4fc2-824c-303fc54e3199.JPG" width=320 height=450></td>
+     <td> </td>
+     <td> </td>
+
   </tr>
 </table>
 
