@@ -12,7 +12,7 @@ Get app on the app store or playstore available for Android, iPhone & iPad
   </tr>
 </table>
 
-## Dependencies, Targets & TechStack 
+## Dependencies, Targets & Stack 
 
 <table>
     <tr>
