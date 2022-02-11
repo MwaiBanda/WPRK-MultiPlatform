@@ -1,6 +1,0 @@
-framework module WPRKSDK {
-    umbrella header "WPRKSDK.h"
-
-    export *
-    module * { export * }
-}

@@ -19,6 +19,7 @@ open class AuthController: KoinComponent {
     suspend fun signInWithEmailAndPassword(email: String, password: String): AuthResult {
         return signInWithEmailAndPasswordUseCase(email, password)
     }
+
      suspend fun sigInInAsAGuest(): AuthResult {
          return sigInInAsAGuestUseCase()
      }
