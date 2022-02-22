@@ -30,7 +30,7 @@ struct MembershipHome: View {
         BusinessDeals(category: "SERVICE", title: "Window World Orlando", description: "$250 off of 4 or more"),
         BusinessDeals(category: "EDUCATION", title: "The Princeton Review", description: "20% off select online courses *with coupon code"),
         BusinessDeals(category: "PHOTOGRAPHY", title: "Kate Taramykin Studios", description: "10% off any session"),
-        BusinessDeals(category: "ART", title: "Gabby Shepherd Artist", description: "WPRK 1 take 201% off select items"),
+        BusinessDeals(category: "ART", title: "Gabby Shepherd Artist", description: "WPRK 1 take 20% off select items"),
         BusinessDeals(category: "MEDIA", title: "Aloma Cinema Grill", description: "1 free movie pass each month per member"),
         BusinessDeals(category: "CAFÉ", title: "BAMF Comics & Coffee", description: "10% off your purchase (cannot be combined with other discounts)"),
         BusinessDeals(category: "FOOD", title: "Karina's Confectioneries", description: "$5 off any purchase of $75 or more and $10 off $150 or more for current WRK members (cannot be combined with other discounts)"),
@@ -49,7 +49,7 @@ struct MembershipHome: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Membership")
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.heavy)
                     .offset(y: -10)
 
@@ -106,7 +106,7 @@ struct MembershipHome: View {
                 VStack(alignment: .leading) {
             HStack {
                 Text("Featured Deals")
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.heavy)
                 Spacer()
             

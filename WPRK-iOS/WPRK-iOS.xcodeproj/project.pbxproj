@@ -49,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WPRK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		811357CE27AF4A65003B7234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		81721BE227AE264F00C86F65 /* WPRK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WPRK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPRK_iOSApp.swift; sourceTree = "<group>"; };
 		81721BEC27AE265000C86F65 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -141,8 +142,9 @@
 		81721BE427AE264F00C86F65 /* WPRK-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				811357CE27AF4A65003B7234 /* Info.plist */,
 				81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */,
-				81721BF527AE26BE00C86F65 /* Shared */,
+				81721BF627AE26BE00C86F65 /* Domain */,
 				81721BF327AE269C00C86F65 /* Assets.xcassets */,
 				81721BEB27AE265000C86F65 /* Preview Content */,
 			);
@@ -157,21 +159,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		81721BF527AE26BE00C86F65 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				81721BF627AE26BE00C86F65 /* Domain */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
 		81721BF627AE26BE00C86F65 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
 				81721BF727AE26BE00C86F65 /* Core */,
+				81721C2227AE26BE00C86F65 /* Remote */,
 				81721C0427AE26BE00C86F65 /* Main */,
 				81721C0C27AE26BE00C86F65 /* Presentation */,
-				81721C2227AE26BE00C86F65 /* Remote */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -359,8 +353,8 @@
 			);
 			mainGroup = 81721BD927AE264F00C86F65;
 			packageReferences = (
-				81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios.git" */,
-				81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */,
+				81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 81721BE327AE264F00C86F65 /* Products */;
 			projectDirPath = "";
@@ -592,21 +586,24 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = "WPRK-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -622,21 +619,24 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_FILE = "WPRK-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.7;
+				MARKETING_VERSION = 0.0.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -669,7 +669,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios.git" */ = {
+		81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -677,7 +677,7 @@
 				kind = branch;
 			};
 		};
-		81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */ = {
+		81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
 			requirement = {
@@ -690,12 +690,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		81721C4527AE273C00C86F65 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios.git" */;
+			package = 81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
 		81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI.git" */;
+			package = 81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */

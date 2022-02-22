@@ -96,7 +96,7 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - PromisesObjC (2.0.0)
-  - WPRKSDK (1.0)
+  - WPRKSDK (1.0.0)
 
 DEPENDENCIES:
   - Firebase/Analytics
@@ -135,7 +135,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  WPRKSDK: 0428ec94b815ed5a8b0549468e76bf31f2b8a219
+  WPRKSDK: cad8b1a5312adf0918a4e656f1a55dbc7cb45cc6
 
 PODFILE CHECKSUM: 6d5aedb3a7371fd2efa16bdd4ceebdd395b1352a
 

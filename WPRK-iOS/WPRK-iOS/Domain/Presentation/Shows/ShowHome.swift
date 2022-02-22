@@ -30,7 +30,7 @@ struct ShowHome: View {
             VStack(alignment: .leading) {
                 HStack {
                     Text("Shows")
-                        .font(.largeTitle)
+                        .font(.title)
                         .fontWeight(.heavy)
                         .offset(y: -10)
                     Spacer()
@@ -67,7 +67,7 @@ struct ShowHome: View {
                 VStack(alignment: .leading) {
                 HStack {
                     Text("Schedule")
-                        .font(.largeTitle)
+                        .font(.title)
                         .fontWeight(.heavy)
                     Spacer()
                 }

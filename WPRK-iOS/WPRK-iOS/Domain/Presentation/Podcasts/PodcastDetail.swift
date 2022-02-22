@@ -19,7 +19,6 @@ struct PodcastDetail: View {
             VStack(spacing: 0) {
                 ImageCover(imageUrl: podcast.attributes.imageURL, category: podcast.attributes.category)
                 
-
                 VStack {
                     HStack {
                         VStack(alignment: .leading, spacing: 0) {

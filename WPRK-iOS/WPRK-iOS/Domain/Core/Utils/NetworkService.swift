@@ -15,7 +15,9 @@ final class NetworkService: ObservableObject {
     static let sharedInstance = NetworkService()
     init(){
         monitor.pathUpdateHandler = { [weak self] path in
-            self?.hasInternetAccess = path.status == .satisfied ? true : false
+            DispatchQueue.main.async {
+                self?.hasInternetAccess = path.status == .satisfied ? true : false
+            }
         }
         monitor.start(queue: queue)
     }

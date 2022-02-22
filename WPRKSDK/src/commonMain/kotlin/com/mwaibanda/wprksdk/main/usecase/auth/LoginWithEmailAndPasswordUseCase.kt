@@ -6,7 +6,7 @@ import dev.gitlive.firebase.auth.AuthResult
 class LoginWithEmailAndPasswordUseCase(
     private val authRepository: AuthRepository
 ) {
-    suspend operator fun invoke(email: String, password: String):AuthResult {
+    suspend operator fun invoke(email: String, password: String): AuthResult {
         return authRepository.loginWithEmailAndPassword(email, password)
     }
 }

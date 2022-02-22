@@ -10,13 +10,13 @@ plugins {
 android {
     signingConfigs {
         debug {
-            storeFile file('C:\\Users\\mngom\\AndroidStudioProjects\\WPRK-MultiPlatform\\WPRKKeyStore.jdk')
+            storeFile file('/Users/mwaibanda/Repository/WPRKKeyStore.jdk')
             storePassword 'Wprk91.5'
             keyAlias 'Dev'
             keyPassword 'Wprk91.5'
         }
         release {
-            storeFile file('C:\\Users\\mngom\\AndroidStudioProjects\\WPRK-MultiPlatform\\WPRKKeyStore.jdk')
+            storeFile file('/Users/mwaibanda/Repository/WPRKKeyStore.jdk')
             storePassword 'Wprk91.5'
             keyAlias 'Dev'
             keyPassword 'Wprk91.5'

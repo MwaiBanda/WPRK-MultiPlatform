@@ -25,7 +25,7 @@ struct PodcastHome: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Podcasts")
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.heavy)
                     .offset(y: -10)
                 Spacer()
@@ -57,7 +57,7 @@ struct PodcastHome: View {
                 VStack(alignment: .leading) {
             HStack {
                 Text("Featured Episodes")
-                    .font(.largeTitle)
+                    .font(.title)
                     .fontWeight(.heavy)
                 Spacer()
             

@@ -1,14 +1,14 @@
 {
   "name": "WPRKSDK",
-  "version": "1.0",
-  "homepage": "Link to the Shared Module homepage",
+  "version": "1.0.0",
+  "homepage": "https://wprk.org",
   "source": {
     "git": "Not Published",
-    "tag": "Cocoapods/WPRKSDK/1.0"
+    "tag": "Cocoapods/WPRKSDK/1.0.0"
   },
   "authors": "",
   "license": "",
-  "summary": "Some description for the Shared Module",
+  "summary": "WPRK SDK allows seamlessly integration with WPRK auth, shows & podcast functionality",
   "vendored_frameworks": "build/cocoapods/framework/WPRKSDK.framework",
   "libraries": "c++",
   "module_name": "WPRKSDK_umbrella",
