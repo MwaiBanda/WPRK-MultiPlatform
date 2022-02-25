@@ -12,7 +12,7 @@ struct ShowDetail: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                ImageCover(imageUrl: show.image, category: show.category?.rawValue ?? "")
+                ImageCover(imageUrl: show.image, category: show.category == .unset ? "WPRK" : show.category?.rawValue ?? "WPRK")
                 HStack {
                     VStack(alignment: .leading) {
                         
@@ -22,8 +22,15 @@ struct ShowDetail: View {
                             .padding(.vertical, 5)
                         ExpandableText(show.itemDescription
                                         .replacingOccurrences(of: "<p>", with: "")
+                                        .replacingOccurrences(of: "<p", with: "")
+                                        .replacingOccurrences(of: "style=", with: "")
+                                        .replacingOccurrences(of: "</strong", with: "")
+                                        .replacingOccurrences(of: "\"margin-", with: "")
+                                        .replacingOccurrences(of: "left:", with: "")
+                                        .replacingOccurrences(of: "20px;", with: "")
                                         .replacingOccurrences(of: "</p>", with: "")
                                         .replacingOccurrences(of: "<a href=", with: "\n")
+                                        .replacingOccurrences(of: "\"", with: "\n")
                                         .replacingOccurrences(of: "</a>", with: "")
                                         .replacingOccurrences(of: "&nbsp;", with: "")
                                         .replacingOccurrences(of: "<br>", with: "")
@@ -31,7 +38,20 @@ struct ShowDetail: View {
                                         .replacingOccurrences(of: "<em>", with: "")
                                         .replacingOccurrences(of: "</em>", with: "")
                                         .replacingOccurrences(of: "<strong>", with: "")
-                                        .replacingOccurrences(of: "</strong>", with: ""), lineLimit: 4
+                                        .replacingOccurrences(of: "<span", with: "")
+                                        .replacingOccurrences(of: "class=", with: "")
+                                        .replacingOccurrences(of: "\"  \"", with: "")
+                                        .replacingOccurrences(of: ">", with: "")
+                                        .replacingOccurrences(of: "r-1qd0xha", with: "")
+                                        .replacingOccurrences(of: "r-ad9z0x", with: "")
+                                        .replacingOccurrences(of: "r-bcqeeo", with: "")
+                                        .replacingOccurrences(of: "r-qvutc0", with: "")
+                                        .replacingOccurrences(of: "css-901oao", with: "")
+                                        .replacingOccurrences(of: "css-16my406", with: "")
+                                        .replacingOccurrences(of: "</span", with: "")
+                                        .replacingOccurrences(of: "</strong>", with: "")
+                                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                                       , lineLimit: 4
                         )
                             .foregroundColor(.gray)
                             .lineLimit(4)

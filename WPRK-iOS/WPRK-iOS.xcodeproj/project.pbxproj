@@ -45,6 +45,8 @@
 		81721C4627AE273C00C86F65 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4527AE273C00C86F65 /* Lottie */; };
 		81721C4927AE27C600C86F65 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */; };
 		81C5EC6D27AE7ACB0088C8DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */; };
+		81C9E37627C7F430000E7A06 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 81C9E37527C7F430000E7A06 /* FirebaseAnalytics */; };
+		81C9E37827C7F430000E7A06 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 81C9E37727C7F430000E7A06 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,7 +98,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				81721C4927AE27C600C86F65 /* SDWebImageSwiftUI in Frameworks */,
+				81C9E37827C7F430000E7A06 /* FirebaseAuth in Frameworks */,
 				81721C4627AE273C00C86F65 /* Lottie in Frameworks */,
+				81C9E37627C7F430000E7A06 /* FirebaseAnalytics in Frameworks */,
 				638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -313,7 +317,6 @@
 				81721BDE27AE264F00C86F65 /* Sources */,
 				81721BDF27AE264F00C86F65 /* Frameworks */,
 				81721BE027AE264F00C86F65 /* Resources */,
-				E35C40CA36EDE419B301CD23 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -323,6 +326,8 @@
 			packageProductDependencies = (
 				81721C4527AE273C00C86F65 /* Lottie */,
 				81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */,
+				81C9E37527C7F430000E7A06 /* FirebaseAnalytics */,
+				81C9E37727C7F430000E7A06 /* FirebaseAuth */,
 			);
 			productName = "WPRK-iOS";
 			productReference = 81721BE227AE264F00C86F65 /* WPRK.app */;
@@ -355,6 +360,7 @@
 			packageReferences = (
 				81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				81C9E37427C7F430000E7A06 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 81721BE327AE264F00C86F65 /* Products */;
 			projectDirPath = "";
@@ -400,23 +406,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E35C40CA36EDE419B301CD23 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -586,10 +575,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "WPRK-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -603,7 +593,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.9;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -619,10 +609,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "WPRK-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -636,7 +627,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.9;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -685,6 +676,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		81C9E37427C7F430000E7A06 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -697,6 +696,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		81C9E37527C7F430000E7A06 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81C9E37427C7F430000E7A06 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		81C9E37727C7F430000E7A06 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81C9E37427C7F430000E7A06 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

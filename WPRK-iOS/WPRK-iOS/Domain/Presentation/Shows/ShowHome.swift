@@ -77,6 +77,8 @@ struct ShowHome: View {
                 }
                 VStack {
                     Divider().background(Color.gray)
+                    ScrollViewReader { value in
+
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(days.indices, id: \.self) { i in
@@ -85,16 +87,17 @@ struct ShowHome: View {
                                         Circle()
                                             .frame(width: 90, height: 90, alignment: .center)
                                             .cornerRadius(10)
-                                            .foregroundColor(Color(hex: 0xffafcc))
+                                            .foregroundColor(currentDay == days[i] ? Color(.white).opacity(0.2) : Color(hex: 0xffafcc))
                                             .overlay(
                                                 Circle()
-                                                    .stroke(Color.white, lineWidth: 1.5)
+                                                    .stroke(currentDay == days[i] ? Color(.gray) : Color.white, lineWidth: 1.5)
                                             )
                                             .padding(1)
                                         Text(String(days[i].prefix(3)))
                                             .bold()
                                             .font(.title3)
                                     }
+                                    .id(i)
                                     .onTapGesture {
                                         if i == 0  {
                                             currentDate = liveViewModel.getCurrent()
@@ -105,6 +108,11 @@ struct ShowHome: View {
                                         showsScheduled = shows.filter({ $0.getDate() == currentDate})
                                         let haptic = UIImpactFeedbackGenerator(style: .soft)
                                         haptic.impactOccurred()
+                                        if i != days.indices.last {
+                                            value.scrollTo(i, anchor: .center)
+                                        } else {
+                                            value.scrollTo(i, anchor: .trailing)
+                                        }
                                     }
                                     Text(days[i])
                                         .bold()
@@ -112,6 +120,7 @@ struct ShowHome: View {
                                 }.padding(.trailing)
                             }
                         }
+                    }
                     }
                     Divider().background(Color(.lightGray))
                 }
@@ -152,13 +161,16 @@ struct ShowHome: View {
                         ForEach(showsScheduled) { i in
                             ScheduleUnit(title: i.title, category:i.category == .unset ? "WPRK" : i.category?.rawValue ?? "WPRK", startTime: i.getTime12(time: .START), endTime: i.getTime12(time: .END), currentDate: currentDate)
                                 .padding(.top)
+                                .onTapGesture {
+                                    selected = i
+                                }
                             if showsScheduled.last?.id != i.id {
                                 Divider().background(Color(.lightGray))
                             }
                         }
                     }
                 }
-                .frame(height: 300)
+                .frame(height: 320)
                 Spacer()
             }
             

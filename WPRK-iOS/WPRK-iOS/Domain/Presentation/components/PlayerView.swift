@@ -8,9 +8,12 @@
 import Foundation
 import SwiftUI
 import SDWebImageSwiftUI
+import AVFoundation
 
 struct PlayerView: View {
     @ObservedObject var streamer: RadioStreamer
+   @State private var playing = false
+
     var body: some View {
         HStack{
          Image("WPRKWhite")
@@ -36,7 +39,7 @@ struct PlayerView: View {
                 .offset(y: 14)
                 VStack {
                     MarqueeText(
-                        text: streamer.isPlaying ? $streamer.itemTitle : .constant("Tune In..."))
+                        text: $streamer.displayTitle)
                         .foregroundColor(.white)
             
                 }
@@ -48,15 +51,17 @@ struct PlayerView: View {
                 Button(action: {
                     DispatchQueue.main.async {
                         if streamer.isPlaying {
-                            streamer.pauseStreaming()
+                            playing = false
+                            streamer.pauseStream()
                         } else {
-                            streamer.playStreaming()
+                            playing = true
+                            streamer.initiateStream()
                         }
                     }
                     let haptic = UIImpactFeedbackGenerator(style: .rigid)
                     haptic.impactOccurred()
                 }){
-                    Image(systemName: streamer.isPlaying ? "pause.circle.fill" :
+                    Image(systemName: playing ? "pause.circle.fill" :
                             "play.circle.fill")
                         .resizable()
                         .foregroundColor(.white)
@@ -72,5 +77,14 @@ struct PlayerView: View {
                 .stroke(Color.white, lineWidth: 1.5)
            )
         .padding(.bottom, 2)
+        .onAppear {
+            playing = streamer.isPlaying
+        }
+        .onDisappear {
+            playing = streamer.isPlaying
+        }
+        .onChange(of: streamer.isPlaying) { newValue in
+            playing = newValue
+        }
     }
 }

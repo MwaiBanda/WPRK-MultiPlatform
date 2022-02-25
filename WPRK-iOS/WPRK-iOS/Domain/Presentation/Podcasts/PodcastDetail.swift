@@ -26,7 +26,8 @@ struct PodcastDetail: View {
                         Text(podcast.attributes.title)
                             .font(.title)
                             .bold()
-                        ExpandableText(podcast.attributes.attributesDescription, lineLimit: 4)
+                        ExpandableText(podcast.attributes.attributesDescription                                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                                       , lineLimit: 4)
                             .foregroundColor(.gray)
                     }.padding(.leading)
                     }

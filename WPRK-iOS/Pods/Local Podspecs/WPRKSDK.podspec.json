@@ -1,10 +1,10 @@
 {
   "name": "WPRKSDK",
-  "version": "1.0.0",
+  "version": "1.0",
   "homepage": "https://wprk.org",
   "source": {
     "git": "Not Published",
-    "tag": "Cocoapods/WPRKSDK/1.0.0"
+    "tag": "Cocoapods/WPRKSDK/1.0"
   },
   "authors": "",
   "license": "",

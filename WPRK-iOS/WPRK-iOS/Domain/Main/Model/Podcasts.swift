@@ -13,7 +13,11 @@ struct Podcasts : Codable {
 }
 
 // MARK: - WelcomeDatum
-struct Podcast: Codable, Identifiable {
+struct Podcast: Codable, Identifiable, Equatable {
+    static func == (lhs: Podcast, rhs: Podcast) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     let id, type: String
     let attributes: Attributes
     let relationships: Relationships

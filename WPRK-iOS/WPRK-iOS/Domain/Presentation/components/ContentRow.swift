@@ -71,13 +71,7 @@ struct ContentRow: View {
                 }.padding(.vertical, paddingVer)
                 .padding(.horizontal, paddingHor)
                 .onTapGesture {
-                    let episodeItem = AVPlayerItem(url: URL(string: episode?.attributes.mediaURL ?? "")!)
-                    streamer.player.replaceCurrentItem(with: episodeItem)
-                    if !streamer.isPlaying {
-                        streamer.playStreaming()
-                    }
-                    streamer.itemTitle = "EP \(episode?.attributes.number ?? 0) - " + (episode?.attributes.title ?? "")
-                    streamer.mediaURL = episode?.attributes.imageURL ?? ""
+                    streamer.switchToEpisode(episode: episode)
                     let haptic = UINotificationFeedbackGenerator()
                     haptic.notificationOccurred(.success)
                 }

@@ -18,6 +18,7 @@ struct PodcastHome: View {
     @State private var featured = [Episode]()
     let group = DispatchGroup()
     var body: some View {
+
         ScrollView(showsIndicators: false) {
             VStack {
                 Divider().background(Color(.lightGray))
@@ -50,6 +51,7 @@ struct PodcastHome: View {
                                 selected = podcast
                                 let haptic = UIImpactFeedbackGenerator(style: .soft)
                                 haptic.impactOccurred()
+                                
                             }
                     }
                 }
@@ -67,42 +69,7 @@ struct PodcastHome: View {
                 .foregroundColor(.gray)
                 }
             Divider().background(Color(.gray))
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    ForEach(podcasts) { i in
-                        HStack {
-                            VStack {
-                                Text(i.attributes.title)
-                                    .fontWeight(.heavy)
-                               
-                            }
-                            .padding()
-                            .padding(.horizontal)
-                          
-                            .background(i.id == selectedFeatured?.id ? Color.clear : Color(hex: 0xffafcc))
-                            .cornerRadius(10)
-                            .overlay(i.id == selectedFeatured?.id ?
-                                        RoundedRectangle(cornerRadius: 10)
-                                               .stroke(Color.clear, lineWidth: 0)
-                                :
-                                RoundedRectangle(cornerRadius: 10)
-                                 .stroke(Color.white, lineWidth: 1.5)
-
-
-                               )
-                            .padding(2)
-                            .padding(.trailing)
-                            .onTapGesture {
-                                selectedFeatured = i
-                                fetchFeatured(showID: selectedFeatured?.id ?? "")
-                                let haptic = UIImpactFeedbackGenerator(style: .soft)
-                                haptic.impactOccurred()
-                            }
-
-                    }
-                    }
-                }
-            }
+            PodcastTabRow
             Divider().background(Color.gray)
             ScrollView(.vertical, showsIndicators: true) {
                 ForEach(featured, id: \.id) { i in
@@ -162,12 +129,50 @@ struct PodcastHome: View {
         }
         .redacted(reason: podcasts.isEmpty ? .placeholder : [])
         }
+        
         .sheet(item: $selected) { podcast in
             ContentWrapper(streamer: streamer, navConfig: .detailConfig, navTitle: podcast.attributes.title) {   
                 PodcastDetail(podcast: podcast, streamer: streamer, podcastAPI: podcastsAPI)
             }
         }
     }
+    var PodcastTabRow: some View {
+        ScrollViewReader { value in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(podcasts, id: \.id) { i in
+                        HStack {
+                            VStack {
+                                Text(i.attributes.title)
+                                    .fontWeight(.heavy)
+                                
+                            }
+                            .padding()
+                            .padding(.horizontal)
+                            .background(i.id == selectedFeatured?.id  ? Color.clear : Color(hex: 0xffafcc))
+                            .cornerRadius(10)
+                            .overlay(i.id == selectedFeatured?.id ? RoundedRectangle(cornerRadius: 10).stroke(Color.clear, lineWidth: 1.5) : RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 1.5))
+                            .padding(2)
+                            .padding(.trailing)
+                            .onTapGesture {
+                                selectedFeatured = i
+                                fetchFeatured(showID: selectedFeatured?.id ?? "")
+                                let haptic = UIImpactFeedbackGenerator(style: .soft)
+                                haptic.impactOccurred()
+                                if i != podcasts.last {
+                                    value.scrollTo(i.attributes.title , anchor: .center)
+                                } else {
+                                    value.scrollTo(i.attributes.title, anchor: .trailing)
+                                }
+                            }
+                            
+                        }.id(i.attributes.title)
+                    }
+                }
+            }
+        }
+    }
+  
     func fetchFeatured(showID: String) {
         group.enter()
         featured.removeAll()
@@ -187,6 +192,8 @@ struct PodcastHome: View {
         }
         group.leave()
     }
+    
+    
 }
 
 
