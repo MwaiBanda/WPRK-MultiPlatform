@@ -72,16 +72,27 @@ fun PodcastHome(
             .padding(start = 10.dp)
     ) {
         item {
+            Spacer(modifier = Modifier.height(5.dp))
+            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+            Spacer(modifier = Modifier.height(5.dp))
             Row (Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ){
-                Text(text = "Podcasts", fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.h5,
-                    color = Color.White)
-                LiveButton(onEpisodeClick)
+                Column {
+                    Text(
+                        text = "Podcasts",
+                        fontWeight = FontWeight.ExtraBold,
+                        style = MaterialTheme.typography.h5,
+                        color = Color.White
+                    )
+                    Text(text = "Discover Featured Podcasts", color = Color.Gray)
+                }
+                LiveButton(Modifier.offset(y= 3.dp), onEpisodeClick)
             }
-            Text(text = "Discover Featured Podcasts", color = Color.Gray)
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+            Spacer(modifier = Modifier.height(10.dp))
         }
         item {
             LazyRow(state = LazyListState(), modifier = Modifier.fillMaxWidth()) {

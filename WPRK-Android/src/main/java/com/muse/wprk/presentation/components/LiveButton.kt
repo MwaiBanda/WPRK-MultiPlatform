@@ -22,11 +22,11 @@ import androidx.compose.ui.unit.sp
 import com.muse.wprk.core.utilities.Constants
 
 @Composable
-fun LiveButton(onSwitchToDefault: (String) -> Unit){
+fun LiveButton(modifier: Modifier, onSwitchToDefault: (String) -> Unit){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = Modifier
+        modifier = modifier
             .padding(end = 10.dp)
             .border(
                 BorderStroke(
@@ -34,10 +34,12 @@ fun LiveButton(onSwitchToDefault: (String) -> Unit){
                     color = Color.White
                 ), RoundedCornerShape(10.dp)
             )
-            .size(width = 100.dp, height = 43.dp)
+            .height(height = 55.dp)
+
 
     ) {
-        Row(Modifier.clickable { onSwitchToDefault(Constants.DEFAULT_STREAM) }) {
+        Row(Modifier.padding(horizontal = 15.dp)
+            .padding(vertical = 8.dp).clickable { onSwitchToDefault(Constants.DEFAULT_STREAM) }) {
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {

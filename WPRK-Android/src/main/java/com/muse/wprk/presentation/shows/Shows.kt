@@ -110,21 +110,28 @@ fun ShowsHome(
     ) {
 
         item {
+            Spacer(modifier = Modifier.height(5.dp))
+            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+            Spacer(modifier = Modifier.height(5.dp))
             Row(
                 Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Shows",
-                    fontWeight = FontWeight.ExtraBold,
-                    style = MaterialTheme.typography.h5,
-                    color = Color.White
-                )
-                LiveButton(onSwitchToDefault)
+                Column {
+                    Text(
+                        text = "Shows",
+                        fontWeight = FontWeight.ExtraBold,
+                        style = MaterialTheme.typography.h5,
+                        color = Color.White
+                    )
+                    Text(text = "Currently Scheduled Today ", color = Color.Gray)
+                }
+                LiveButton(Modifier.offset(y= 3.dp), onSwitchToDefault)
             }
-            Text(text = "Currently Scheduled Today ", color = Color.Gray)
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+            Spacer(modifier = Modifier.height(10.dp))
         }
 
         item {
@@ -171,7 +178,7 @@ fun ShowsHome(
         item {
             LazyRow(state = scheduleState, modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed((0..6).toList()) { i, item ->
-                    if (i != 0) Spacer(modifier = Modifier.width(10.dp))
+                    if (i != 0) Spacer(modifier = Modifier.width(20.dp))
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.clickable {
@@ -197,10 +204,18 @@ fun ShowsHome(
                         Box(
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .background(color = Color.parse("#ffafcc"))
+                                .background(
+                                    color = if (currentDayString == days[i]) Color.White.copy(
+                                        0.2f
+                                    ) else Color.parse("#ffafcc")
+                                )
                                 .width(90.dp)
                                 .height(90.dp)
-                                .border(1.dp, color = Color.White, CircleShape),
+                                .border(
+                                    1.dp,
+                                    color = if (currentDayString == days[i]) Color.Gray else Color.White,
+                                    CircleShape
+                                ),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -223,24 +238,29 @@ fun ShowsHome(
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(5.dp))
-            Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(
-                    text = "Scheduled",
-                    fontWeight = FontWeight.ExtraBold,
-                    color = Color.White,
-                    style = MaterialTheme.typography.h5
-                )
-                Text(text = currentDayString, color = Color.Gray)
-
-            }
-            Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(
-                    text = "Listings",
-                    fontWeight = FontWeight.ExtraBold,
-                    color = Color.Gray,
-                    style = MaterialTheme.typography.h6
-                )
-                Text(text = selectedDateString, color = Color.Gray, style = MaterialTheme.typography.caption)
+            Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Column {
+                    Text(
+                        text = "Scheduled",
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.White,
+                        style = MaterialTheme.typography.h5
+                    )
+                    Text(
+                        text = "Listings",
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.Gray,
+                        style = MaterialTheme.typography.h6
+                    )
+                }
+                Column(Modifier.padding(end = 10.dp),horizontalAlignment = Alignment.End) {
+                    Text(text = currentDayString, color = Color.Gray)
+                    Text(
+                        text = selectedDateString,
+                        color = Color.Gray,
+                        style = MaterialTheme.typography.caption
+                    )
+                }
             }
 
         }

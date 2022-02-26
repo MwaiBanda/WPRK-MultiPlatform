@@ -38,29 +38,37 @@ fun MembershipHome(backgroundColor: Color, onLiveButtonClick: (String) -> Unit) 
             .background(color = Color.Black)
     ){
         item {
-            Row(
-                modifier = Modifier.padding(10.dp)
-            ) {
+
                 Column {
-                    Row (Modifier.fillMaxWidth(),
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Row (Modifier.fillMaxWidth()            .padding(start = 10.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ){
-                        Text(
-                            text = "Membership",
-                            style = MaterialTheme.typography.h5,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
-                        )
-                        LiveButton(onLiveButtonClick)
+                        Column {
+
+                            Text(
+                                text = "Membership",
+                                style = MaterialTheme.typography.h5,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.White
+                            )
+                            Text(
+                                text = "Become A Member Today",
+                                color = Color.Gray
+                            )
+                        }
+                        LiveButton(Modifier.offset(y= 3.dp), onLiveButtonClick)
                     }
-                    Text(
-                        text = "Become A Member Today",
-                        color = Color.Gray
-                    )
-                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(10.dp))
+
                 }
-            }
+
         }
         item {
             Row(

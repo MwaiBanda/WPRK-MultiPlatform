@@ -3,15 +3,13 @@ package com.muse.wprk
 import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -96,7 +94,19 @@ fun WPRKEntry(
                     TopAppBar(
                         title = {
                             if (currentRoute?.take(13) != NavigationRoutes.PodcastDetail.route.take(13))
-                                Text(text = "WPRK", fontWeight = FontWeight.ExtraBold)
+                                Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center ) {
+                                    Image(painter = rememberImagePainter(
+                                        data = Constants.LOGO_URL,
+                                        onExecute = { _, _ -> true },
+                                        builder = {
+                                            crossfade(true)
+                                        }
+                                    ),
+                                        modifier = Modifier.size(50.dp).offset(x= (-35).dp),
+                                        contentScale = ContentScale.Crop,
+                                        contentDescription = null
+                                    )
+                                }
                         },
                         navigationIcon = {
                             if (currentRoute?.take(13) == NavigationRoutes.PodcastDetail.route.take(13)) {
@@ -108,20 +118,7 @@ fun WPRKEntry(
                                         Text(text = "Back", color = Color.White)
                                     }
                                 }
-                            } else {
-                                Image(painter = rememberImagePainter(
-                                    data = Constants.LOGO_URL,
-                                    onExecute = { _, _ -> true },
-                                    builder = {
-                                        crossfade(true)
-                                    }
-                                ),
-                                    modifier = Modifier.size(50.dp),
-                                    contentScale = ContentScale.Crop,
-                                    contentDescription = null
-                                )
                             }
-
                         },
                         backgroundColor = Color.Black,
                         contentColor = Color.White

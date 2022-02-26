@@ -1,5 +1,7 @@
 package com.muse.wprk.presentation.components
 
+import android.media.MediaMetadataRetriever
+import android.net.Uri
 import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +30,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.google.android.exoplayer2.MediaMetadata
+import com.google.android.exoplayer2.MetadataRetriever
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.muse.wprk.core.exts.parse
 import kotlinx.coroutines.delay
@@ -38,7 +43,21 @@ fun WPRKPlayer(player : SimpleExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Bo
     var currentTitle by remember { mutableStateOf("") }
     var count by remember { mutableStateOf(0) }
     val scope = rememberCoroutineScope()
-
+    val context = LocalContext.current
+    val onMediaMetadataChanged: (MediaMetadata) -> Unit =  { mediaMetadata ->
+        if (mediaMetadata.title != null) {
+            val remoteTitle = player.mediaMetadata.title.toString()
+            if (remoteTitle != currentTitle) currentTitle = remoteTitle
+        }
+    }
+    LaunchedEffect(key1 = count) {
+        delay(1500L)
+        if (isPlaying) {
+            onMediaMetadataChanged(player.mediaMetadata)
+            delay(15000L)
+            count++
+        }
+    }
     Column(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -168,16 +187,10 @@ fun WPRKPlayer(player : SimpleExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Bo
                         .also { currentTitle = player.mediaMetadata.title.toString() }
                         .also { Log.d("MAIN", currentTitle) }
                         .also {
-                            scope.launch {
-                                while (isPlaying) {
-                                    if (!isPlaying) break
-                                    delay(1000L)
-                                    currentTitle = player.mediaMetadata.title.toString()
-                                    delay(19000L)
-                                    count++
-                                }
-                            }
+                            val remoteTitle = player.mediaMetadata.title.toString()
+                            if (remoteTitle != currentTitle) currentTitle = remoteTitle
                         }
+
                 }
             }, modifier = Modifier.offset(x = (-10).dp)) {
                 Icon(
@@ -192,4 +205,6 @@ fun WPRKPlayer(player : SimpleExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Bo
             }
         }
     }
+
 }
+

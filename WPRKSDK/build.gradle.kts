@@ -26,6 +26,11 @@ kotlin {
             dependencies {
                 implementation("dev.gitlive:firebase-auth:1.4.3")
                 implementation("io.insert-koin:koin-core:3.1.5")
+                implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt"){
+                    version {
+                        strictly("1.6.0-native-mt")
+                    }
+                }
             }
             }
         val commonTest by getting {
