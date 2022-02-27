@@ -47,6 +47,14 @@ struct ShowHome: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
+                        if shows.isEmpty {
+                            ForEach(0..<10, id: \.self) { i in
+                                RoundedRectangle(cornerRadius: 10)
+                                    .frame(width: 190, height: 200, alignment: .center)
+                                    .foregroundColor(.gray).opacity(0.5)
+                                    .redacted(reason: .placeholder)
+                            }
+                        } else {
                         ForEach(shows, id: \.id) { i in
                             VStack {
                             WebImage(url: URL(string: i.image))
@@ -59,8 +67,7 @@ struct ShowHome: View {
                                 .cornerRadius(10)
                                 .foregroundColor(.gray)
                             }
-                               
-
+                        }
                         }
                     }
                 }

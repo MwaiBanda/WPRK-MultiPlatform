@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */; };
+		8112C0EC27CAE867004319EE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8112C0EB27CAE867004319EE /* Launch Screen.storyboard */; };
+		8112C0EE27CAECE8004319EE /* PodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */; };
 		81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */; };
 		81721BED27AE265000C86F65 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BEC27AE265000C86F65 /* Preview Assets.xcassets */; };
 		81721BF427AE269C00C86F65 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BF327AE269C00C86F65 /* Assets.xcassets */; };
@@ -51,6 +53,8 @@
 
 /* Begin PBXFileReference section */
 		04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WPRK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8112C0EB27CAE867004319EE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastViewModel.swift; sourceTree = "<group>"; };
 		811357CE27AF4A65003B7234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		81721BE227AE264F00C86F65 /* WPRK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WPRK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPRK_iOSApp.swift; sourceTree = "<group>"; };
@@ -170,6 +174,7 @@
 				81721C2227AE26BE00C86F65 /* Remote */,
 				81721C0427AE26BE00C86F65 /* Main */,
 				81721C0C27AE26BE00C86F65 /* Presentation */,
+				8112C0EB27CAE867004319EE /* Launch Screen.storyboard */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -238,11 +243,11 @@
 		81721C0C27AE26BE00C86F65 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				81721C0D27AE26BE00C86F65 /* Navigation */,
 				81721C1327AE26BE00C86F65 /* Podcasts */,
-				81721C1627AE26BE00C86F65 /* components */,
 				81721C1C27AE26BE00C86F65 /* Shows */,
 				81721C2027AE26BE00C86F65 /* Membership */,
+				81721C0D27AE26BE00C86F65 /* Navigation */,
+				81721C1627AE26BE00C86F65 /* Components */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -264,11 +269,12 @@
 			children = (
 				81721C1427AE26BE00C86F65 /* PodcastDetail.swift */,
 				81721C1527AE26BE00C86F65 /* PodcastHome.swift */,
+				8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */,
 			);
 			path = Podcasts;
 			sourceTree = "<group>";
 		};
-		81721C1627AE26BE00C86F65 /* components */ = {
+		81721C1627AE26BE00C86F65 /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				81721C1727AE26BE00C86F65 /* LiveButton.swift */,
@@ -277,7 +283,7 @@
 				81721C1A27AE26BE00C86F65 /* PlayerView.swift */,
 				81721C1B27AE26BE00C86F65 /* MarqueeText.swift */,
 			);
-			path = components;
+			path = Components;
 			sourceTree = "<group>";
 		};
 		81721C1C27AE26BE00C86F65 /* Shows */ = {
@@ -379,6 +385,7 @@
 				81C5EC6D27AE7ACB0088C8DB /* GoogleService-Info.plist in Resources */,
 				81721C2727AE26BE00C86F65 /* noConnection.json in Resources */,
 				81721BF427AE269C00C86F65 /* Assets.xcassets in Resources */,
+				8112C0EC27CAE867004319EE /* Launch Screen.storyboard in Resources */,
 				81721BED27AE265000C86F65 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +433,7 @@
 				81721C2A27AE26BE00C86F65 /* NetworkService.swift in Sources */,
 				81721C3727AE26BE00C86F65 /* MenuView.swift in Sources */,
 				81721C3427AE26BE00C86F65 /* ContentWrapper.swift in Sources */,
+				8112C0EE27CAECE8004319EE /* PodcastViewModel.swift in Sources */,
 				81721C2527AE26BE00C86F65 /* Date+Swift.swift in Sources */,
 				81721C2D27AE26BE00C86F65 /* BusinessDeals.swift in Sources */,
 				81721C3327AE26BE00C86F65 /* TabBar.swift in Sources */,
@@ -575,7 +583,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
@@ -583,17 +591,19 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "WPRK-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -609,7 +619,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
@@ -617,17 +627,19 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "WPRK-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Dark;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;

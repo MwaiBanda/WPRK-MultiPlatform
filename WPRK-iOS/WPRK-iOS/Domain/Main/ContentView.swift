@@ -9,16 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var networkService: NetworkService
+    @ObservedObject var podcastViewModel: PodcastViewModel
 
     var body: some View {
         ConnectivityWrapper(networkService: networkService) {
-            TabBar()
+            TabBar(podcastViewModel: podcastViewModel)
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(networkService: NetworkService.sharedInstance)
-    }
-}
+

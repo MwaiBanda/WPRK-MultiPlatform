@@ -12,6 +12,7 @@ import AVFoundation
 struct TabBar: View {
     @StateObject private var streamer = RadioStreamer.sharedInstance
     @State private var selection = 2
+    @ObservedObject var podcastViewModel: PodcastViewModel
 
     var body: some View {
         TabView(selection: $selection) {
@@ -40,7 +41,7 @@ struct TabBar: View {
             NavigationView {
                 ContentWrapper(streamer: streamer) {
                     VStack {
-                       PodcastHome(streamer: streamer)
+                        PodcastHome(streamer: streamer, podcastViewModel: podcastViewModel)
                       
                     }
                     
@@ -97,9 +98,3 @@ struct TabBar: View {
 
 
 
-
-struct TabBar_Previews: PreviewProvider {
-    static var previews: some View {
-        TabBar()
-    }
-}
