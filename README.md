@@ -41,7 +41,7 @@ Get app on the app store or playstore available for Android, iPhone & iPad
   </tr>
   <tr>
     <td><b>Android</b></td>
-    <td><b>iOS</b></td>
+    <td><b>iOS & iPadOS</b></td>
   </tr>
    <tr>
     <td>Jetpack Compose</td>
