@@ -21,7 +21,7 @@
 		81721C2827AE26BE00C86F65 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721BFF27AE26BE00C86F65 /* Constants.swift */; };
 		81721C2927AE26BE00C86F65 /* DeviceSizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0027AE26BE00C86F65 /* DeviceSizes.swift */; };
 		81721C2A27AE26BE00C86F65 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0127AE26BE00C86F65 /* NetworkService.swift */; };
-		81721C2B27AE26BE00C86F65 /* RadioStreamer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0227AE26BE00C86F65 /* RadioStreamer.swift */; };
+		81721C2B27AE26BE00C86F65 /* WPRKStreamer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0227AE26BE00C86F65 /* WPRKStreamer.swift */; };
 		81721C2C27AE26BE00C86F65 /* StoreAppReviewRequest..swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0327AE26BE00C86F65 /* StoreAppReviewRequest..swift */; };
 		81721C2D27AE26BE00C86F65 /* BusinessDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0627AE26BE00C86F65 /* BusinessDeal.swift */; };
 		81721C2E27AE26BE00C86F65 /* Podcasts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0727AE26BE00C86F65 /* Podcasts.swift */; };
@@ -68,7 +68,7 @@
 		81721BFF27AE26BE00C86F65 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		81721C0027AE26BE00C86F65 /* DeviceSizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceSizes.swift; sourceTree = "<group>"; };
 		81721C0127AE26BE00C86F65 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		81721C0227AE26BE00C86F65 /* RadioStreamer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioStreamer.swift; sourceTree = "<group>"; };
+		81721C0227AE26BE00C86F65 /* WPRKStreamer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WPRKStreamer.swift; sourceTree = "<group>"; };
 		81721C0327AE26BE00C86F65 /* StoreAppReviewRequest..swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreAppReviewRequest..swift; sourceTree = "<group>"; };
 		81721C0627AE26BE00C86F65 /* BusinessDeal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDeal.swift; sourceTree = "<group>"; };
 		81721C0727AE26BE00C86F65 /* Podcasts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Podcasts.swift; sourceTree = "<group>"; };
@@ -223,7 +223,7 @@
 		81721C0427AE26BE00C86F65 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				81721C0227AE26BE00C86F65 /* RadioStreamer.swift */,
+				81721C0227AE26BE00C86F65 /* WPRKStreamer.swift */,
 				81721C0527AE26BE00C86F65 /* Model */,
 				81721C0A27AE26BE00C86F65 /* ContentView.swift */,
 				81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */,
@@ -442,7 +442,7 @@
 				81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */,
 				81721C2627AE26BE00C86F65 /* Color+Swift.swift in Sources */,
 				81721C2427AE26BE00C86F65 /* View+Swift.swift in Sources */,
-				81721C2B27AE26BE00C86F65 /* RadioStreamer.swift in Sources */,
+				81721C2B27AE26BE00C86F65 /* WPRKStreamer.swift in Sources */,
 				81721C4327AE26BE00C86F65 /* ContentAPI.swift in Sources */,
 				81721C3127AE26BE00C86F65 /* ContentView.swift in Sources */,
 				81721C4027AE26BE00C86F65 /* ShowDetail.swift in Sources */,

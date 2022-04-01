@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 import AVFoundation
 
 struct PodcastHome: View {
-    @ObservedObject var streamer: RadioStreamer
+    @ObservedObject var streamer: WPRKStreamer
     @State private var selected: Podcast? = nil
     @StateObject var podcastsAPI = ContentAPI()
     @ObservedObject var podcastViewModel: PodcastViewModel

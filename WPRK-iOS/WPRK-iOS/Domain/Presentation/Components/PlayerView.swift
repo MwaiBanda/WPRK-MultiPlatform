@@ -11,7 +11,7 @@ import SDWebImageSwiftUI
 import AVFoundation
 
 struct PlayerView: View {
-    @ObservedObject var streamer: RadioStreamer
+    @ObservedObject var streamer: WPRKStreamer
    @State private var playing = false
 
     var body: some View {

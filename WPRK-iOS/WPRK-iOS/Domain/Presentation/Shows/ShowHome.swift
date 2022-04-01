@@ -10,7 +10,7 @@ import SDWebImageSwiftUI
 import AVKit
 
 struct ShowHome: View {
-    @ObservedObject var streamer: RadioStreamer
+    @ObservedObject var streamer: WPRKStreamer
     @State private var days = [
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     ]

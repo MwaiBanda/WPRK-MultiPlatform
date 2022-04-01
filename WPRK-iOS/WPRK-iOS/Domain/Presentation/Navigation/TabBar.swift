@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 struct TabBar: View {
-    @StateObject private var streamer = RadioStreamer.sharedInstance
+    @StateObject private var streamer = WPRKStreamer.sharedInstance
     @State private var selection = 2
     @ObservedObject var podcastViewModel: PodcastViewModel
 

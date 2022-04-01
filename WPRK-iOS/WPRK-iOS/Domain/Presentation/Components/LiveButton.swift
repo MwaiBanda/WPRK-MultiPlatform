@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LiveButton: View {
-    @ObservedObject var streamer: RadioStreamer
+    @ObservedObject var streamer: WPRKStreamer
     var body: some View {
         VStack {
             HStack {
@@ -44,6 +44,6 @@ struct LiveButton: View {
 
 struct LiveButton_Previews: PreviewProvider {
     static var previews: some View {
-        LiveButton(streamer: RadioStreamer.sharedInstance)
+        LiveButton(streamer: WPRKStreamer.sharedInstance)
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 
 struct MembershipHome: View {
-    @ObservedObject var streamer: RadioStreamer
+    @ObservedObject var streamer: WPRKStreamer
     enum AccountLayout {
         case account
         case card
@@ -131,6 +131,6 @@ struct MembershipHome: View {
 
 struct Account_Previews: PreviewProvider {
     static var previews: some View {
-        MembershipHome(streamer: RadioStreamer.sharedInstance)
+        MembershipHome(streamer: WPRKStreamer.sharedInstance)
     }
 }

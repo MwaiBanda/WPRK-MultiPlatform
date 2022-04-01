@@ -11,7 +11,7 @@ import AVKit
 
 struct PodcastDetail: View {
     var podcast: Podcast
-    @ObservedObject var streamer: RadioStreamer
+    @ObservedObject var streamer: WPRKStreamer
     @ObservedObject var podcastAPI: ContentAPI
     @State private var  episodes = [Episode]()
     var body: some View {

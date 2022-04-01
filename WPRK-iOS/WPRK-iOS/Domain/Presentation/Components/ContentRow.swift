@@ -12,21 +12,21 @@ struct ContentRow: View {
     var showTitle: String?
     var episode: Episode?
     var business: BusinessDeal?
-    @ObservedObject var streamer: RadioStreamer
+    @ObservedObject var streamer: WPRKStreamer
     var paddingHor: CGFloat
     var paddingVer: CGFloat
     
     init(
         showTitle: String? = "",
         episode: Episode? = nil,
-        streamer: RadioStreamer? = nil,
+        streamer: WPRKStreamer? = nil,
         business: BusinessDeal? = nil,
         paddingHorizontal: CGFloat = 0,
         paddingVertical: CGFloat = 0
     ) {
         self.showTitle = showTitle
         self.episode  = episode
-        self.streamer = streamer ?? RadioStreamer.sharedInstance
+        self.streamer = streamer ?? WPRKStreamer.sharedInstance
         self.business = business
         self.paddingHor = paddingHorizontal
         self.paddingVer = paddingVertical

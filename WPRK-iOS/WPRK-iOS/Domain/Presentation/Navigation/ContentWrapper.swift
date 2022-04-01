@@ -12,13 +12,13 @@ import StoreKit
 
 
 struct ContentWrapper<Content: View>: View {
-    @ObservedObject var streamer: RadioStreamer
+    @ObservedObject var streamer: WPRKStreamer
     @State var showMenu = false
     var navTitle: String
     var navConfig: NavConfig
     var content: () -> (Content)
     init(
-        streamer: RadioStreamer, 
+        streamer: WPRKStreamer, 
         navConfig: NavConfig = .defaultConfig,
         navTitle: String = "",
         @ViewBuilder content: @escaping () -> (Content)
