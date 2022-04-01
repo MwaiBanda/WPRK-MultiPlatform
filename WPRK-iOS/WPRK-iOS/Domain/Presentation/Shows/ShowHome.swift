@@ -61,6 +61,8 @@ struct ShowHome: View {
                                 .resizable()
                                 .onTapGesture {
                                     selected = i
+                                    let haptic = UIImpactFeedbackGenerator(style: .soft)
+                                    haptic.impactOccurred()
                                 }
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 190, height: 200)
@@ -159,7 +161,7 @@ struct ShowHome: View {
                 .padding(.vertical)
                 Divider().background(Color(.lightGray))
                 
-                ScrollView(showsIndicators: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/) {
+                ScrollView(showsIndicators: false) {
                     if showsScheduled.isEmpty {
                         ScheduleUnit(title: "Nothing Scheduled", category: "WPRK", startTime: "", endTime:"", currentDate: currentDate)
                             .padding(.top)
@@ -170,6 +172,8 @@ struct ShowHome: View {
                                 .padding(.top)
                                 .onTapGesture {
                                     selected = i
+                                    let haptic = UIImpactFeedbackGenerator(style: .soft)
+                                    haptic.impactOccurred()
                                 }
                             if showsScheduled.last?.id != i.id {
                                 Divider().background(Color(.lightGray))

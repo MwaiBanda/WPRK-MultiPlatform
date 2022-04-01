@@ -77,14 +77,14 @@ struct PodcastHome: View {
                 Divider().background(Color(.gray))
                 PodcastTabRow
                 Divider().background(Color.gray)
-                ScrollView(.vertical, showsIndicators: true) {
+                ScrollView(.vertical, showsIndicators: false) {
                     if podcastViewModel.featured.isEmpty {
                         ForEach(0..<5, id: \.self) { i in
                             ContentRow(episode: Episode(id: "", type: "", attributes: EpisodeAttributes(title: "Lorem ipsum dolor sit amet", number: 0, season: 0, status: "", publishedAt: "", duration: 0, explicit: false, keywords: "", alternateURL: "", mediaURL: "", imageURL: "", author: "", summary: "", attributesDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ornare dapibus. Cras eu metus scelerisque, ullamcorper ex vestibulum, pretium purus. Ut quis elementum sapien. Phasellus eget magna in nunc pharetra interdum eu id elit. Maecenas sapien lectus, congue ut semper et, malesuada vitae ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", createdAt: "", updatedAt: "", formattedPublishedAt: "", durationInMmss: "", shareURL: "", formattedSummary: "", embedHTML: "", embedHTMLDark: "", audioProcessing: false, type: "", emailNotifications: ""), relationships: EpisodeRelationships(show: EpisodeShow(data: DataClass(id: "", type: "")))), streamer: streamer, paddingVertical: 10)
                         }
                     } else {
                         ForEach(podcastViewModel.featured, id: \.id) { i in
-                            ContentRow(episode: i, streamer: streamer, paddingVertical: 10)
+                            ContentRow(showTitle: podcastViewModel.selectedFeatured?.attributes.title ,episode: i, streamer: streamer, paddingVertical: 10)
                             if podcastViewModel.featured.last?.id != i.id {
                                 Divider().background(Color(.lightGray))
                             } else {
@@ -116,7 +116,7 @@ struct PodcastHome: View {
                         }
                     }
                 }
-                .frame(height: DeviceType.deviceIsPad ? .infinity : 300)
+                .frame(height: DeviceType.deviceIsPad ? .infinity : 495)
                 Spacer()
             }
             .padding(.leading)

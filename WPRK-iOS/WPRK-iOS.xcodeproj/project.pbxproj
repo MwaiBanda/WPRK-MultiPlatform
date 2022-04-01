@@ -10,6 +10,7 @@
 		638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */; };
 		8112C0EC27CAE867004319EE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8112C0EB27CAE867004319EE /* Launch Screen.storyboard */; };
 		8112C0EE27CAECE8004319EE /* PodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */; };
+		81635F8227F65D6B00650F7D /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81635F8127F65D6B00650F7D /* SDWebImageSwiftUI */; };
 		81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */; };
 		81721BED27AE265000C86F65 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BEC27AE265000C86F65 /* Preview Assets.xcassets */; };
 		81721BF427AE269C00C86F65 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BF327AE269C00C86F65 /* Assets.xcassets */; };
@@ -22,7 +23,7 @@
 		81721C2A27AE26BE00C86F65 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0127AE26BE00C86F65 /* NetworkService.swift */; };
 		81721C2B27AE26BE00C86F65 /* RadioStreamer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0227AE26BE00C86F65 /* RadioStreamer.swift */; };
 		81721C2C27AE26BE00C86F65 /* StoreAppReviewRequest..swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0327AE26BE00C86F65 /* StoreAppReviewRequest..swift */; };
-		81721C2D27AE26BE00C86F65 /* BusinessDeals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0627AE26BE00C86F65 /* BusinessDeals.swift */; };
+		81721C2D27AE26BE00C86F65 /* BusinessDeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0627AE26BE00C86F65 /* BusinessDeal.swift */; };
 		81721C2E27AE26BE00C86F65 /* Podcasts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0727AE26BE00C86F65 /* Podcasts.swift */; };
 		81721C2F27AE26BE00C86F65 /* Shows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0827AE26BE00C86F65 /* Shows.swift */; };
 		81721C3027AE26BE00C86F65 /* Episodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0927AE26BE00C86F65 /* Episodes.swift */; };
@@ -45,7 +46,6 @@
 		81721C4227AE26BE00C86F65 /* MembershipHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2127AE26BE00C86F65 /* MembershipHome.swift */; };
 		81721C4327AE26BE00C86F65 /* ContentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2327AE26BE00C86F65 /* ContentAPI.swift */; };
 		81721C4627AE273C00C86F65 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4527AE273C00C86F65 /* Lottie */; };
-		81721C4927AE27C600C86F65 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */; };
 		81C5EC6D27AE7ACB0088C8DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */; };
 		81C9E37627C7F430000E7A06 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 81C9E37527C7F430000E7A06 /* FirebaseAnalytics */; };
 		81C9E37827C7F430000E7A06 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 81C9E37727C7F430000E7A06 /* FirebaseAuth */; };
@@ -56,6 +56,7 @@
 		8112C0EB27CAE867004319EE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastViewModel.swift; sourceTree = "<group>"; };
 		811357CE27AF4A65003B7234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		81635F8727F6A7F500650F7D /* WPRK-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WPRK-iOS.entitlements"; sourceTree = "<group>"; };
 		81721BE227AE264F00C86F65 /* WPRK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WPRK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPRK_iOSApp.swift; sourceTree = "<group>"; };
 		81721BEC27AE265000C86F65 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -69,7 +70,7 @@
 		81721C0127AE26BE00C86F65 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		81721C0227AE26BE00C86F65 /* RadioStreamer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadioStreamer.swift; sourceTree = "<group>"; };
 		81721C0327AE26BE00C86F65 /* StoreAppReviewRequest..swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreAppReviewRequest..swift; sourceTree = "<group>"; };
-		81721C0627AE26BE00C86F65 /* BusinessDeals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDeals.swift; sourceTree = "<group>"; };
+		81721C0627AE26BE00C86F65 /* BusinessDeal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDeal.swift; sourceTree = "<group>"; };
 		81721C0727AE26BE00C86F65 /* Podcasts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Podcasts.swift; sourceTree = "<group>"; };
 		81721C0827AE26BE00C86F65 /* Shows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shows.swift; sourceTree = "<group>"; };
 		81721C0927AE26BE00C86F65 /* Episodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Episodes.swift; sourceTree = "<group>"; };
@@ -101,7 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81721C4927AE27C600C86F65 /* SDWebImageSwiftUI in Frameworks */,
+				81635F8227F65D6B00650F7D /* SDWebImageSwiftUI in Frameworks */,
 				81C9E37827C7F430000E7A06 /* FirebaseAuth in Frameworks */,
 				81721C4627AE273C00C86F65 /* Lottie in Frameworks */,
 				81C9E37627C7F430000E7A06 /* FirebaseAnalytics in Frameworks */,
@@ -150,6 +151,7 @@
 		81721BE427AE264F00C86F65 /* WPRK-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				81635F8727F6A7F500650F7D /* WPRK-iOS.entitlements */,
 				811357CE27AF4A65003B7234 /* Info.plist */,
 				81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */,
 				81721BF627AE26BE00C86F65 /* Domain */,
@@ -213,7 +215,6 @@
 				81721BFF27AE26BE00C86F65 /* Constants.swift */,
 				81721C0027AE26BE00C86F65 /* DeviceSizes.swift */,
 				81721C0127AE26BE00C86F65 /* NetworkService.swift */,
-				81721C0227AE26BE00C86F65 /* RadioStreamer.swift */,
 				81721C0327AE26BE00C86F65 /* StoreAppReviewRequest..swift */,
 			);
 			path = Utils;
@@ -222,6 +223,7 @@
 		81721C0427AE26BE00C86F65 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				81721C0227AE26BE00C86F65 /* RadioStreamer.swift */,
 				81721C0527AE26BE00C86F65 /* Model */,
 				81721C0A27AE26BE00C86F65 /* ContentView.swift */,
 				81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */,
@@ -232,7 +234,7 @@
 		81721C0527AE26BE00C86F65 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				81721C0627AE26BE00C86F65 /* BusinessDeals.swift */,
+				81721C0627AE26BE00C86F65 /* BusinessDeal.swift */,
 				81721C0727AE26BE00C86F65 /* Podcasts.swift */,
 				81721C0827AE26BE00C86F65 /* Shows.swift */,
 				81721C0927AE26BE00C86F65 /* Episodes.swift */,
@@ -331,9 +333,9 @@
 			name = "WPRK-iOS";
 			packageProductDependencies = (
 				81721C4527AE273C00C86F65 /* Lottie */,
-				81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */,
 				81C9E37527C7F430000E7A06 /* FirebaseAnalytics */,
 				81C9E37727C7F430000E7A06 /* FirebaseAuth */,
+				81635F8127F65D6B00650F7D /* SDWebImageSwiftUI */,
 			);
 			productName = "WPRK-iOS";
 			productReference = 81721BE227AE264F00C86F65 /* WPRK.app */;
@@ -365,8 +367,8 @@
 			mainGroup = 81721BD927AE264F00C86F65;
 			packageReferences = (
 				81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */,
-				81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				81C9E37427C7F430000E7A06 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				81635F8027F65D6A00650F7D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 81721BE327AE264F00C86F65 /* Products */;
 			projectDirPath = "";
@@ -435,7 +437,7 @@
 				81721C3427AE26BE00C86F65 /* ContentWrapper.swift in Sources */,
 				8112C0EE27CAECE8004319EE /* PodcastViewModel.swift in Sources */,
 				81721C2527AE26BE00C86F65 /* Date+Swift.swift in Sources */,
-				81721C2D27AE26BE00C86F65 /* BusinessDeals.swift in Sources */,
+				81721C2D27AE26BE00C86F65 /* BusinessDeal.swift in Sources */,
 				81721C3327AE26BE00C86F65 /* TabBar.swift in Sources */,
 				81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */,
 				81721C2627AE26BE00C86F65 /* Color+Swift.swift in Sources */,
@@ -582,8 +584,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "WPRK-iOS/WPRK-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
@@ -603,7 +606,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -618,8 +621,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "WPRK-iOS/WPRK-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
@@ -639,7 +643,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.1;
+				MARKETING_VERSION = 0.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -672,20 +676,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		81635F8027F65D6A00650F7D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
 				branch = master;
 				kind = branch;
-			};
-		};
-		81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
 			};
 		};
 		81C9E37427C7F430000E7A06 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
@@ -699,15 +703,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		81635F8127F65D6B00650F7D /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81635F8027F65D6A00650F7D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
 		81721C4527AE273C00C86F65 /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
-		};
-		81721C4827AE27C600C86F65 /* SDWebImageSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81721C4727AE27C600C86F65 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
-			productName = SDWebImageSwiftUI;
 		};
 		81C9E37527C7F430000E7A06 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

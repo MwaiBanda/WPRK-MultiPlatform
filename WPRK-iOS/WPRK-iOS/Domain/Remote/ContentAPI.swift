@@ -15,7 +15,7 @@ class ContentAPI: ObservableObject {
             DispatchQueue.main.async {
                 print(data!)
                 do {
-                let shows = try JSONDecoder().decode(Shows.self, from: data!)
+                    let shows = try JSONDecoder().decode(Shows.self, from: data!)
                     completion(.success(shows.items))
                 } catch DecodingError.dataCorrupted(let context) {
                     print(context)
@@ -42,7 +42,6 @@ class ContentAPI: ObservableObject {
         request.setValue(Constants.TRANSISTOR_KEY, forHTTPHeaderField: "x-api-key")
         let task = URLSession.shared.dataTask(with: request) { data, res, err in
             do {
-                
                 let podcasts = try JSONDecoder().decode(Podcasts.self, from: data!)
                 completion(.success(podcasts.data))
             } catch DecodingError.dataCorrupted(let context) {
@@ -59,7 +58,6 @@ class ContentAPI: ObservableObject {
             } catch {
                 print("error: ", error)
             }
-            
         }
         task.resume()
     }
@@ -72,9 +70,7 @@ class ContentAPI: ObservableObject {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.setValue(Constants.TRANSISTOR_KEY, forHTTPHeaderField: "x-api-key")
         let task = URLSession.shared.dataTask(with: request) { data, res, err in
-            
             if let data = data {
-            
                 do {
                     let dataString = String(data: data, encoding: .utf8)
                     let jsondata = dataString?.data(using: .utf8)
@@ -85,7 +81,6 @@ class ContentAPI: ObservableObject {
                     print("Error: \(error)")
                 }
             }
-            
         }
         task.resume()
     }

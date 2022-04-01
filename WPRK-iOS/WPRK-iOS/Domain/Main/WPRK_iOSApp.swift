@@ -8,6 +8,7 @@ import Foundation
 import SwiftUI
 import WPRKSDK
 import Firebase
+import AVFoundation
 
 @main
 struct WPRK_iOSApp: App {
@@ -27,7 +28,15 @@ class AppDelegate : NSObject, UIApplicationDelegate {
         FirebaseApp.configure()
         DependencyRegistryKt.doInitKoin()
         authorizeUserNotifications()
-        Thread.sleep(forTimeInterval: 2.5)
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
+            try
+                AVAudioSession.sharedInstance().setActive(true)
+        }
+        catch {
+            print("Setting category to AVAudioSessionCategoryPlayback failed.")
+        }
+        Thread.sleep(forTimeInterval: 1.1)
         return true
     }
     

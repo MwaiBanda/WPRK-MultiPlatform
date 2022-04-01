@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AVFoundation
 import SwiftUI
 import StoreKit
 
@@ -57,15 +56,7 @@ struct ContentWrapper<Content: View>: View {
                                     Color.black
                                 )
                             }
-                            .onAppear{
-                                do {
-                                    try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default, options: [])
-                                }
-                                catch {
-                                    print("Setting category to AVAudioSessionCategoryPlayback failed.")
-                                }
-                            }
-                            
+                    
                             .frame(width: geometry.size.width, height: geometry.size.height)
                             .offset(x: self.showMenu ? geometry.size.width/1.45 : 0)
                             
@@ -95,9 +86,7 @@ struct ContentWrapper<Content: View>: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarHidden(true)
         }
-        .onAppear(perform: {
-            
-        })
+       
     }
 }
 

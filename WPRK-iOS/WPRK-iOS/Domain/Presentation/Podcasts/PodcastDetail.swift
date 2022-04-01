@@ -33,7 +33,7 @@ struct PodcastDetail: View {
                     }
 
                     ForEach(episodes, id: \.id) { episode in
-                        ContentRow(episode: episode, streamer: streamer, paddingHorizontal: 20, paddingVertical: 20)
+                        ContentRow(showTitle: podcast.attributes.title ,episode: episode, streamer: streamer, paddingHorizontal: 20, paddingVertical: 20)
                         
                         Divider()
                             .background(Color.gray)

@@ -8,9 +8,11 @@
 import Foundation
 
 
-struct BusinessDeals: Identifiable, Hashable {
+struct BusinessDeal: Identifiable, Hashable {
     var id = UUID()
     let category: String
     let title: String
     let description: String
+    let contact: String
+    let address: String
 }
