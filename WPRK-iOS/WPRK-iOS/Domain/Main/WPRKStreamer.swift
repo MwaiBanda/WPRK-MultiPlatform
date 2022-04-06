@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import AVKit
+import AVFoundation
 import Combine
 import SwiftUI
 import MediaPlayer
@@ -128,9 +128,8 @@ final class WPRKStreamer:  AVPlayer, ObservableObject {
         // Get the shared MPRemoteCommandCenter
         let commandCenter = MPRemoteCommandCenter.shared()
         
-        // Add handler for Play Command
+        // handler for Play Command
         commandCenter.playCommand.addTarget { [unowned self] event in
-            print("Play command - is playing: \(self.isPlaying)")
             if !self.isPlaying {
                 self.initiateStream()
                 return .success
@@ -138,9 +137,8 @@ final class WPRKStreamer:  AVPlayer, ObservableObject {
             return .commandFailed
         }
         
-        // Add handler for Pause Command
+        // handler for Pause Command
         commandCenter.pauseCommand.addTarget { [unowned self] event in
-            print("Pause command - is playing: \(self.isPlaying)")
             if self.isPlaying {
                 self.pauseStream()
                 return .success
@@ -171,14 +169,13 @@ final class WPRKStreamer:  AVPlayer, ObservableObject {
     
     
     func updateNowPlaying(isPause: Bool, title: String? = nil) {
-        // Define Now Playing Info
+        
         var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo!
         nowPlayingInfo[MPMediaItemPropertyArtist] = title ?? "WPRK 91.5FM"
         nowPlayingInfo[MPMediaItemPropertyTitle] = displayTitle
         nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPause ? 0 : 1
         
-        // Set the metadata
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     

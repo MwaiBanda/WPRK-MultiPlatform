@@ -21,6 +21,7 @@ struct NavBar: View {
         return navTitle ?? ""
     }
     var body: some View {
+        VStack(spacing: 0) {
         ZStack {
             if navConfig == .defaultConfig {
                 ZStack {
@@ -33,7 +34,6 @@ struct NavBar: View {
                         Image("WPRKWhite")
                                .resizable()
                                .frame(width: 50, height: 50)
-                            .offset(y: 5)
                     Text((Title.isEmpty ? "" : navTitle) ?? "")
                         .fontWeight(.heavy)
                         .font(.title2)
@@ -113,6 +113,12 @@ struct NavBar: View {
                 }
                 .frame(minHeight: 75,  maxHeight: 85)
             }
+        }
+            
+                Divider().background(Color(.lightGray))
+                    .offset(y: -5)
+
+            
         }
     }
 }

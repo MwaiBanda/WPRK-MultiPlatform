@@ -69,13 +69,14 @@ struct PlayerView: View {
                 }.padding(.trailing)
             }
         }
-        .frame(maxWidth: screenBounds.width - 20, maxHeight: 70)
+        .frame(maxWidth: .infinity, maxHeight: 70)
         .background(Color(hex: 0xffafcc))
         .cornerRadius(10)
         .overlay(
                RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.white, lineWidth: 1.5)
            )
+        .padding(.horizontal,1)
         .padding(.bottom, 2)
         .onAppear {
             playing = streamer.isPlaying

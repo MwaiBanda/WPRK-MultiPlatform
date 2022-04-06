@@ -25,8 +25,7 @@ struct ShowHome: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack{
-                Divider().background(Color(.lightGray))
-                    .offset(y: 10)
+               
             VStack(alignment: .leading) {
                 HStack {
                     Text("Shows")
@@ -181,14 +180,13 @@ struct ShowHome: View {
                         }
                     }
                 }
-                .frame(height: 320)
+                .frame(height:  DeviceType.deviceIsPad ? .infinity : 320)
                 Spacer()
             }
             
             
         }
         .redacted(reason: shows.isEmpty ? .placeholder : [])
-        .padding(.leading)
         .padding(.top, 5)
         .foregroundColor(.white)
         .background(Color.white.opacity(0).ignoresSafeArea(.all))

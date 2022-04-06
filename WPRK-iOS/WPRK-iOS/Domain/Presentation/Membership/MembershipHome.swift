@@ -19,7 +19,7 @@ struct MembershipHome: View {
         "Account", "Card", "Deals"
     ]
     let deals = [
-        BusinessDeal(category: "DRINKS", title: "Nora's Sugar Shack", description: "$1 off bottles of wine and 6 packs, free gift while supply lasts over $10", contact: "(407)447-5885", address: "636 Virgina Drive, Orlando, FL 32803"),
+        BusinessDeal(category: "DRINKS", title: "Nora's Sugar Shack", description: "$1 off bottles of wine and 6 packs, free gift while supply lasts over $10", contact: "(407)447-5885", address: "636 Virginia Drive, Orlando, FL 32803"),
         BusinessDeal(category: "FOOD", title: "Tako Cheena", description: "15% off", contact: "(407)690-6270", address: "938 N Mills Ave, Orlando, FL 32803"),
         BusinessDeal(category: "FOOD", title: "Pop's Pizzeria", description: "15% off", contact: "(407)690-6270", address: "932 N Mills Ave, Orlando, FL 32803"),
         BusinessDeal(category: "CLOTHING", title: "The Owl's Attic", description: "10% off all vintage sales", contact: "(321)300-6957", address: "3106 Corrine Dr, Orlando, FL 32803"),
@@ -41,8 +41,7 @@ struct MembershipHome: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack{
-                Divider().background(Color(.lightGray))
-                    .offset(y: 10)
+             
         VStack(alignment: .leading) {
             HStack {
                 Text("Membership")
@@ -113,15 +112,18 @@ struct MembershipHome: View {
                 .foregroundColor(.gray)
                 }
             Divider().background(Color(.lightGray))
+                ScrollView(showsIndicators: false) {
+                    
+                
             ForEach(deals, id: \.id) { deal in
                 ContentRow(business: deal)
                 Divider().background(Color(.lightGray))
 
             }
+                }.frame(height: DeviceType.deviceIsPad ? .infinity : 570)
             Spacer()
         }
         }
-        .padding(.leading)
         .padding(.top, 5)
         .foregroundColor(.white)
         .background(Color.white.opacity(0).ignoresSafeArea(.all))

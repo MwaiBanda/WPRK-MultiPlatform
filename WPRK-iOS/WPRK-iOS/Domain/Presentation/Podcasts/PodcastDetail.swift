@@ -15,7 +15,7 @@ struct PodcastDetail: View {
     @ObservedObject var podcastAPI: ContentAPI
     @State private var  episodes = [Episode]()
     var body: some View {
-        ScrollView {
+        ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
                 ImageCover(imageUrl: podcast.attributes.imageURL, category: podcast.attributes.category)
                 

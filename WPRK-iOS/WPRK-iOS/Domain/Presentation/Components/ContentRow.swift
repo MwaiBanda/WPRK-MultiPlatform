@@ -98,7 +98,11 @@ struct ContentRow: View {
                                 /* ADD: Actions */
                                 HStack {
                                     if !business.address.isEmpty {
-                                        Button { actionSheet(address: business.address) } label: {
+                                        Button {
+                                            actionSheet(address: "\(business.title)\n\(business.address)")
+                                            let haptic = UIImpactFeedbackGenerator(style: .soft)
+                                            haptic.impactOccurred()
+                                        } label: {
                                             Image(systemName: "map")
                                                 .imageScale(.large)                                            .padding(8)
                                         }
@@ -110,6 +114,8 @@ struct ContentRow: View {
                                                 let mailSubject = "?subject=WPRK Membership Deal".replacingOccurrences(of: " ", with: "%20")
                                                 guard let url =  URL(string: "mailto:\(business.contact)" + mailSubject) else { return }
                                                 UIApplication.shared.open(url)
+                                                let haptic = UIImpactFeedbackGenerator(style: .soft)
+                                                haptic.impactOccurred()
                                             } label: {
                                                 Image(systemName: "envelope")
                                                     .imageScale(.large)                                            .padding(8)
@@ -121,6 +127,8 @@ struct ContentRow: View {
                                                 let formattedString = telephone + business.contact
                                                 guard let url = URL(string: formattedString) else { return }
                                                 UIApplication.shared.open(url)
+                                                let haptic = UIImpactFeedbackGenerator(style: .soft)
+                                                haptic.impactOccurred()
                                                 
                                             } label: {
                                                 
@@ -161,6 +169,7 @@ struct ContentRow: View {
     func actionSheet(address: String) {
         let av = UIActivityViewController(activityItems: [address], applicationActivities: nil)
         UIApplication.shared.windows.first?.rootViewController?.present(av, animated: true, completion: nil)
+        
     }
 }
 

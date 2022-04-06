@@ -9,6 +9,7 @@ import SwiftUI
 import WPRKSDK
 import Firebase
 import AVFoundation
+import SDWebImageSwiftUI
 
 @main
 struct WPRK_iOSApp: App {
@@ -36,7 +37,10 @@ class AppDelegate : NSObject, UIApplicationDelegate {
         catch {
             print("Setting category to AVAudioSessionCategoryPlayback failed.")
         }
-        Thread.sleep(forTimeInterval: 1.1)
+        SDWebImageDownloader
+            .shared
+            .setValue("image/webp,image/apng,image/*,*/*;q=0.8", forHTTPHeaderField: "Accept")
+        Thread.sleep(forTimeInterval: 0.5)
         return true
     }
     
