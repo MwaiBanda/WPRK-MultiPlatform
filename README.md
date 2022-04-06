@@ -108,13 +108,13 @@ Get app on the app store or playstore available for Android, iPhone & iPad
  </tr>
    <tr>
      <td>Notification Center</td>
-     <td>No Internet Access</td>
-       <td>Media Controls</td>
+     <td>Media Controls</td>
+       <td>No Internet Access </td>
   </tr>
    <tr>
     <td><img src="https://user-images.githubusercontent.com/49708426/141029288-d09b00c5-d1c6-4e4e-992f-99b10329c5c2.PNG" width=320 height=450></td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/141029336-904407e2-ef09-4d8c-be10-9438d2645e69.jpeg" width=320 height=450></td>
-       <td> <img src="https://user-images.githubusercontent.com/49708426/161981590-161a84df-c1bb-4cda-9ca5-ccafe83fe309.PNG" width=320 height=450></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/161981590-161a84df-c1bb-4cda-9ca5-ccafe83fe309.PNG" width=320 height=450></td>
+       <td><img src="https://user-images.githubusercontent.com/49708426/141029336-904407e2-ef09-4d8c-be10-9438d2645e69.jpeg" width=320 height=450> </td>
   </tr>
  <tr>
      <td>Notification Center</td>
