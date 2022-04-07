@@ -120,7 +120,7 @@ struct MembershipHome: View {
                 Divider().background(Color(.lightGray))
 
             }
-                }.frame(height: DeviceType.deviceIsPad ? .infinity : 570)
+                }.frame(height: DeviceType.deviceIsPad ? .infinity : (DeviceType.iPhone678  ||  DeviceType.iPhone12 || DeviceType.iPhoneX ? screenBounds.height - screenBounds.height * 0.43  : DeviceType.iPhone678p ? screenBounds.height - screenBounds.height * 0.4 : screenBounds.height - screenBounds.height * 0.385))
             Spacer()
         }
         }

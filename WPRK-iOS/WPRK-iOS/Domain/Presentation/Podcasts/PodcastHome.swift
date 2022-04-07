@@ -115,7 +115,7 @@ struct PodcastHome: View {
                         }
                     }
                 }
-                .frame(height: DeviceType.deviceIsPad ? .infinity : 495)
+                .frame(height: DeviceType.deviceIsPad ? .infinity : (DeviceType.iPhone678   ? screenBounds.height - screenBounds.height * 0.545  :DeviceType.iPhone12 || DeviceType.iPhoneX  ? screenBounds.height - screenBounds.height * 0.51 : DeviceType.iPhone678p ? screenBounds.height - screenBounds.height * 0.495 : screenBounds.height - screenBounds.height * 0.465))
                 Spacer()
             }
             .padding(.top, 5)

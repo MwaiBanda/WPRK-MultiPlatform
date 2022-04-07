@@ -180,7 +180,7 @@ struct ShowHome: View {
                         }
                     }
                 }
-                .frame(height:  DeviceType.deviceIsPad ? .infinity : 320)
+                .frame(height:  DeviceType.deviceIsPad ? .infinity : (DeviceType.iPhone678 ? screenBounds.height - screenBounds.height * 0.695  : DeviceType.iPhone12 ? screenBounds.height - screenBounds.height * 0.71 : DeviceType.iPhone678p ? screenBounds.height - screenBounds.height * 0.73 : screenBounds.height - screenBounds.height * 0.65))
                 Spacer()
             }
             
