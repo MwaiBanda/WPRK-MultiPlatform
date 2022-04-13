@@ -1,7 +1,7 @@
 # WPRK (Android, iOS & iPadOS)
 Multiplatform Radio &amp; Podcast Streaming App For WPRK, a licensed FCC broadcast station,
 The app allows users to connect to live music streams and cycle through
-podacasts which are playable as well. 
+podcasts which are playable as well. 
 
 ### Download Via AppStore or PlayStore
 Get app on the app store or playstore available for Android, iPhone & iPad
