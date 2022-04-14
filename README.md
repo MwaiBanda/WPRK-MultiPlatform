@@ -95,7 +95,7 @@ Get app on the app store or playstore available for Android, iPhone & iPad
  <tr>
       <td>Shows</td>
        <td>Show Detail</td>
-         <td>Memebership</td>
+         <td>Membership</td>
 
 
 </td>
