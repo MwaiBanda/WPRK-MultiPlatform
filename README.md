@@ -1,7 +1,7 @@
 # WPRK (Android, iOS & iPadOS)
-Multiplatform Radio &amp; Podcast Streaming App For WPRK, a licensed FCC broadcast station,
-The app allows users to connect to live music streams and cycle through
-podacasts which are playable as well. 
+Multiplatform Radio &amp; Podcast Streaming App For WPRK, a licensed FCC broadcast station.
+Built in Kotlin Multiplatform Mobile(KMM) w/ SwiftUI & Jetpack Compose, the app allows users to connect to live music streams and cycle through
+podcasts which are playable as well. 
 
 ### Download Via AppStore or PlayStore
 Get app on the app store or playstore available for Android, iPhone & iPad
@@ -15,6 +15,8 @@ Get app on the app store or playstore available for Android, iPhone & iPad
     <td><a href="https://play.google.com/store/apps/details?id=com.muse.wprk"  target="_blank" rel="noopener noreferrer"><img src="https://user-images.githubusercontent.com/49708426/152633576-d28488c9-68e1-4d5e-9922-b502e74d5c00.png"  width=140 height=70></a></td>
   </tr>
 </table>
+✅ <b>iOS & iPadOS:</b> 30+ Five Star Reviews & 500+ Downloads<br>
+✅ <b>Android:</b> 2+ Five Star Reviews & 45+ Downloads
 
 ## Dependencies, Targets & Stack 
 
@@ -95,7 +97,7 @@ Get app on the app store or playstore available for Android, iPhone & iPad
  <tr>
       <td>Shows</td>
        <td>Show Detail</td>
-         <td>Memebership</td>
+         <td>Membership</td>
 
 
 </td>
