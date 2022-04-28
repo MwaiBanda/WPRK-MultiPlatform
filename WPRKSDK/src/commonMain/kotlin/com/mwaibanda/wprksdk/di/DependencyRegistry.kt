@@ -3,7 +3,7 @@ package com.mwaibanda.wprksdk.di
 import com.mwaibanda.wprksdk.data.remote.AuthRepositoryImpl
 import com.mwaibanda.wprksdk.main.repository.AuthRepository
 import com.mwaibanda.wprksdk.main.usecase.auth.LoginWithEmailAndPasswordUseCase
-import com.mwaibanda.wprksdk.main.usecase.auth.SigInInAsAGuestUseCase
+import com.mwaibanda.wprksdk.main.usecase.auth.SignInInAsAGuestUseCase
 import com.mwaibanda.wprksdk.main.usecase.auth.SignInWithEmailAndPasswordUseCase
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
@@ -39,7 +39,7 @@ val repositoryModule = module {
 }
 val useCasesModule = module {
     single { LoginWithEmailAndPasswordUseCase(get()) }
-    single { SigInInAsAGuestUseCase(get()) }
+    single { SignInInAsAGuestUseCase(get()) }
     single { SignInWithEmailAndPasswordUseCase(get()) }
 }
 
