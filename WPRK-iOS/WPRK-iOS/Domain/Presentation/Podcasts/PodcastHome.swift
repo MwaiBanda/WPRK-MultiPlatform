@@ -12,7 +12,6 @@ import AVFoundation
 struct PodcastHome: View {
     @ObservedObject var streamer: WPRKStreamer
     @State private var selected: Podcast? = nil
-    @StateObject var podcastsAPI = ContentAPI()
     @ObservedObject var podcastViewModel: PodcastViewModel
     let group = DispatchGroup()
     var body: some View {
@@ -129,7 +128,7 @@ struct PodcastHome: View {
         
         .sheet(item: $selected) { podcast in
             ContentWrapper(streamer: streamer, navConfig: .detailConfig, navTitle: podcast.attributes.title) {
-                PodcastDetail(podcast: podcast, streamer: streamer, podcastAPI: podcastsAPI)
+                PodcastDetail(podcast: podcast, streamer: streamer, podcastViewModel: podcastViewModel)
             }
         }
     }

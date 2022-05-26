@@ -14,13 +14,8 @@ struct ShowHome: View {
     @State private var days = [
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     ]
-    @StateObject var liveViewModel = ShowViewModel()
-    @State private var currentDate = ""
-    @State private var currentDay = ""
-    @StateObject var showAPI = ContentAPI()
-    @State private var shows = [Show]()
-    @State private var showsScheduled = [Show]()
-    @State private var selected: Show? = nil
+    @StateObject var showViewModel = ShowViewModel(contentService: ContentServiceImpl.sharedInstance)
+  
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -46,7 +41,7 @@ struct ShowHome: View {
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
-                        if shows.isEmpty {
+                        if showViewModel.shows.isEmpty {
                             ForEach(0..<10, id: \.self) { i in
                                 RoundedRectangle(cornerRadius: 10)
                                     .frame(width: 190, height: 200, alignment: .center)
@@ -54,12 +49,12 @@ struct ShowHome: View {
                                     .redacted(reason: .placeholder)
                             }
                         } else {
-                        ForEach(shows, id: \.id) { i in
+                            ForEach(showViewModel.shows, id: \.id) { i in
                             VStack {
                             WebImage(url: URL(string: i.image))
                                 .resizable()
                                 .onTapGesture {
-                                    selected = i
+                                    showViewModel.selected = i
                                     let haptic = UIImpactFeedbackGenerator(style: .soft)
                                     haptic.impactOccurred()
                                 }
@@ -95,10 +90,10 @@ struct ShowHome: View {
                                         Circle()
                                             .frame(width: 90, height: 90, alignment: .center)
                                             .cornerRadius(10)
-                                            .foregroundColor(currentDay == days[i] ? Color(.white).opacity(0.2) : Color(hex: 0xffafcc))
+                                            .foregroundColor(showViewModel.currentDay == days[i] ? Color(.white).opacity(0.2) : Color(hex: 0xffafcc))
                                             .overlay(
                                                 Circle()
-                                                    .stroke(currentDay == days[i] ? Color(.gray) : Color.white, lineWidth: 1.5)
+                                                    .stroke(showViewModel.currentDay == days[i] ? Color(.gray) : Color.white, lineWidth: 1.5)
                                             )
                                             .padding(1)
                                         Text(String(days[i].prefix(3)))
@@ -108,12 +103,12 @@ struct ShowHome: View {
                                     .id(i)
                                     .onTapGesture {
                                         if i == 0  {
-                                            currentDate = liveViewModel.getCurrent()
+                                            showViewModel.currentDate = showViewModel.getCurrent()
                                         } else {
-                                            currentDate = liveViewModel.getDayByOffset(offset: i)
+                                            showViewModel.currentDate = showViewModel.getDayByOffset(offset: i)
                                         }
-                                        currentDay = days[i]
-                                        showsScheduled = shows.filter({ $0.getDate() == currentDate})
+                                        showViewModel.currentDay = days[i]
+                                        showViewModel.showsScheduled = showViewModel.shows.filter({ $0.getDate() == showViewModel.currentDate})
                                         let haptic = UIImpactFeedbackGenerator(style: .soft)
                                         haptic.impactOccurred()
                                         if i != days.indices.last {
@@ -138,7 +133,7 @@ struct ShowHome: View {
                             .font(.title)
                             .fontWeight(.heavy)
                         Spacer()
-                        Text(currentDay)
+                        Text(showViewModel.currentDay)
                             .padding(.trailing)
                             .foregroundColor(Color(.lightGray))
                     }
@@ -148,7 +143,7 @@ struct ShowHome: View {
                             .foregroundColor(.gray)
                         Spacer()
                         VStack(alignment: .trailing) {
-                            Text(currentDate)
+                            Text(showViewModel.currentDate)
                         }
                         .font(.caption)
                         .padding(.trailing)
@@ -161,20 +156,20 @@ struct ShowHome: View {
                 Divider().background(Color(.lightGray))
                 
                 ScrollView(showsIndicators: false) {
-                    if showsScheduled.isEmpty {
-                        ScheduleUnit(title: "Nothing Scheduled", category: "WPRK", startTime: "", endTime:"", currentDate: currentDate)
+                    if showViewModel.showsScheduled.isEmpty {
+                        ScheduleUnit(title: "Nothing Scheduled", category: "WPRK", startTime: "", endTime:"", currentDate: showViewModel.currentDate)
                             .padding(.top)
                         Divider().background(Color(.lightGray))
                     } else {
-                        ForEach(showsScheduled) { i in
-                            ScheduleUnit(title: i.title, category:i.category == .unset ? "WPRK" : i.category?.rawValue ?? "WPRK", startTime: i.getTime12(time: .START), endTime: i.getTime12(time: .END), currentDate: currentDate)
+                        ForEach(showViewModel.showsScheduled) { i in
+                            ScheduleUnit(title: i.title, category:i.category == .unset ? "WPRK" : i.category?.rawValue ?? "WPRK", startTime: i.getTime12(time: .START), endTime: i.getTime12(time: .END), currentDate: showViewModel.currentDate)
                                 .padding(.top)
                                 .onTapGesture {
-                                    selected = i
+                                    showViewModel.selected = i
                                     let haptic = UIImpactFeedbackGenerator(style: .soft)
                                     haptic.impactOccurred()
                                 }
-                            if showsScheduled.last?.id != i.id {
+                            if showViewModel.showsScheduled.last?.id != i.id {
                                 Divider().background(Color(.lightGray))
                             }
                         }
@@ -186,7 +181,7 @@ struct ShowHome: View {
             
             
         }
-        .redacted(reason: shows.isEmpty ? .placeholder : [])
+        .redacted(reason: showViewModel.shows.isEmpty ? .placeholder : [])
         .padding(.top, 5)
         .foregroundColor(.white)
         .background(Color.white.opacity(0).ignoresSafeArea(.all))
@@ -195,24 +190,13 @@ struct ShowHome: View {
             while(currentDateStr != days.first) {
                 days.append(days.remove(at: 0))
             }
-            
-            showAPI.getShows { result in
-                switch(result) {
-                case .success(let shows):
-                    self.shows = shows
-                    self.showsScheduled = shows.filter({ $0.getDate() == currentDate})
-                    print(shows)
-                    
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            self.currentDate = liveViewModel.getCurrent()
-            currentDay = days.first ?? ""
+            showViewModel.getShows()
+            showViewModel.currentDate = showViewModel.getCurrent()
+            showViewModel.currentDay = days.first ?? ""
             AppReviewRequest.RequestReviewWhenNeeeded()
 
         }
-        .sheet(item: $selected){ show in
+        .sheet(item: $showViewModel.selected){ show in
             ContentWrapper(streamer: streamer, navConfig: .detailConfig, navTitle: show.title) {
             ShowDetail(show: show)
             }

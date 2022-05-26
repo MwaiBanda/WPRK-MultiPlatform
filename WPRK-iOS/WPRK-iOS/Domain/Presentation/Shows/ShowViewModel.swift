@@ -8,7 +8,30 @@
 import Foundation
 
 class ShowViewModel: ObservableObject {
+    @Published var shows = [Show]()
+    @Published var showsScheduled = [Show]()
+    @Published var currentDate = ""
+    @Published var currentDay = ""
+    @Published var selected: Show? = nil
+    var contentService: ContentService
     
+    init(contentService: ContentService){
+        self.contentService = contentService
+    }
+    
+    func getShows() {
+        contentService.getShows { result in
+            switch(result) {
+            case .success(let shows):
+                self.shows = shows
+                self.showsScheduled = shows.filter({ $0.getDate() == self.currentDate})
+                print(shows)
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     func getCurrent() -> String {
         return Date().string(format: "yyyy-MM-dd")
     }

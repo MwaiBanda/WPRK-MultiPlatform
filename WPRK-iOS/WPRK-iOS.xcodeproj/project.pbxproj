@@ -10,6 +10,7 @@
 		638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */; };
 		8112C0EC27CAE867004319EE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8112C0EB27CAE867004319EE /* Launch Screen.storyboard */; };
 		8112C0EE27CAECE8004319EE /* PodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */; };
+		8112DFD8284016EE003FC13C /* ContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8112DFD7284016EE003FC13C /* ContentService.swift */; };
 		81635F8227F65D6B00650F7D /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81635F8127F65D6B00650F7D /* SDWebImageSwiftUI */; };
 		81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */; };
 		81721BED27AE265000C86F65 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BEC27AE265000C86F65 /* Preview Assets.xcassets */; };
@@ -44,7 +45,7 @@
 		81721C4027AE26BE00C86F65 /* ShowDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C1E27AE26BE00C86F65 /* ShowDetail.swift */; };
 		81721C4127AE26BE00C86F65 /* ShowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C1F27AE26BE00C86F65 /* ShowViewModel.swift */; };
 		81721C4227AE26BE00C86F65 /* MembershipHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2127AE26BE00C86F65 /* MembershipHome.swift */; };
-		81721C4327AE26BE00C86F65 /* ContentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2327AE26BE00C86F65 /* ContentAPI.swift */; };
+		81721C4327AE26BE00C86F65 /* ContentServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2327AE26BE00C86F65 /* ContentServiceImpl.swift */; };
 		81721C4627AE273C00C86F65 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4527AE273C00C86F65 /* Lottie */; };
 		81C5EC6D27AE7ACB0088C8DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */; };
 		81C9E37627C7F430000E7A06 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 81C9E37527C7F430000E7A06 /* FirebaseAnalytics */; };
@@ -55,6 +56,7 @@
 		04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WPRK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8112C0EB27CAE867004319EE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastViewModel.swift; sourceTree = "<group>"; };
+		8112DFD7284016EE003FC13C /* ContentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentService.swift; sourceTree = "<group>"; };
 		811357CE27AF4A65003B7234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		81635F8727F6A7F500650F7D /* WPRK-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WPRK-iOS.entitlements"; sourceTree = "<group>"; };
 		81721BE227AE264F00C86F65 /* WPRK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WPRK.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,7 +93,7 @@
 		81721C1E27AE26BE00C86F65 /* ShowDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowDetail.swift; sourceTree = "<group>"; };
 		81721C1F27AE26BE00C86F65 /* ShowViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowViewModel.swift; sourceTree = "<group>"; };
 		81721C2127AE26BE00C86F65 /* MembershipHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipHome.swift; sourceTree = "<group>"; };
-		81721C2327AE26BE00C86F65 /* ContentAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentAPI.swift; sourceTree = "<group>"; };
+		81721C2327AE26BE00C86F65 /* ContentServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentServiceImpl.swift; sourceTree = "<group>"; };
 		81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		84A1F8D731A6122DAF479EB7 /* Pods-WPRK-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WPRK-iOS.debug.xcconfig"; path = "Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ABDE65DDFBF9A162C5CE6A33 /* Pods-WPRK-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WPRK-iOS.release.xcconfig"; path = "Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -128,6 +130,14 @@
 				ABDE65DDFBF9A162C5CE6A33 /* Pods-WPRK-iOS.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		8112DFD6284016B5003FC13C /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				8112DFD7284016EE003FC13C /* ContentService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		81721BD927AE264F00C86F65 = {
@@ -224,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				81721C0227AE26BE00C86F65 /* WPRKStreamer.swift */,
+				8112DFD6284016B5003FC13C /* Service */,
 				81721C0527AE26BE00C86F65 /* Model */,
 				81721C0A27AE26BE00C86F65 /* ContentView.swift */,
 				81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */,
@@ -309,7 +320,7 @@
 		81721C2227AE26BE00C86F65 /* Remote */ = {
 			isa = PBXGroup;
 			children = (
-				81721C2327AE26BE00C86F65 /* ContentAPI.swift */,
+				81721C2327AE26BE00C86F65 /* ContentServiceImpl.swift */,
 			);
 			path = Remote;
 			sourceTree = "<group>";
@@ -443,7 +454,8 @@
 				81721C2627AE26BE00C86F65 /* Color+Swift.swift in Sources */,
 				81721C2427AE26BE00C86F65 /* View+Swift.swift in Sources */,
 				81721C2B27AE26BE00C86F65 /* WPRKStreamer.swift in Sources */,
-				81721C4327AE26BE00C86F65 /* ContentAPI.swift in Sources */,
+				8112DFD8284016EE003FC13C /* ContentService.swift in Sources */,
+				81721C4327AE26BE00C86F65 /* ContentServiceImpl.swift in Sources */,
 				81721C3127AE26BE00C86F65 /* ContentView.swift in Sources */,
 				81721C4027AE26BE00C86F65 /* ShowDetail.swift in Sources */,
 				81721C3D27AE26BE00C86F65 /* PlayerView.swift in Sources */,

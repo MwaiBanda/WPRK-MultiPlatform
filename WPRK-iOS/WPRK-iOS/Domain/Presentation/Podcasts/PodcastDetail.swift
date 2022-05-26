@@ -12,8 +12,7 @@ import AVKit
 struct PodcastDetail: View {
     var podcast: Podcast
     @ObservedObject var streamer: WPRKStreamer
-    @ObservedObject var podcastAPI: ContentAPI
-    @State private var  episodes = [Episode]()
+    @ObservedObject var podcastViewModel: PodcastViewModel
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
@@ -32,7 +31,7 @@ struct PodcastDetail: View {
                     }.padding(.leading)
                     }
 
-                    ForEach(episodes, id: \.id) { episode in
+                    ForEach(podcastViewModel.episodes, id: \.id) { episode in
                         ContentRow(showTitle: podcast.attributes.title ,episode: episode, streamer: streamer, paddingHorizontal: 20, paddingVertical: 20)
                         
                         Divider()
@@ -48,14 +47,7 @@ struct PodcastDetail: View {
         }
         .foregroundColor(.white)
         .onAppear {
-            podcastAPI.getEpisode(showID: podcast.id) { result in
-                switch(result){
-                case .success(let episodes):
-                    self.episodes.append(contentsOf: episodes)
-                case .failure(let err):
-                    print(err.localizedDescription)
-                }
-            }
+            podcastViewModel.fetchEpisodes(showID: podcast.id)
         }
     }
 }

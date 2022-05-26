@@ -7,8 +7,9 @@
 
 import Foundation
 
-class ContentAPI: ObservableObject {
-    func getShows(completion: @escaping (Result<[Show], Error>) -> ()) {
+final class ContentServiceImpl: ContentService {
+    
+     func getShows(completion: @escaping (Result<[Show], Error>) -> ()) {
         let url = URL(string: "https://spinitron.com/api/shows?access-token=\(Constants.SPINITRON_KEY)")!
         let request  = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request) { (data, res, err) in
@@ -62,7 +63,7 @@ class ContentAPI: ObservableObject {
         task.resume()
     }
     
-    func getEpisode(showID: String, completion: @escaping (Result<[Episode], Error>) -> ()) {
+    func getEpisodes(showID: String, completion: @escaping (Result<[Episode], Error>) -> ()) {
         let url = URL(string:"https://api.transistor.fm/v1/episodes?show_id=\(showID)")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -84,4 +85,6 @@ class ContentAPI: ObservableObject {
         }
         task.resume()
     }
+    private init() { }
+    static let sharedInstance = ContentServiceImpl()
 }
