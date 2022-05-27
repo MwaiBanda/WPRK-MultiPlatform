@@ -16,21 +16,24 @@ final class PodcastViewModel: ObservableObject {
     @Published var episodes = [Episode]()
     @Published var selectedFeatured: Podcast? = nil
     
-    init(contentService: ContentService, group: DispatchGroup){
+    init(contentService: ContentService, group: DispatchGroup = DispatchGroup()){
         self.contentService = contentService
         self.group = group
+
         fetchPodcasts { self.selectedFeatured = $0 }
+        
     }
     func fetchPodcasts(onCompletion: @escaping (Podcast) -> Void){
         group.enter()
         contentService.getPodcasts { result in
             switch(result) {
             case .success(let podcasts):
-                self.podcasts = podcasts
-                guard let firstPodcast = podcasts.first else { return }
-                self.fetchFeatured(showID: firstPodcast.id)
-                onCompletion(firstPodcast)
-                
+                DispatchQueue.main.async {
+                    self.podcasts = podcasts
+                    guard let firstPodcast = podcasts.first else { return }
+                    self.fetchFeatured(showID: firstPodcast.id)
+                    onCompletion(firstPodcast)
+                }
             case .failure(let error):
                 print(error.localizedDescription )
             }

@@ -20,7 +20,7 @@ class ShowViewModel: ObservableObject {
     }
     
     func getShows() {
-        contentService.getShows { result in
+         contentService.getShows { result in
             switch(result) {
             case .success(let shows):
                 self.shows = shows
@@ -28,7 +28,7 @@ class ShowViewModel: ObservableObject {
                 print(shows)
                 
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }

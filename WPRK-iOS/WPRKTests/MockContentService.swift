@@ -10,15 +10,13 @@ import Foundation
 class MockContentService: ContentService {
     func getShows(completion: @escaping (Result<[Show], Error>) -> ()) {
         do {
-           try MockDataSource.sharedInstance.getShows(completion: completion)
-        } catch FetchError.badNetwork {
-            print("bad Network")
-        } catch FetchError.noInternet {
-            print("no Internet")
-
-        } catch FetchError.noData {
-            print("no data")
-
+            try MockDataSource.sharedInstance.getShows(completion: completion)
+        } catch FetchError.badNetwork(let description) {
+            print("Error: \(description)")
+        } catch FetchError.noInternet(let description) {
+            print("Error: \(description)")
+        } catch FetchError.noData(let description) {
+            print("Error: \(description)")
         } catch {
             print("Unknown Error")
 

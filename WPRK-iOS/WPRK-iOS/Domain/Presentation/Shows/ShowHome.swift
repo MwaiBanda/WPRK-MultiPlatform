@@ -190,7 +190,13 @@ struct ShowHome: View {
             while(currentDateStr != days.first) {
                 days.append(days.remove(at: 0))
             }
-            showViewModel.getShows()
+            do {
+            try showViewModel.getShows()
+
+            } catch {
+                print("Unknown Error")
+
+            }
             showViewModel.currentDate = showViewModel.getCurrent()
             showViewModel.currentDay = days.first ?? ""
             AppReviewRequest.RequestReviewWhenNeeeded()
