@@ -47,7 +47,7 @@ struct PodcastDetail: View {
         }
         .foregroundColor(.white)
         .onAppear {
-            podcastViewModel.fetchEpisodes(showID: podcast.id)
+            podcastViewModel.getEpisodes(showID: podcast.id)
         }
     }
 }

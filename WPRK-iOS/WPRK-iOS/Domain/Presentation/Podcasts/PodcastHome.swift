@@ -169,7 +169,7 @@ struct PodcastHome: View {
                                 .padding(.trailing)
                                 .onTapGesture {
                                     podcastViewModel.selectedFeatured = i
-                                    podcastViewModel.fetchFeatured(showID: podcastViewModel.selectedFeatured?.id ?? "")
+                                    podcastViewModel.getFeatured(showID: podcastViewModel.selectedFeatured?.id ?? "")
                                     let haptic = UIImpactFeedbackGenerator(style: .soft)
                                     haptic.impactOccurred()
                                     if i != podcastViewModel.podcasts.last {

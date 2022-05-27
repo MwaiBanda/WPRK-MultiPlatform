@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ShowViewModel: ObservableObject {
+final class ShowViewModel: ObservableObject {
     @Published var shows = [Show]()
     @Published var showsScheduled = [Show]()
     @Published var currentDate = ""
@@ -26,7 +26,6 @@ class ShowViewModel: ObservableObject {
                 self.shows = shows
                 self.showsScheduled = shows.filter({ $0.getDate() == self.currentDate})
                 print(shows)
-                
             case .failure(let error):
                 print(error.localizedDescription)
             }

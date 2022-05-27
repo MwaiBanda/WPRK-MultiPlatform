@@ -15,7 +15,7 @@ import SDWebImageSwiftUI
 struct WPRK_iOSApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var networkService = NetworkService.sharedInstance
-    @StateObject private var podcastViewModel = PodcastViewModel(contentService: ContentServiceImpl.sharedInstance, group: DispatchGroup())
+    @StateObject private var podcastViewModel = PodcastViewModel(contentService: ContentServiceImplementation.sharedInstance, group: DispatchGroup())
     var body: some Scene {
         WindowGroup {
             ContentView(networkService: networkService, podcastViewModel: podcastViewModel)

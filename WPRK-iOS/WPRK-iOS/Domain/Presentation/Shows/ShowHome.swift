@@ -14,7 +14,7 @@ struct ShowHome: View {
     @State private var days = [
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     ]
-    @StateObject var showViewModel = ShowViewModel(contentService: ContentServiceImpl.sharedInstance)
+    @StateObject var showViewModel = ShowViewModel(contentService: ContentServiceImplementation.sharedInstance)
   
 
     var body: some View {
@@ -190,13 +190,7 @@ struct ShowHome: View {
             while(currentDateStr != days.first) {
                 days.append(days.remove(at: 0))
             }
-            do {
-            try showViewModel.getShows()
-
-            } catch {
-                print("Unknown Error")
-
-            }
+            showViewModel.getShows()
             showViewModel.currentDate = showViewModel.getCurrent()
             showViewModel.currentDay = days.first ?? ""
             AppReviewRequest.RequestReviewWhenNeeeded()

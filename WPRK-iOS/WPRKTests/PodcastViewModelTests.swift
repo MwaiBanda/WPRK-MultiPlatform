@@ -10,6 +10,7 @@ import XCTest
 class PodcastViewModelTests: XCTestCase {
     var mockContentService: ContentService!
     var sut: PodcastViewModel!
+    
     override func setUpWithError() throws {
         mockContentService = MockContentService()
         sut = PodcastViewModel(contentService: mockContentService)
@@ -22,12 +23,18 @@ class PodcastViewModelTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testGetFetchPodcasts() throws {
-        sut.fetchPodcasts { _ in }
-        XCTAssertEqual(sut.featured.count, [Podcast]().count)
+    func testGetAllPodcasts() throws {
+        sut.getPodcasts { _ in }
+        XCTAssertNotEqual(sut.podcasts.count, [Podcast]().count)
     }
 
-    func testPerformanceExample() throws {
+    func testGetFeaturedEpisodes() throws {
+        sut.featured.removeAll()
+        sut.getFeatured(showID: "Test")
+        XCTAssertTrue(sut.featured.count == 4)
+    }
+
+    func testPerformance() throws {
         measure {  }
     }
 

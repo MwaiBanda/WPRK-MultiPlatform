@@ -7,8 +7,7 @@
 
 import Foundation
 
-final class ContentServiceImpl: ContentService {
-    
+final class ContentServiceImplementation: ContentService {
      func getShows(completion: @escaping (Result<[Show], Error>) -> ()) {
         let url = URL(string: "https://spinitron.com/api/shows?access-token=\(Constants.SPINITRON_KEY)")!
         let request  = URLRequest(url: url)
@@ -86,5 +85,5 @@ final class ContentServiceImpl: ContentService {
         task.resume()
     }
     private init() { }
-    static let sharedInstance = ContentServiceImpl()
+    static let sharedInstance = ContentServiceImplementation()
 }

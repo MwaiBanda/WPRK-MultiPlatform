@@ -10,6 +10,7 @@ import XCTest
 class ShowViewModelTests: XCTestCase {
     var mockContentService: ContentService!
     var sut: ShowViewModel!
+    
     override func setUpWithError() throws {
         mockContentService = MockContentService()
         sut = ShowViewModel(contentService: mockContentService)
@@ -27,7 +28,7 @@ class ShowViewModelTests: XCTestCase {
         XCTAssertNotEqual(sut.shows.count, [Show]().count)
     }
 
-    func testPerformanceExample() throws {
+    func testPerformance() throws {
         measure { }
     }
 
