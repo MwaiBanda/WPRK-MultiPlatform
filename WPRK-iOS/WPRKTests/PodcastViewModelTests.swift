@@ -30,12 +30,26 @@ class PodcastViewModelTests: XCTestCase {
 
     func testGetFeaturedEpisodes() throws {
         sut.featured.removeAll()
-        sut.getFeatured(showID: "Test")
+        sut.getFeatured(showID: Contants.testID)
         XCTAssertTrue(sut.featured.count == 4)
+    }
+    
+    func testGetAllEpisodes() throws {
+        sut.getEpisodes(showID: Contants.testID)
+        XCTAssertTrue(sut.episodes.count > 4)
+    }
+    
+    func testEpisodeSortOrder() throws {
+        sut.getEpisodes(showID: Contants.testID)
+        var episodes = sut.episodes
+        episodes = Array(episodes.dropFirst(9)).shuffled()
+        print(episodes)
+        episodes = episodes.sorted(by: { return $0.attributes.number > $1.attributes.number })
+        XCTAssertLessThan(episodes[1].attributes.number, episodes[0].attributes.number)
     }
 
     func testPerformance() throws {
-        measure {  }
+        measure {  sut.getFeatured(showID: Contants.testID) }
     }
 
 }
