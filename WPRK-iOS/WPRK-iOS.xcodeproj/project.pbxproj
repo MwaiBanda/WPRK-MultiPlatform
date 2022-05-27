@@ -47,10 +47,25 @@
 		81721C4227AE26BE00C86F65 /* MembershipHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2127AE26BE00C86F65 /* MembershipHome.swift */; };
 		81721C4327AE26BE00C86F65 /* ContentServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2327AE26BE00C86F65 /* ContentServiceImpl.swift */; };
 		81721C4627AE273C00C86F65 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4527AE273C00C86F65 /* Lottie */; };
+		81BCFF4428404BD800DF0D1D /* WPRKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCFF4328404BD800DF0D1D /* WPRKTests.swift */; };
+		81BCFF4C28404DAA00DF0D1D /* MockContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCFF4B28404DAA00DF0D1D /* MockContentService.swift */; };
+		81BCFF4D28404E2400DF0D1D /* MockContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCFF4B28404DAA00DF0D1D /* MockContentService.swift */; };
+		81BCFF4F2840520600DF0D1D /* MockDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCFF4E2840520600DF0D1D /* MockDataSource.swift */; };
+		81BCFF512840537B00DF0D1D /* MockDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCFF4E2840520600DF0D1D /* MockDataSource.swift */; };
 		81C5EC6D27AE7ACB0088C8DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */; };
 		81C9E37627C7F430000E7A06 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 81C9E37527C7F430000E7A06 /* FirebaseAnalytics */; };
 		81C9E37827C7F430000E7A06 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 81C9E37727C7F430000E7A06 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		81BCFF4528404BD800DF0D1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 81721BDA27AE264F00C86F65 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 81721BE127AE264F00C86F65;
+			remoteInfo = "WPRK-iOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WPRK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +109,10 @@
 		81721C1F27AE26BE00C86F65 /* ShowViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowViewModel.swift; sourceTree = "<group>"; };
 		81721C2127AE26BE00C86F65 /* MembershipHome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MembershipHome.swift; sourceTree = "<group>"; };
 		81721C2327AE26BE00C86F65 /* ContentServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentServiceImpl.swift; sourceTree = "<group>"; };
+		81BCFF4128404BD800DF0D1D /* WPRKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WPRKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		81BCFF4328404BD800DF0D1D /* WPRKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPRKTests.swift; sourceTree = "<group>"; };
+		81BCFF4B28404DAA00DF0D1D /* MockContentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockContentService.swift; sourceTree = "<group>"; };
+		81BCFF4E2840520600DF0D1D /* MockDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataSource.swift; sourceTree = "<group>"; };
 		81C5EC6C27AE7ACB0088C8DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		84A1F8D731A6122DAF479EB7 /* Pods-WPRK-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WPRK-iOS.debug.xcconfig"; path = "Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ABDE65DDFBF9A162C5CE6A33 /* Pods-WPRK-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WPRK-iOS.release.xcconfig"; path = "Target Support Files/Pods-WPRK-iOS/Pods-WPRK-iOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -109,6 +128,13 @@
 				81721C4627AE273C00C86F65 /* Lottie in Frameworks */,
 				81C9E37627C7F430000E7A06 /* FirebaseAnalytics in Frameworks */,
 				638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81BCFF3E28404BD800DF0D1D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				81721BE427AE264F00C86F65 /* WPRK-iOS */,
+				81BCFF4228404BD800DF0D1D /* WPRKTests */,
 				81721BE327AE264F00C86F65 /* Products */,
 				207744821D3F2E12E2DF875F /* Pods */,
 				043C0BCCE4A0DAD0AED01315 /* Frameworks */,
@@ -154,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				81721BE227AE264F00C86F65 /* WPRK.app */,
+				81BCFF4128404BD800DF0D1D /* WPRKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -325,6 +353,24 @@
 			path = Remote;
 			sourceTree = "<group>";
 		};
+		81BCFF4228404BD800DF0D1D /* WPRKTests */ = {
+			isa = PBXGroup;
+			children = (
+				81BCFF4A28404D4600DF0D1D /* PodcastTest */,
+				81BCFF4328404BD800DF0D1D /* WPRKTests.swift */,
+			);
+			path = WPRKTests;
+			sourceTree = "<group>";
+		};
+		81BCFF4A28404D4600DF0D1D /* PodcastTest */ = {
+			isa = PBXGroup;
+			children = (
+				81BCFF4B28404DAA00DF0D1D /* MockContentService.swift */,
+				81BCFF4E2840520600DF0D1D /* MockDataSource.swift */,
+			);
+			path = PodcastTest;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -352,6 +398,24 @@
 			productReference = 81721BE227AE264F00C86F65 /* WPRK.app */;
 			productType = "com.apple.product-type.application";
 		};
+		81BCFF4028404BD800DF0D1D /* WPRKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 81BCFF4928404BD800DF0D1D /* Build configuration list for PBXNativeTarget "WPRKTests" */;
+			buildPhases = (
+				81BCFF3D28404BD800DF0D1D /* Sources */,
+				81BCFF3E28404BD800DF0D1D /* Frameworks */,
+				81BCFF3F28404BD800DF0D1D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				81BCFF4628404BD800DF0D1D /* PBXTargetDependency */,
+			);
+			name = WPRKTests;
+			productName = WPRKTests;
+			productReference = 81BCFF4128404BD800DF0D1D /* WPRKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -359,11 +423,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1320;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					81721BE127AE264F00C86F65 = {
 						CreatedOnToolsVersion = 13.2.1;
+					};
+					81BCFF4028404BD800DF0D1D = {
+						CreatedOnToolsVersion = 13.4;
+						TestTargetID = 81721BE127AE264F00C86F65;
 					};
 				};
 			};
@@ -386,6 +454,7 @@
 			projectRoot = "";
 			targets = (
 				81721BE127AE264F00C86F65 /* WPRK-iOS */,
+				81BCFF4028404BD800DF0D1D /* WPRKTests */,
 			);
 		};
 /* End PBXProject section */
@@ -400,6 +469,13 @@
 				81721BF427AE269C00C86F65 /* Assets.xcassets in Resources */,
 				8112C0EC27CAE867004319EE /* Launch Screen.storyboard in Resources */,
 				81721BED27AE265000C86F65 /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		81BCFF3F28404BD800DF0D1D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,11 +526,13 @@
 				81721C2527AE26BE00C86F65 /* Date+Swift.swift in Sources */,
 				81721C2D27AE26BE00C86F65 /* BusinessDeal.swift in Sources */,
 				81721C3327AE26BE00C86F65 /* TabBar.swift in Sources */,
+				81BCFF4D28404E2400DF0D1D /* MockContentService.swift in Sources */,
 				81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */,
 				81721C2627AE26BE00C86F65 /* Color+Swift.swift in Sources */,
 				81721C2427AE26BE00C86F65 /* View+Swift.swift in Sources */,
 				81721C2B27AE26BE00C86F65 /* WPRKStreamer.swift in Sources */,
 				8112DFD8284016EE003FC13C /* ContentService.swift in Sources */,
+				81BCFF512840537B00DF0D1D /* MockDataSource.swift in Sources */,
 				81721C4327AE26BE00C86F65 /* ContentServiceImpl.swift in Sources */,
 				81721C3127AE26BE00C86F65 /* ContentView.swift in Sources */,
 				81721C4027AE26BE00C86F65 /* ShowDetail.swift in Sources */,
@@ -471,7 +549,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		81BCFF3D28404BD800DF0D1D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				81BCFF4F2840520600DF0D1D /* MockDataSource.swift in Sources */,
+				81BCFF4428404BD800DF0D1D /* WPRKTests.swift in Sources */,
+				81BCFF4C28404DAA00DF0D1D /* MockContentService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		81BCFF4628404BD800DF0D1D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 81721BE127AE264F00C86F65 /* WPRK-iOS */;
+			targetProxy = 81BCFF4528404BD800DF0D1D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		81721BEE27AE265000C86F65 /* Debug */ = {
@@ -664,6 +760,44 @@
 			};
 			name = Release;
 		};
+		81BCFF4728404BD800DF0D1D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HB3YHCHVH;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WPRK.app/WPRK";
+			};
+			name = Debug;
+		};
+		81BCFF4828404BD800DF0D1D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2HB3YHCHVH;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WPRK.app/WPRK";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -681,6 +815,15 @@
 			buildConfigurations = (
 				81721BF127AE265000C86F65 /* Debug */,
 				81721BF227AE265000C86F65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		81BCFF4928404BD800DF0D1D /* Build configuration list for PBXNativeTarget "WPRKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				81BCFF4728404BD800DF0D1D /* Debug */,
+				81BCFF4828404BD800DF0D1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
