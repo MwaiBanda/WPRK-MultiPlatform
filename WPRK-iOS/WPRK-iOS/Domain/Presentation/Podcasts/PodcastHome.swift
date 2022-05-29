@@ -13,7 +13,6 @@ struct PodcastHome: View {
     @ObservedObject var streamer: WPRKStreamer
     @State private var selected: Podcast? = nil
     @ObservedObject var podcastViewModel: PodcastViewModel
-    let group = DispatchGroup()
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack {
