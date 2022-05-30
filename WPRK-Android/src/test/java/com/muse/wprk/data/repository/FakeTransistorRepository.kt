@@ -8,10 +8,10 @@ import org.junit.Assert.*
 
 class FakeTransistorRepository: TransistorRepository {
     override suspend fun getPodcasts(): Resource<Podcast> {
-        TODO("Not yet implemented")
+        return Resource.Success(List(4) { Podcast("1010", "The Joe Rogan: Experience ", "description", "", 4)})
     }
 
     override suspend fun getEpisodes(showID: String): Resource<Episode> {
-        TODO("Not yet implemented")
+        return Resource.Success(List(5){ Episode("1001", "Space Cadet", "", 0, "", "") })
     }
 }

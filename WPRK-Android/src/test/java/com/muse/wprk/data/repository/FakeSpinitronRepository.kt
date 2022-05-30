@@ -10,6 +10,6 @@ import org.junit.Before
 
 class FakeSpinitronRepository: SpinitronRepository {
     override suspend fun getShows(accessToken: String): Resource<Show> {
-        TODO("Not yet implemented")
+        return Resource.Success(List(4){ Show(10101,"","",0,"","", "", "", "", "", "")})
     }
 }
