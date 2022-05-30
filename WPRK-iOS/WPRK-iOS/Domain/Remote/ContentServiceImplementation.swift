@@ -13,7 +13,6 @@ final class ContentServiceImplementation: ContentService {
         let request  = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request) { (data, res, err) in
             DispatchQueue.main.async {
-                print(data!)
                 do {
                     let shows = try JSONDecoder().decode(Shows.self, from: data!)
                     completion(.success(shows.items))

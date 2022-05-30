@@ -43,7 +43,6 @@ class PodcastViewModelTests: XCTestCase {
         sut.getEpisodes(showID: Contants.testID)
         var episodes = sut.episodes
         episodes = Array(episodes.dropFirst(9)).shuffled()
-        print(episodes)
         episodes = episodes.sorted(by: { return $0.attributes.number > $1.attributes.number })
         XCTAssertLessThan(episodes[1].attributes.number, episodes[0].attributes.number)
     }

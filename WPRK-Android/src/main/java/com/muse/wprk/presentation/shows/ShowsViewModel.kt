@@ -7,26 +7,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.muse.wprk.core.exts.LocalDateEx
 import com.muse.wprk.core.utilities.Resource
 import com.muse.wprk.main.model.Show
+import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.usecase.GetShowUseCase
-import com.toddway.shelf.Shelf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class LiveViewModel @Inject constructor(
     private val getShowUseCase: GetShowUseCase,
-    private val shelf: Shelf,
-    ): ViewModel() {
+    private val cacheRepository: CacheRepository
+): ViewModel() {
 
     private val _shows: MutableLiveData<List<Show>> = MutableLiveData()
     var shows: LiveData<List<Show>> = _shows
+
     private var loadError = mutableStateOf("")
     private var isLoading = mutableStateOf(false)
 
@@ -58,9 +59,9 @@ class LiveViewModel @Inject constructor(
     }
     @MainThread
     fun onScheduleChange(scheduleDate: LocalDate): Flow<List<Show>> {
-       val shows = shelf.item("SHOWS").getList(Show::class).orEmpty()
+        val shows = cacheRepository.getShows("SHOWS")
         return flow {
-                emit(shows)
+             emit(shows)
         }
     }
 
@@ -76,9 +77,4 @@ class LiveViewModel @Inject constructor(
         return currentDay().plusDays(offset)
     }
 }
-object LocalDateEx {
-    @JvmStatic
-    fun getNow(): LocalDate = Calendar.getInstance().toLocalDate()
-}
 
-fun Calendar.toLocalDate(): LocalDate = LocalDate.of(get(Calendar.YEAR), get(Calendar.MONTH) + 1, get(Calendar.DAY_OF_MONTH))

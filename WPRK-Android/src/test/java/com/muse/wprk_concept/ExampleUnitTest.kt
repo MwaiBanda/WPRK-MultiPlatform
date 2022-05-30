@@ -1,5 +1,7 @@
 package com.muse.wprk_concept
 
+import com.muse.wprk.main.usecase.GetEpisodesUseCase
+import com.muse.wprk.presentation.podcasts.PodcastViewModel
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -13,5 +15,6 @@ class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
+
     }
 }

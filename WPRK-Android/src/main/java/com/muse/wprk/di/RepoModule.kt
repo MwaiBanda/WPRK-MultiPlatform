@@ -5,6 +5,8 @@ import com.muse.wprk.data.remote.SpinitronApi
 import com.muse.wprk.data.remote.TransistorApi
 import com.muse.wprk.data.repository.SpinitronRepositoryImpl
 import com.muse.wprk.data.repository.TransistorRepositoryImpl
+import com.muse.wprk.main.repository.SpinitronRepository
+import com.muse.wprk.main.repository.TransistorRepository
 import com.muse.wprk.main.usecase.GetEpisodesUseCase
 import com.muse.wprk.main.usecase.GetPodcastsUseCase
 import com.muse.wprk.main.usecase.GetShowUseCase
@@ -26,7 +28,7 @@ object RepoModule {
     fun provideSpinitronRepo(
         api: SpinitronApi,
         shelf: Shelf
-    ) = SpinitronRepositoryImpl(api, shelf)
+    ): SpinitronRepository = SpinitronRepositoryImpl(api, shelf)
 
 
     @ViewModelScoped
@@ -51,18 +53,18 @@ object RepoModule {
 
     @ViewModelScoped
     @Provides
-    fun provideTransistorRepo(api: TransistorApi, shelf: Shelf) = TransistorRepositoryImpl(api, shelf)
+    fun provideTransistorRepo(api: TransistorApi, shelf: Shelf): TransistorRepository = TransistorRepositoryImpl(api, shelf)
 
     @ViewModelScoped
     @Provides
-    fun provideShowsUseCase(repo: SpinitronRepositoryImpl) = GetShowUseCase(repo)
+    fun provideShowsUseCase(repo: SpinitronRepository) = GetShowUseCase(repo)
 
     @ViewModelScoped
     @Provides
-    fun provideEpisodesUseCase(repo: TransistorRepositoryImpl) = GetEpisodesUseCase(repo)
+    fun provideEpisodesUseCase(repo: TransistorRepository) = GetEpisodesUseCase(repo)
 
     @ViewModelScoped
     @Provides
-    fun providePodcastsUseCase(repo: TransistorRepositoryImpl) = GetPodcastsUseCase(repo)
+    fun providePodcastsUseCase(repo: TransistorRepository) = GetPodcastsUseCase(repo)
 
 }

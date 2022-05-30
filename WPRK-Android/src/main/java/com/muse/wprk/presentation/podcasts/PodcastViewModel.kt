@@ -3,12 +3,12 @@ package com.muse.wprk.presentation.podcasts
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
+import com.muse.wprk.core.exts.LocalDateEx
 import com.muse.wprk.core.utilities.Resource
 import com.muse.wprk.main.model.Episode
 import com.muse.wprk.main.model.Podcast
 import com.muse.wprk.main.usecase.GetEpisodesUseCase
 import com.muse.wprk.main.usecase.GetPodcastsUseCase
-import com.muse.wprk.presentation.shows.LocalDateEx
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
@@ -18,7 +18,6 @@ import javax.inject.Inject
 class PodcastViewModel @Inject constructor(
     private val getPodcastsUseCase: GetPodcastsUseCase,
     private val getEpisodesUseCase: GetEpisodesUseCase,
-    private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
 
     private val _podcasts: MutableLiveData<List<Podcast>> = MutableLiveData()
