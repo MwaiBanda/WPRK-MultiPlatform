@@ -1,7 +1,7 @@
 package com.muse.wprk.di
 
 import android.app.Application
-import com.muse.wprk.core.utilities.CacheRepositoryImpl
+import com.muse.wprk.data.repository.CacheRepositoryImpl
 import com.muse.wprk.main.model.Episode
 import com.muse.wprk.main.model.Podcast
 import com.muse.wprk.main.model.Show

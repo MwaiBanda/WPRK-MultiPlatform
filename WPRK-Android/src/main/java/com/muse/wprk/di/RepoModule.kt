@@ -5,6 +5,7 @@ import com.muse.wprk.data.remote.SpinitronApi
 import com.muse.wprk.data.remote.TransistorApi
 import com.muse.wprk.data.repository.SpinitronRepositoryImpl
 import com.muse.wprk.data.repository.TransistorRepositoryImpl
+import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.repository.SpinitronRepository
 import com.muse.wprk.main.repository.TransistorRepository
 import com.muse.wprk.main.usecase.GetEpisodesUseCase
@@ -27,8 +28,8 @@ object RepoModule {
     @Provides
     fun provideSpinitronRepo(
         api: SpinitronApi,
-        shelf: Shelf
-    ): SpinitronRepository = SpinitronRepositoryImpl(api, shelf)
+        cache: CacheRepository
+    ): SpinitronRepository = SpinitronRepositoryImpl(api, cache)
 
 
     @ViewModelScoped
@@ -53,7 +54,10 @@ object RepoModule {
 
     @ViewModelScoped
     @Provides
-    fun provideTransistorRepo(api: TransistorApi, shelf: Shelf): TransistorRepository = TransistorRepositoryImpl(api, shelf)
+    fun provideTransistorRepo(
+        api: TransistorApi,
+        cache: CacheRepository
+    ): TransistorRepository = TransistorRepositoryImpl(api, cache)
 
     @ViewModelScoped
     @Provides

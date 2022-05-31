@@ -11,12 +11,15 @@ import kotlinx.coroutines.test.*
 
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class PodcastViewModelTest {
     private lateinit var getEpisodesUseCase: GetEpisodesUseCase
     private lateinit var getPodcastsUseCase: GetPodcastsUseCase
     private lateinit var viewModel: PodcastViewModel
+
+
 
     @Before
     fun setUp() {
