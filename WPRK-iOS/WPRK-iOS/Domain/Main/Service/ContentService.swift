@@ -8,7 +8,7 @@
 import Foundation
 
 protocol ContentService {
-    func getShows(completion: @escaping (Result<[Show], Error>) -> ())
-    func getPodcasts(completion: @escaping (Result<[Podcast], Error>) -> ())
-    func getEpisodes(showID: String, completion: @escaping (Result<[Episode], Error>) -> ())
+    func getShows(onCompletion: @escaping (Result<[Show], Error>) -> ())
+    func getPodcasts(onCompletion: @escaping (Result<[Podcast], Error>) -> ())
+    func getEpisodes(showID: String, onCompletion: @escaping (Result<[Episode], Error>) -> ())
 }

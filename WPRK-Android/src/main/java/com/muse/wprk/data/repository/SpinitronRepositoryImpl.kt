@@ -22,6 +22,7 @@ class SpinitronRepositoryImpl @Inject constructor(
         val cachedShows = cache.getShows(SHOWS_KEY)
 
         if (cachedShows.isNotEmpty()) return Resource.Success(data = cachedShows)
+
         try {
             val remoteShows = api.getShows(accessToken = accessToken).collection.map { it.toShow() }
             Log.d("FET", "$remoteShows")
@@ -31,6 +32,7 @@ class SpinitronRepositoryImpl @Inject constructor(
         }  catch (e: IOException) {
             return Resource.Error(e.localizedMessage ?: "IO Error Type")
         }
+
         val newlyCachedShows = cache.getShows(SHOWS_KEY)
         return Resource.Success(data = newlyCachedShows)
     }

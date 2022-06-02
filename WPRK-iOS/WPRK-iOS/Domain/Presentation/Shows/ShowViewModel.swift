@@ -20,15 +20,19 @@ final class ShowViewModel: ObservableObject {
     }
     
     func getShows() {
-         contentService.getShows { result in
-            switch(result) {
-            case .success(let shows):
-                self.shows = shows
-                self.showsScheduled = shows.filter({ $0.getDate() == self.currentDate})
-                print(shows)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+            contentService.getShows { result in
+               switch(result) {
+               case .success(let shows):
+                   DispatchQueue.main.async {
+                   self.shows = shows
+                   self.showsScheduled = shows.filter({ $0.getDate() == self.currentDate})
+                       print(shows)
+
+                   }
+               case .failure(let error):
+                   print(error.localizedDescription)
+               }
+           
         }
     }
     func getCurrent() -> String {

@@ -7,8 +7,6 @@ import com.muse.wprk.main.model.Episode
 import com.muse.wprk.main.model.Podcast
 import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.repository.TransistorRepository
-import com.toddway.shelf.Shelf
-import com.toddway.shelf.olderThan
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -30,6 +28,7 @@ class TransistorRepositoryImpl @Inject constructor(
         }  catch (e: IOException) {
             return Resource.Error(e.localizedMessage ?: "IO Error Type")
         }
+
         val newlyCachedPodcasts = cache.getPodcasts(PODCASTS_KEY)
         return Resource.Success(newlyCachedPodcasts)
     }
@@ -40,13 +39,14 @@ class TransistorRepositoryImpl @Inject constructor(
         if (cachedEpisode.isNotEmpty()) return Resource.Success(cachedEpisode)
 
         try {
-            val remoteEpisodes = api.getEpisode(API_KEY = Constants.TRANSISTOR_KEY, ID = showID).data.map { it.toEpisode() }
+            val remoteEpisodes = api.getEpisodes(API_KEY = Constants.TRANSISTOR_KEY, ID = showID).data.map { it.toEpisode() }
             cache.setEpisodes(showID, remoteEpisodes)
         } catch (e: HttpException) {
             return Resource.Error(e.localizedMessage ?: "Http Error Type")
         }  catch (e: IOException) {
             return Resource.Error(e.localizedMessage ?: "IO Error Type")
         }
+
         val newlyCachedEpisodes = cache.getEpisodes(showID)
         return Resource.Success(newlyCachedEpisodes)
     }

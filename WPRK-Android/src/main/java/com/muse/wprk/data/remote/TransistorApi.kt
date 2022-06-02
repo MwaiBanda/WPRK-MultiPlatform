@@ -13,7 +13,7 @@ interface TransistorApi {
     ): Podcasts
 
     @GET("episodes")
-    suspend fun getEpisode(
+    suspend fun getEpisodes(
         @Header("x-api-key")API_KEY: String,
         @Query("show_id")ID: String
     ): Episodes
