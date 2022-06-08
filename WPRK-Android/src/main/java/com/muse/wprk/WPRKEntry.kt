@@ -1,6 +1,8 @@
 package com.muse.wprk
 
 import android.content.Context
+import android.media.audiofx.Equalizer
+import android.media.audiofx.LoudnessEnhancer
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -14,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -23,11 +24,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Util
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import com.google.android.exoplayer2.util.MimeTypes
 import com.muse.wprk.core.NavigationRoutes
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.presentation.components.WPRKPlayer
@@ -38,8 +41,9 @@ import com.muse.wprk.ui.theme.WPRK_conceptTheme
 @Composable
 fun WPRKEntry(
     isPlaying: Boolean,
+    onPlayerEnabled: (ExoPlayer) -> Unit,
     onPlayPauseClick: (Boolean) -> Unit,
-    content: @Composable (NavHostController, PaddingValues, SimpleExoPlayer, ProvidableCompositionLocal<Context>) -> Unit
+    content: @Composable (NavHostController, PaddingValues, ExoPlayer, ProvidableCompositionLocal<Context>) -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
@@ -62,24 +66,37 @@ fun WPRKEntry(
     val current = context.current
     val player = remember {
 
-        SimpleExoPlayer.Builder(current).build().apply {
-            val dataSourceFactory = DefaultDataSourceFactory(
-                current,
-                Util.getUserAgent(current, current.packageName)
-            )
+        val player = ExoPlayer.Builder(current)
+            .build().apply {
+
+            val dataSourceFactory = DefaultHttpDataSource.Factory()
+
             val media = MediaItem.Builder()
                 .setUri(Constants.DEFAULT_STREAM)
-                .setLiveTargetOffsetMs(5000)
-                .setLiveMaxPlaybackSpeed(1.02f)
+                .setLiveConfiguration(MediaItem.LiveConfiguration.Builder().build().apply {
+                    setPlaybackSpeed(1.02f)
+                    setAudioAttributes(AudioAttributes.Builder()
+                        .setUsage(C.USAGE_MEDIA)
+                        .setContentType(C.CONTENT_TYPE_MUSIC)
+                        .build(),
+                        true
+                    )
+                    setForegroundMode(true)
+                })
                 .build()
+
+
+
 
             val source = ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(media)
 
             setMediaSource(source)
-            setHandleAudioBecomingNoisy(true)
             prepare()
+            onPlayerEnabled(this)
         }
+
+        player
 
     }
 
@@ -102,7 +119,9 @@ fun WPRKEntry(
                                             crossfade(true)
                                         }
                                     ),
-                                        modifier = Modifier.size(50.dp).offset(x= (-35).dp),
+                                        modifier = Modifier
+                                            .size(50.dp)
+                                            .offset(x = (-35).dp),
                                         contentScale = ContentScale.Crop,
                                         contentDescription = null
                                     )

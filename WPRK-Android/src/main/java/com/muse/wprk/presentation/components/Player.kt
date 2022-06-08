@@ -30,6 +30,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaMetadata
 import com.google.android.exoplayer2.MetadataRetriever
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -39,11 +40,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun WPRKPlayer(player : SimpleExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) -> Unit) {
+fun WPRKPlayer(player : ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) -> Unit) {
     var currentTitle by remember { mutableStateOf("") }
     var count by remember { mutableStateOf(0) }
-    val scope = rememberCoroutineScope()
-    val context = LocalContext.current
+
     val onMediaMetadataChanged: (MediaMetadata) -> Unit =  { mediaMetadata ->
         if (mediaMetadata.title != null) {
             val remoteTitle = player.mediaMetadata.title.toString()
@@ -68,7 +68,7 @@ fun WPRKPlayer(player : SimpleExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Bo
         )
         Row(
             modifier = Modifier
-                .fillMaxWidth(0.95f)
+                .fillMaxWidth()
                 .height(65.dp) // ADD Clickable Navigate to Detail
                 .clip(RoundedCornerShape(10.dp))
                 .background(color = Color.parse("#ffafcc"))

@@ -21,6 +21,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -31,7 +32,7 @@ import com.google.android.exoplayer2.util.Util
 
 class Person(val first: String, val last: String)
 @Composable
-fun PlayerView(player: SimpleExoPlayer,context: ProvidableCompositionLocal<Context>){
+fun PlayerView(player: ExoPlayer, context: ProvidableCompositionLocal<Context>){
     val context = context.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
