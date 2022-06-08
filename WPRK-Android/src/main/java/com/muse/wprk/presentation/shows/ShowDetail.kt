@@ -6,43 +6,34 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-import com.muse.wprk.main.model.Episode
+import com.muse.wprk.core.utilities.ShowTime
+import com.muse.wprk.main.model.Show
 import com.muse.wprk.presentation.components.ExpandableText
-import com.muse.wprk.presentation.podcasts.PodcastViewModel
-import com.muse.wprk_concept.presentation.swapList
 
 @Composable
 fun ShowDetail(
-        navController: NavController,
-        thumbnailURL: String?,
-        title: String?,
-        description: String?,
-        gradient: Color,
+    show: Show,
+    gradient: Color,
     ) {
         val lazyListState = rememberLazyListState()
-
 
         LazyColumn(Modifier.fillMaxHeight(), state = lazyListState) {
             item {
                 Box(modifier = Modifier.height(350.dp)) {
                     Image(painter = rememberImagePainter(
-                        data = thumbnailURL ?: "",
+                        data = show.image,
                         onExecute = { _, _ -> true },
                         builder = {
                             crossfade(true)
@@ -75,7 +66,7 @@ fun ShowDetail(
                                     .background(Color.White)
                                     .padding(horizontal = 15.dp, vertical = 5.dp)
                             ) {
-                                Text(text = "Talk", color = Color.Black)
+                                Text(text = "WPRK", color = Color.Black)
                             }
                         }
                     }
@@ -89,14 +80,34 @@ fun ShowDetail(
 
                 ) {
                     Text(
-                        text = title ?: "",
+                        text = show.title,
                         color = Color.White,
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    ExpandableText(text = description ?: "", minimizedMaxLines = 4)
+                    ExpandableText(text = show.description, minimizedMaxLines = 4)
                     Spacer(modifier = Modifier.height(10.dp))
+                    Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "Schedule",
+                        color = Color.White,
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    ExpandableText(text = "Below Is The Scheduled Time", minimizedMaxLines = 4)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
                 }
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(10.dp))
+                Row {
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text(text = "${show.getTime(ShowTime.START)} - ${show.getTime(ShowTime.END)}", color = Color.White)
+                }
+                Spacer(modifier = Modifier.height(10.dp))
             }
         }
     }

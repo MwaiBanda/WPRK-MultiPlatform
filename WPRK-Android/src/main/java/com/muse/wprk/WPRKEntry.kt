@@ -24,6 +24,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.ExoPlayer
 import com.muse.wprk.core.NavigationRoutes
 import com.muse.wprk.core.utilities.Constants
+import com.muse.wprk.core.utilities.ScreenConfigurations
 import com.muse.wprk.presentation.components.WPRKPlayer
 import com.muse.wprk.ui.theme.WPRK_conceptTheme
 
@@ -63,7 +64,7 @@ fun WPRKEntry(
                     if (currentRoute != NavigationRoutes.SplashScreen.route)
                         TopAppBar(
                             title = {
-                                if (currentRoute?.take(13) != NavigationRoutes.PodcastDetail.route.take(13))
+                                if (!ScreenConfigurations.screensWithBackButton.contains(currentRoute?.take(7)))
                                     Row(
                                         Modifier.fillMaxSize(),
                                         verticalAlignment = Alignment.CenterVertically,
@@ -85,7 +86,7 @@ fun WPRKEntry(
                                     }
                             },
                             navigationIcon = {
-                                if (currentRoute?.take(13) == NavigationRoutes.PodcastDetail.route.take(13)) {
+                                if (ScreenConfigurations.screensWithBackButton.contains(currentRoute?.take(7))) {
                                     IconButton(onClick = {
                                         navController.popBackStack()
                                     }) {

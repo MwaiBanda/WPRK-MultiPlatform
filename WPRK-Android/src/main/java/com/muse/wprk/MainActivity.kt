@@ -27,8 +27,10 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.muse.wprk.core.NavigationRoutes.*
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.main.PodcastHome
+import com.muse.wprk.main.model.Show
 import com.muse.wprk.presentation.podcasts.PodcastDetail
 import com.muse.wprk.presentation.podcasts.PodcastViewModel
+import com.muse.wprk.presentation.shows.ShowDetail
 import com.muse.wprk_concept.presentation.MembershipHome
 import com.muse.wprk_concept.presentation.ShowHome
 import com.mwaibanda.virtualgroceries.Domain.Presentation.Navigation.SplashScreen
@@ -78,9 +80,10 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             var isPlaying by rememberSaveable { mutableStateOf(false) }
+            var currentShow: Show? by rememberSaveable { mutableStateOf(null) }
+
             WPRKEntry(
                 player,
                 isPlaying,
@@ -97,13 +100,32 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
                         SplashScreen(navController)
                     }
                     composable(ShowHome.route) {
-                        ShowHome(gradient = backgroundColor, showsViewModel = hiltViewModel()) {
+                        ShowHome(
+                            navController = navController,
+                            gradient = backgroundColor,
+                            showsViewModel = hiltViewModel(),
+                            onShowClick = { currentShow = it }
+                        ) {
                             switchToURL(it) {
                                 isPlaying = true
                             }
                         }
                     }
-                    composable(PodcastHome.route) {
+                    composable(
+                        ShowDetail.route,
+
+                    ) { backStackEntry ->
+                        currentShow?.let {
+                            ShowDetail(
+                                show = it,
+                                gradient = backgroundColor
+                            )
+                        }
+                    }
+                    composable(
+                        PodcastHome.route,
+
+                    ) {
                         PodcastHome(
                             navController = navController,
                             backgroundColor = backgroundColor,

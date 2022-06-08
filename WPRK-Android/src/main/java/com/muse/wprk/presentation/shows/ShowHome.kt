@@ -28,24 +28,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.muse.wprk.core.utilities.ShowTime
 import com.muse.wprk.main.model.Show
-import com.muse.wprk.main.model.getFormattedDate
 import com.muse.wprk.presentation.components.LiveButton
 import com.muse.wprk.presentation.shows.ShowViewModel
 import com.muse.wprk.presentation.shows.ScheduledShows
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.util.*
 
-@SuppressLint("FlowOperatorInvokedInComposition")
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ShowHome(
+    navController: NavController,
     gradient: Color,
     showsViewModel: ShowViewModel,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    onShowClick: (Show) -> Unit,
     onSwitchToDefault: (String) -> Unit
 ) {
     var days = remember {
@@ -134,8 +140,7 @@ fun ShowHome(
         item {
             LazyRow(state = showState, modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed(shows) { i, show ->
-
-
+                    var imageURL = URLEncoder.encode(show.image, StandardCharsets.UTF_8.toString())
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
                     Box {
                         Image(
@@ -148,6 +153,10 @@ fun ShowHome(
                             ),
                             contentDescription = null,
                             modifier = Modifier
+                                .clickable {
+                                    onShowClick(show)
+                                    navController.navigate("sDetail")
+                                }
                                 .width(175.dp)
                                 .height(180.dp)
                         )
@@ -271,8 +280,7 @@ fun ShowHome(
 @Composable
 fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black, Color.LightGray))
-    ShowHome(gradient = Color.Black, showsViewModel = hiltViewModel<ShowViewModel>()) {
-
+    ShowHome(rememberNavController(), gradient = Color.Black, showsViewModel = hiltViewModel<ShowViewModel>(), onShowClick = {}) {
     }
 }
 

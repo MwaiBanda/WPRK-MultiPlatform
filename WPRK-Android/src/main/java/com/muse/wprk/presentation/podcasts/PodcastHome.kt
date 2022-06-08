@@ -51,7 +51,7 @@ fun PodcastHome(
     var episodes = remember { mutableStateListOf<Episode>()}
 
     val navigateToDetail: (Podcast, String) -> Unit = { podcast, imageURL ->
-        navController.navigate("podcastDetail/${podcast.id}/$imageURL/${podcast.title}/${podcast.description}")
+        navController.navigate("pDetail/${podcast.id}/$imageURL/${podcast.title}/${podcast.description}")
     }
     LaunchedEffect(key1 = Unit) {
         podcastViewModel.getPodcasts {
