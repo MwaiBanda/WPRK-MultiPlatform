@@ -2,9 +2,9 @@ package com.muse.wprk.core
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BookOnline
-import androidx.compose.material.icons.filled.LiveTv
-import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.outlined.AlternateEmail
+import androidx.compose.material.icons.outlined.BookOnline
+import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.muse.wprk.R
 
@@ -12,12 +12,12 @@ sealed class NavigationRoutes(
     val route: String,
     @StringRes val resourceId: Int? = null,
     val icon: ImageVector? = null,
-    val tabName: String? = null
 ) {
-    object Live : NavigationRoutes(route ="live", resourceId = R.string.live, icon = Icons.Default.LiveTv, tabName = "Home")
-    object Podcasts : NavigationRoutes(route ="podcasts", resourceId = R.string.podcasts, icon = Icons.Default.BookOnline, tabName = "Podcasts")
-    object PodcastDetail : NavigationRoutes(route ="podcastDetail/{showID}/{imageURL}/{title}/{subTitle}",resourceId = R.string.podcasts, icon = Icons.Default.BookOnline, "Podcasts")
-    object Account : NavigationRoutes(route ="account", resourceId = R.string.account, icon = Icons.Default.PersonAdd, tabName = "Account")
+    object ShowHome : NavigationRoutes(route ="shows", resourceId = R.string.shows, icon = Icons.Outlined.DateRange)
+    object ShowDetail : NavigationRoutes(route ="showDetail")
+    object PodcastHome : NavigationRoutes(route ="podcasts", resourceId = R.string.podcasts, icon = Icons.Outlined.BookOnline)
+    object PodcastDetail : NavigationRoutes(route ="podcastDetail/{showID}/{imageURL}/{title}/{subTitle}", icon = Icons.Outlined.BookOnline)
+    object Membership: NavigationRoutes(route ="membership", resourceId = R.string.membership, icon = Icons.Outlined.AlternateEmail)
     object PlayerScreen: NavigationRoutes(route ="playerScreen")
     object SplashScreen: NavigationRoutes(route ="splashScreen")
 }

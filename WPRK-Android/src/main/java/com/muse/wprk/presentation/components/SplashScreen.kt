@@ -39,7 +39,7 @@ fun SplashScreen(navController: NavController){
             )
         )
         delay(2200L)
-        navController.navigate(NavigationRoutes.Live.route)
+        navController.navigate(NavigationRoutes.ShowHome.route)
 
 
     }

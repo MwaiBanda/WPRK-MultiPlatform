@@ -34,7 +34,7 @@ import com.muse.wprk.core.utilities.ShowTime
 import com.muse.wprk.main.model.Show
 import com.muse.wprk.main.model.getFormattedDate
 import com.muse.wprk.presentation.components.LiveButton
-import com.muse.wprk.presentation.shows.LiveViewModel
+import com.muse.wprk.presentation.shows.ShowViewModel
 import com.muse.wprk.presentation.shows.ScheduledShows
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -42,9 +42,9 @@ import java.util.*
 
 @SuppressLint("FlowOperatorInvokedInComposition")
 @Composable
-fun ShowsHome(
+fun ShowHome(
     gradient: Color,
-    showsViewModel: LiveViewModel,
+    showsViewModel: ShowViewModel,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     onSwitchToDefault: (String) -> Unit
 ) {
@@ -57,33 +57,30 @@ fun ShowsHome(
     val showState = rememberLazyListState()
     val scheduleState = rememberLazyListState()
     val mainColumnState = rememberLazyListState()
-    val columnState = rememberLazyListState()
-    var shows = remember { mutableStateListOf<Show>() }
-    var scheduledShows = remember { mutableStateListOf<Show>() }
+    val shows = remember { mutableStateListOf<Show>() }
+    val scheduledShows = remember { mutableStateListOf<Show>() }
 
     var currentDayString by remember { mutableStateOf("") }
     var selectedDate = remember { mutableStateOf(showsViewModel.currentDay()) }
     var selectedDateString by remember {
         mutableStateOf("")
     }
-    var empty =  listOf(
-            Show(
-                0,
-                "WPRK",
-                "",
-                0,
-                "2018-07-22T14:00:00-03:00",
-                "",
-                "",
-                "2018-07-22T14:00:00-03:00",
-                "",
-                "Nothing Scheduled",
-                ""
 
-            )
+    val empty = listOf(
+        Show(
+            id = 0,
+            category = "WPRK",
+            description = "",
+            duration = 0,
+            end = "2018-07-22T14:00:00-03:00",
+            image = "",
+            since = "",
+            start = "2018-07-22T14:00:00-03:00",
+            timezone = "",
+            title = "Nothing Scheduled",
+            url = ""
         )
-
-
+    )
 
     showsViewModel.shows.observe(lifecycle) { newShows ->
         shows.swapList(newShows)
@@ -274,7 +271,7 @@ fun ShowsHome(
 @Composable
 fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black, Color.LightGray))
-    ShowsHome(gradient = Color.Black, showsViewModel = hiltViewModel<LiveViewModel>()) {
+    ShowHome(gradient = Color.Black, showsViewModel = hiltViewModel<ShowViewModel>()) {
 
     }
 }

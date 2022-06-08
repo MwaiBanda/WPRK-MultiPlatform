@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.sp
 import com.muse.wprk.main.model.Episode
 
 @Composable
-fun EpisodeRow(onEpisodeClick: (String) -> Unit, episode: Episode) {
+fun EpisodeRow(modifier: Modifier = Modifier, episode: Episode, onEpisodeClick: (String) -> Unit) {
     Spacer(modifier = Modifier.height(10.dp))
-    Column(Modifier.clickable { onEpisodeClick(episode.episodeURL) }) {
+    Column(modifier.clickable { onEpisodeClick(episode.episodeURL) }) {
         Text(text = "EPISODE ${episode.number}", fontSize = 12.sp, color = Color.White)
         Text(text = episode.title, fontWeight = FontWeight.ExtraBold, color = Color.White)
         ExpandableText(text = episode.description

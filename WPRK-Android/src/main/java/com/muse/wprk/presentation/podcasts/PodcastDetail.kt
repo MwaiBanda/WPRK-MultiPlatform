@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.muse.wprk.main.model.Episode
@@ -31,7 +32,7 @@ import com.muse.wprk_concept.presentation.swapList
 
 @Composable
 fun PodcastDetail(
-    navController: NavHostController,
+    navController: NavController,
     thumbnailURL: String?,
     showID: String?,
     title: String?,
@@ -96,7 +97,7 @@ fun PodcastDetail(
             Column(
                 modifier = Modifier
                     .background(gradient)
-                    .padding(start = 10.dp)
+                    .padding(horizontal = 10.dp)
 
             ) {
                 Text(
@@ -113,7 +114,7 @@ fun PodcastDetail(
             if (episodes.first() == episode) {
                 Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             }
-            EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episode = episode)
+            EpisodeRow(Modifier.padding(horizontal = 10.dp),episode = episode){ onEpisodeClick(it) }
             if (episodes.last() != episode) {
                 Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             }

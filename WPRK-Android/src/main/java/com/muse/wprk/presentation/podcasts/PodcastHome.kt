@@ -184,7 +184,7 @@ fun PodcastHome(
                 item {
                     episodes.forEachIndexed { i, item ->
                         if(i < 4) {
-                            EpisodeRow(onEpisodeClick = { onEpisodeClick(it) }, episode = item)
+                            EpisodeRow(episode = item){ onEpisodeClick(it) }
                             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
                         }
                         if (i == 4 || item.id == episodes.last().id  && episodes.count()  < 5) {

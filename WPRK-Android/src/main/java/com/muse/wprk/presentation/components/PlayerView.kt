@@ -32,8 +32,7 @@ import com.google.android.exoplayer2.util.Util
 
 class Person(val first: String, val last: String)
 @Composable
-fun PlayerView(player: ExoPlayer, context: ProvidableCompositionLocal<Context>){
-    val context = context.current
+fun PlayerView(player: ExoPlayer, context: Context){
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
     val playerView = remember {
@@ -99,25 +98,3 @@ fun PlayerControls(player: Player) {
     }
 }
 
-@Composable
-@Preview
-fun PlayerScreenPreview(){
-    val context = LocalContext
-    val current = context.current
-    val player = remember {
-        SimpleExoPlayer.Builder(current).build().apply {
-            val dataSourceFactory = DefaultDataSourceFactory(
-                current,
-                Util.getUserAgent(current, current.packageName)
-            )
-            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(MediaItem.fromUri(Uri.parse("http://wprk.broadcasttool.stream:80/stream")))
-
-            setMediaSource(source)
-            prepare()
-            play()
-        }
-    }
-
-    PlayerView( player = player, context = context)
-}

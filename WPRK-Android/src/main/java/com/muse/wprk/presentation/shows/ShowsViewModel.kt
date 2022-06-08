@@ -20,7 +20,7 @@ import org.threeten.bp.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
-class LiveViewModel @Inject constructor(
+class ShowViewModel @Inject constructor(
     private val getShowUseCase: GetShowUseCase,
     private val cacheRepository: CacheRepository
 ): ViewModel() {

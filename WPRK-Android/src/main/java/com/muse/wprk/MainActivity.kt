@@ -1,12 +1,9 @@
 package com.muse.wprk
 
 import android.content.Context
-import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.audiofx.LoudnessEnhancer
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -28,31 +25,66 @@ import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.muse.wprk.core.NavigationRoutes.*
+import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.main.PodcastHome
-import com.muse.wprk.presentation.components.PlayerView
 import com.muse.wprk.presentation.podcasts.PodcastDetail
 import com.muse.wprk.presentation.podcasts.PodcastViewModel
 import com.muse.wprk_concept.presentation.MembershipHome
-import com.muse.wprk_concept.presentation.ShowsHome
+import com.muse.wprk_concept.presentation.ShowHome
 import com.mwaibanda.virtualgroceries.Domain.Presentation.Navigation.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.log10
+import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListener {
     private lateinit var loudnessEnhancer: LoudnessEnhancer
-
+    private lateinit var player: ExoPlayer
     private val audioManager: AudioManager by lazy {
         getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
-    private var focusCallback: AudioManager.OnAudioFocusChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
-        Log.d("Main", "Audio Focus changed to $focusChange")
+
+    override fun onStart() {
+        super.onStart()
+        player = ExoPlayer.Builder(this)
+            .build()
+            .apply {
+                val dataSourceFactory = DefaultHttpDataSource.Factory()
+                val media = MediaItem.Builder()
+                    .setUri(Constants.DEFAULT_STREAM)
+                    .setLiveConfiguration(
+                        MediaItem.LiveConfiguration.Builder()
+                            .build().apply {
+                                setPlaybackSpeed(1.02f)
+                                setAudioAttributes(
+                                    AudioAttributes.Builder()
+                                        .setUsage(C.USAGE_MEDIA)
+                                        .setContentType(C.CONTENT_TYPE_MUSIC)
+                                        .build(),
+                                    true
+                                )
+                                setForegroundMode(true)
+                            })
+                    .build()
+                val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(media)
+
+                setMediaSource(source)
+                prepare()
+            }.also { enhanceLoudness(it) }
     }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             var isPlaying by rememberSaveable { mutableStateOf(false) }
-            WPRKEntry(isPlaying, { enhanceLoudness(it) }, onPlayPauseClick = { isPlaying = it }) { navController, navPadding, player, context ->
+            WPRKEntry(
+                player,
+                isPlaying,
+                onPlayPauseClick = { isPlaying = it }) { navController, navPadding ->
                 val backgroundColor = Color.Black
                 NavHost(
                     navController = navController,
@@ -64,82 +96,78 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
                     composable(SplashScreen.route) {
                         SplashScreen(navController)
                     }
-                    composable(Live.route) {
-                        val context = context.current
-                        ShowsHome(gradient = backgroundColor, showsViewModel = hiltViewModel()) {
-                            switchToURL(it, context, player) {
+                    composable(ShowHome.route) {
+                        ShowHome(gradient = backgroundColor, showsViewModel = hiltViewModel()) {
+                            switchToURL(it) {
                                 isPlaying = true
                             }
                         }
                     }
-                    composable(Podcasts.route) {
-                        val context = context.current
-                        PodcastHome(navController = navController, backgroundColor = backgroundColor, podcastViewModel = hiltViewModel()){
-                            switchToURL(it, context, player) {
-                                isPlaying = true
-                            }
-                        }
-                    }
-                    composable(Account.route) {
-                        val context = context.current
-                        MembershipHome(backgroundColor = backgroundColor){
-                            switchToURL(it, context, player){
-                                isPlaying = true
-                            }
-                        }
-                    }
-                    composable(PlayerScreen.route){ PlayerView(player = player, context = context) }
-                    composable(
-                            PodcastDetail.route,
-                            arguments = listOf(
-                                navArgument("showID"){ defaultValue = "" },
-                                navArgument("imageURL"){ defaultValue = ""},
-                                navArgument("title"){ defaultValue = ""},
-                                navArgument("subTitle"){ defaultValue = ""}
-                            )){ backStackEntry ->
-
-                        val context = context.current
-                        PodcastDetail(
-                                navController = navController,
-                                thumbnailURL = backStackEntry.arguments?.getString("imageURL"),
-                                showID = backStackEntry.arguments?.getString("showID"),
-                                title = backStackEntry.arguments?.getString("title"),
-                                description = backStackEntry.arguments?.getString("subTitle"),
-                                gradient = backgroundColor,
-                                podcastViewModel = hiltViewModel<PodcastViewModel>()
+                    composable(PodcastHome.route) {
+                        PodcastHome(
+                            navController = navController,
+                            backgroundColor = backgroundColor,
+                            podcastViewModel = hiltViewModel()
                         ) {
-                            switchToURL(it, context, player) {
+                            switchToURL(it) {
+                                isPlaying = true
+                            }
+                        }
+                    }
+                    composable(
+                        PodcastDetail.route,
+                        arguments = listOf(
+                            navArgument("showID") { defaultValue = "" },
+                            navArgument("imageURL") { defaultValue = "" },
+                            navArgument("title") { defaultValue = "" },
+                            navArgument("subTitle") { defaultValue = "" }
+                        )) { backStackEntry ->
+
+                        PodcastDetail(
+                            navController = navController,
+                            thumbnailURL = backStackEntry.arguments?.getString("imageURL"),
+                            showID = backStackEntry.arguments?.getString("showID"),
+                            title = backStackEntry.arguments?.getString("title"),
+                            description = backStackEntry.arguments?.getString("subTitle"),
+                            gradient = backgroundColor,
+                            podcastViewModel = hiltViewModel<PodcastViewModel>()
+                        ) {
+                            switchToURL(it) {
                                 isPlaying = true
                             }
                         }
 
                     }
+
+                    composable(Membership.route) {
+                        MembershipHome(backgroundColor = backgroundColor) {
+                            switchToURL(it) {
+                                isPlaying = true
+                            }
+                        }
+                    }
+
                 }
             }
-
         }
-
     }
+
     private fun switchToURL(
         URL: String,
-        context: Context,
-        player: ExoPlayer,
         onCompletion: () -> Unit
     ) {
-
-
         player.apply {
             val dataSourceFactory = DefaultHttpDataSource.Factory()
-
 
             val sourceURL = MediaItem.Builder()
                 .setUri(URL)
                 .setLiveConfiguration(MediaItem.LiveConfiguration.Builder().build().apply {
                     setPlaybackSpeed(1.02f)
-                    setAudioAttributes(AudioAttributes.Builder()
-                        .setUsage(C.USAGE_MEDIA)
-                        .setContentType(C.CONTENT_TYPE_MUSIC)
-                        .build(),
+                    setAudioAttributes(
+                        AudioAttributes.Builder()
+                            .setUsage(C.USAGE_MEDIA)
+                            .setContentType(C.CONTENT_TYPE_MUSIC)
+                            .build(),
                         true
                     )
                     setForegroundMode(true)
@@ -162,18 +190,23 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
     private fun enhanceLoudness(player: ExoPlayer) {
         try {
             val audioPct = 1.2
-            val gainmB = Math.round(Math.log10(audioPct) * 10000).toInt()
-            loudnessEnhancer = LoudnessEnhancer(player.getAudioSessionId())
-            loudnessEnhancer.setTargetGain(gainmB)
+            val gainMB = (log10(audioPct) * 10000).roundToInt()
+            loudnessEnhancer = LoudnessEnhancer(player.audioSessionId)
+            loudnessEnhancer.setTargetGain(gainMB)
             loudnessEnhancer.enabled = true
         } catch (e: RuntimeException) {
             e.printStackTrace()
         }
     }
+
     override fun onResume() {
         super.onResume()
-        audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+        audioManager.requestAudioFocus(
+            this,
+            AudioManager.STREAM_MUSIC,
+            AudioManager.AUDIOFOCUS_GAIN
+        )
     }
 
-    override fun onAudioFocusChange(focusChange: Int) { }
+    override fun onAudioFocusChange(focusState: Int) {}
 }
