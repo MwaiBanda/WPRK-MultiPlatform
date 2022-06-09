@@ -134,25 +134,24 @@ Get app on the app store or playstore available for Android, iPhone & iPad
 
 <table>
   <tr>
-    <td>Shows</td>
+     <td>Shows</td>
      <td>Podcasts</td>
      <td>Podcast Detail</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/49708426/149205832-bd0d67f2-bb27-49b0-92b6-9ea2b15313f1.JPG" width=320 height=450></td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/149205934-289ba6d7-a516-4e34-99a2-15815032a22a.JPG" width=320 height=450</td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/149206195-0b2bb1a6-dade-4d9d-87f4-1c74385474c3.JPG" width=320 height=450</td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172766965-4fa2b052-5d79-45e3-95d3-0b8749959f68.png" width=320 height=500></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172767496-5a9db239-5293-4eef-8936-a85ccdd60bbf.png" width=320 height=500</td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172768055-0fb22ede-f6cf-4839-8b52-2b81c915c543.png" width=320 height=500</td>
   </tr>
   <tr>
-     <td>Membership</td>
-     <td> </td>
-     <td> </td>
-
+    <td>Shows</td>
+    <td>Show Detail</td>
+    <td>Membership</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/49708426/149206338-ed8162c4-0217-4fc2-824c-303fc54e3199.JPG" width=320 height=450></td>
-     <td> </td>
-     <td> </td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172768161-db5a5238-eea2-4d0e-8d3a-c1075bcd7a0b.png" width=320 height=500></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172767658-0d36e188-ef53-4aa3-a014-8453258e2690.png" width=320 height=500</td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172767919-12132cdb-a502-442d-8fc1-885539d380cf.png" width=320 height=500</td>
 
   </tr>
 </table>
