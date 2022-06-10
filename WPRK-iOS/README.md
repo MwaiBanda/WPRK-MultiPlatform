@@ -23,32 +23,44 @@ Get app on the app store <br><br>
      <td>Podcast Detail</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/49708426/141029606-5a82154c-24d8-47dd-9b1c-be5ef36d4350.PNG" width=320 height=450></td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/141029832-c4c07611-d276-45d4-92bf-a231edf1d032.PNG" width=320 height=450></td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/141029908-6297cde3-62c7-47c7-8dea-30f22d2df7d8.PNG" width=320 height=450></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172772241-b7dda3cd-dfcc-4264-bf27-a6da18d0d3ed.PNG" width=320 height=500></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172772517-9aae6599-f916-42c3-8188-8e6e4f252412.jpeg" width=320 height=500></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/172772953-2b3483e9-ee84-4e0e-80f5-a5c18d486dbb.PNG" width=320 height=500></td>
    
   </tr>
  <tr>
       <td>Shows</td>
        <td>Show Detail</td>
-         <td>Memebership</td>
+         <td>Membership</td>
 
 
 </td>
  <tr>
-     <td><img src="https://user-images.githubusercontent.com/49708426/141028942-d7ec959e-a878-4776-afe0-2cf4b921ed7c.PNG" width=320 height=450></td>
-     <td><img src="https://user-images.githubusercontent.com/49708426/141029142-2f8cc2bb-1aa3-4835-8ec3-a12fa70b49d4.PNG" width=320 height=450></td>
-   <td><img src="https://user-images.githubusercontent.com/49708426/141030013-a9940049-b46d-418b-af37-4de521774b67.PNG" width=320 height=450></td>
+     <td><img src="https://user-images.githubusercontent.com/49708426/172772638-248a7fd6-1584-4859-bd0f-544b88f25bc4.jpeg" width=320 height=500></td>
+     <td><img src="https://user-images.githubusercontent.com/49708426/141029142-2f8cc2bb-1aa3-4835-8ec3-a12fa70b49d4.PNG" width=320 height=500></td>
+   <td><img src="https://user-images.githubusercontent.com/49708426/172772809-34d10757-cb4f-435e-81c6-553a6319e8db.PNG" width=320 height=500></td>
 
 
  </tr>
    <tr>
      <td>Notification Center</td>
-     <td>No Internet Access</td>
+     <td>Media Controls</td>
+       <td>No Internet Access </td>
   </tr>
    <tr>
     <td><img src="https://user-images.githubusercontent.com/49708426/141029288-d09b00c5-d1c6-4e4e-992f-99b10329c5c2.PNG" width=320 height=450></td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/141029336-904407e2-ef09-4d8c-be10-9438d2645e69.jpeg" width=320 height=450></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/161981590-161a84df-c1bb-4cda-9ca5-ccafe83fe309.PNG" width=320 height=450></td>
+       <td><img src="https://user-images.githubusercontent.com/49708426/141029336-904407e2-ef09-4d8c-be10-9438d2645e69.jpeg" width=320 height=450> </td>
+  </tr>
+ <tr>
+     <td>Notification Center</td>
+     <td>Media Controls</td>
+       <td></td>
+  </tr>
+   <tr>
+    <td><img src="https://user-images.githubusercontent.com/49708426/161982954-ac07a417-587b-41ef-8210-34c39ec79007.PNG" width=320 height=450></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/161983218-4479aa70-8795-49a4-9da9-898844ca1284.PNG" width=320 height=450></td>
+       <td> </td>
   </tr>
 </table>
 
