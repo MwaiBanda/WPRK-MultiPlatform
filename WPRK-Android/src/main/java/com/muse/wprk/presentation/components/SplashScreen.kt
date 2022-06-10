@@ -19,7 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.muse.wprk.core.NavigationRoutes
+import com.muse.wprk.core.utilities.NavigationRoutes
 import com.muse.wprk.core.utilities.Constants
 import kotlinx.coroutines.delay
 
@@ -39,7 +39,7 @@ fun SplashScreen(navController: NavController){
             )
         )
         delay(2200L)
-        navController.navigate(NavigationRoutes.ShowHome.route)
+        navController.navigate(NavigationRoutes.PodcastHome.route)
 
 
     }

@@ -128,7 +128,7 @@ fun ShowHome(
                         style = MaterialTheme.typography.h5,
                         color = Color.White
                     )
-                    Text(text = "Currently Scheduled Today ", color = Color.Gray)
+                    Text(text = "Tap Scheduled Shows ", color = Color.Gray)
                 }
                 LiveButton(Modifier.offset(y= 3.dp), onSwitchToDefault)
             }
@@ -174,7 +174,7 @@ fun ShowHome(
                 style = MaterialTheme.typography.h5,
                 color = Color.White
             )
-            Text(text = "Currently Scheduled Today ", color = Color.Gray)
+            Text(text = "Tap To See See Scheduled Shows For The Day", color = Color.Gray)
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(10.dp))
@@ -204,6 +204,14 @@ fun ShowHome(
                                 scheduledShows.addAll(shows.filter { it.getFormattedDate(ShowTime.START) == selectedDate.value })
                                 Log.d("MAIN", "[SHOWS] ${scheduledShows}")
                                 Log.d("MAIN", "[SELECTED] $selectedDateString")
+                                when {
+                                    i == 2 -> {
+                                        scheduleState.animateScrollToItem(index = i - 2)
+                                    }
+                                    i > 1 || i == 1 -> {
+                                        scheduleState.animateScrollToItem(index = i - 1)
+                                    }
+                                }
                             }
                         }
                     ) {

@@ -2,6 +2,8 @@ package com.muse.wprk
 
 import android.content.Context
 import android.media.AudioManager
+import android.media.AudioManager.AUDIOFOCUS_GAIN
+import android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT
 import android.media.audiofx.LoudnessEnhancer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -24,7 +26,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import com.muse.wprk.core.NavigationRoutes.*
+import com.muse.wprk.core.utilities.NavigationRoutes.*
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.main.PodcastHome
 import com.muse.wprk.main.model.Show
@@ -111,10 +113,7 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
                             }
                         }
                     }
-                    composable(
-                        ShowDetail.route,
-
-                    ) { backStackEntry ->
+                    composable(ShowDetail.route) { backStackEntry ->
                         currentShow?.let {
                             ShowDetail(
                                 show = it,
@@ -122,10 +121,7 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
                             )
                         }
                     }
-                    composable(
-                        PodcastHome.route,
-
-                    ) {
+                    composable(PodcastHome.route) {
                         PodcastHome(
                             navController = navController,
                             backgroundColor = backgroundColor,
@@ -168,7 +164,6 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
                             }
                         }
                     }
-
                 }
             }
         }
@@ -230,5 +225,14 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
         )
     }
 
-    override fun onAudioFocusChange(focusState: Int) {}
+    override fun onAudioFocusChange(focusState: Int) {
+        when (focusState) {
+            AUDIOFOCUS_LOSS_TRANSIENT -> {
+                player.pause()
+            }
+            AUDIOFOCUS_GAIN -> {
+                player.play()
+            }
+        }
+    }
 }

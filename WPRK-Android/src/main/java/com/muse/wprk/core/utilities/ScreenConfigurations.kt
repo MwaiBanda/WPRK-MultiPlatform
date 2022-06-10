@@ -1,6 +1,6 @@
 package com.muse.wprk.core.utilities
 
-import com.muse.wprk.core.NavigationRoutes.*
+import com.muse.wprk.core.utilities.NavigationRoutes.*
 
 object ScreenConfigurations {
     val screensWithBackButton: List<String> = listOf(

@@ -24,7 +24,7 @@ data class Show(
     val title: String,
     val url: String
 ) {
-    fun getDate(showTime: ShowTime): String {
+    private fun getDate(showTime: ShowTime): String {
         val date = when (showTime) {
             ShowTime.START -> {
                 start.dropLast(5).replace("T", " ")
@@ -98,6 +98,17 @@ data class Show(
             }
         }
         return date
+    }
+
+    fun displayDate(): String {
+        val res = try {
+            val dateObj: LocalDate = getFormattedDate(ShowTime.START)
+            val formatter = DateTimeFormatter.ofPattern("E, d MMM yyyy")
+            formatter.format(dateObj)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return res.toString()
     }
 }
 

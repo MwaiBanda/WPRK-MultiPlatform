@@ -1,4 +1,4 @@
-package com.muse.wprk.core
+package com.muse.wprk.core.utilities
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
@@ -18,6 +18,5 @@ sealed class NavigationRoutes(
     object PodcastHome : NavigationRoutes(route ="podcasts", resourceId = R.string.podcasts, icon = Icons.Outlined.BookOnline)
     object PodcastDetail : NavigationRoutes(route ="pDetail/{showID}/{imageURL}/{title}/{subTitle}", icon = Icons.Outlined.BookOnline)
     object Membership: NavigationRoutes(route ="membership", resourceId = R.string.membership, icon = Icons.Outlined.AlternateEmail)
-    object PlayerScreen: NavigationRoutes(route ="playerScreen")
     object SplashScreen: NavigationRoutes(route ="splashScreen")
 }

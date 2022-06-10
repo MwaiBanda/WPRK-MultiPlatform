@@ -22,7 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.exoplayer2.ExoPlayer
-import com.muse.wprk.core.NavigationRoutes
+import com.muse.wprk.core.utilities.NavigationRoutes
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.ScreenConfigurations
 import com.muse.wprk.presentation.components.WPRKPlayer
@@ -115,11 +115,7 @@ fun WPRKEntry(
                                 bottomTabs.forEach { tab ->
                                     BottomNavigationItem(
                                         label = {
-                                            Text(
-                                                text = LocalContext.current.getString(
-                                                    tab.resourceId ?: 0
-                                                )
-                                            )
+                                            Text(text = LocalContext.current.getString(tab.resourceId ?: 0))
                                         },
                                         icon = {
                                             Icon(

@@ -33,6 +33,8 @@ import com.muse.wprk.presentation.components.LiveButton
 import com.muse.wprk.presentation.podcasts.PodcastViewModel
 import com.muse.wprk_concept.presentation.parse
 import com.muse.wprk_concept.presentation.swapList
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -41,6 +43,7 @@ fun PodcastHome(
     navController: NavHostController,
     backgroundColor: Color,
     podcastViewModel: PodcastViewModel,
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
     onEpisodeClick: (String) -> Unit
 ) {
     var podcasts = remember { mutableStateListOf<Podcast>() }
@@ -48,6 +51,8 @@ fun PodcastHome(
     val scheduleState = rememberLazyListState()
     val columnState = rememberLazyListState()
     var currentShow by remember { mutableStateOf(0) }
+    var previousTab by remember { mutableStateOf(0) }
+    var isTabingForward by remember { mutableStateOf(false) }
     var episodes = remember { mutableStateListOf<Episode>()}
 
     val navigateToDetail: (Podcast, String) -> Unit = { podcast, imageURL ->
@@ -86,7 +91,7 @@ fun PodcastHome(
                         style = MaterialTheme.typography.h5,
                         color = Color.White
                     )
-                    Text(text = "Discover Featured Podcasts", color = Color.Gray)
+                    Text(text = "Tap Featured Podcasts", color = Color.Gray)
                 }
                 LiveButton(Modifier.offset(y= 3.dp), onEpisodeClick)
             }
@@ -124,7 +129,7 @@ fun PodcastHome(
         item {
             Spacer(modifier = Modifier.height(20.dp))
             Text(text = "Featured Episodes", fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.h5, color = Color.White)
-            Text(text = "Discover Popular Episodes", color = Color.Gray)
+            Text(text = "Discover Popular Episodes From Our Podcasts", color = Color.Gray)
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(10.dp))
@@ -137,9 +142,31 @@ fun PodcastHome(
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.clickable {
-                        currentShow = podcasts.indexOf(item)
+                            currentShow = podcasts.indexOf(item)
                             Log.d("MAIN", "[INDEX] $currentShow")
                             podcastViewModel.getEpisodes(item.id)
+                            coroutineScope.launch {
+                                if (previousTab < currentShow) {
+                                    isTabingForward = true
+                                    previousTab = currentShow
+                                } else {
+                                    isTabingForward = false
+                                    previousTab = currentShow
+                                }
+                                if (isTabingForward) {
+                                    when {
+                                        i > 1 || i == 1 -> {
+                                            scheduleState.animateScrollToItem(index = i)
+                                        }
+                                    }
+                                } else {
+                                    when {
+                                        i > 1 || i == 1 -> {
+                                            scheduleState.animateScrollToItem(index = i - 1)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     ) {
                         Box(
