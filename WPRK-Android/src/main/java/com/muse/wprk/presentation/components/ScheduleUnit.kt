@@ -28,17 +28,18 @@ fun ScheduleUnit(
             .height(75.dp)
     ) {
         Row(
+            verticalAlignment = Alignment.Bottom ,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .padding(end = 10.dp)
                 .fillMaxWidth()
         ) {
-            Column(
+            Column(Modifier.fillMaxWidth(0.75f),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(text = title, color = Color.White, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
 
-                Text(text = "$category", color = Color.Gray, fontWeight = FontWeight.Normal)
+                Text(text = category, color = Color.Gray, fontWeight = FontWeight.Normal)
             }
             Column(
                 horizontalAlignment = Alignment.End

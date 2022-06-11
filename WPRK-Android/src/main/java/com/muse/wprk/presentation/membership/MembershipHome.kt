@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.TouchApp
+import androidx.compose.material.icons.outlined.TouchApp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -176,7 +177,7 @@ fun MembershipCard() {
                             append("Register here")
                         }
                     }, color = Color.White)
-                    Icon(imageVector = Icons.Default.TouchApp, contentDescription = "Membership URL Icon", tint = Color.White)
+                    Icon(imageVector = Icons.Outlined.TouchApp, contentDescription = "Membership URL Icon", tint = Color.White)
                 }
             }
         }

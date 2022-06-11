@@ -57,18 +57,19 @@ data class Show(
                 val res = try {
                     val sdf = SimpleDateFormat("H:mm")
                     val dateObj: Date = sdf.parse(date)
-                    SimpleDateFormat("K:mm a").format(dateObj)
+                    SimpleDateFormat("h:mm a").format(dateObj)
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
                 res.toString()
+
             }
             ShowTime.END -> {
                 val date: String = end.drop(11).dropLast(8)
                 val res = try {
                     val sdf = SimpleDateFormat("HH:mm")
                     val dateObj: Date = sdf.parse(date)
-                    SimpleDateFormat("K:mm a").format(dateObj)
+                    SimpleDateFormat("h:mm a").format(dateObj)
                 } catch (e: ParseException) {
                     e.printStackTrace()
                 }
