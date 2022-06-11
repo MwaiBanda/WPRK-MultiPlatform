@@ -23,10 +23,11 @@ fun EpisodeRow(modifier: Modifier = Modifier, episode: Episode, onEpisodeClick: 
     Column(modifier.clickable { onEpisodeClick(episode.episodeURL) }) {
         Text(text = "EPISODE ${episode.number}", fontSize = 12.sp, color = Color.White)
         Text(text = episode.title, fontWeight = FontWeight.ExtraBold, color = Color.White)
-        ExpandableText(text = episode.description
-            .replace("<div>", "")
-            .replace("</div>", ""), minimizedMaxLines = 4)
-
+        if (episode.description.isNotEmpty())
+            ExpandableText(text = episode.description
+                .replace("<div>", "")
+                .replace("</div>", ""), minimizedMaxLines = 4)
+        else Spacer(modifier = Modifier.height(20.dp))
         Spacer(modifier = Modifier.height(10.dp))
         Row {
             Icon(

@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,11 +27,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.muse.wprk.R
+import com.muse.wprk.core.exts.parse
 import com.muse.wprk.main.model.Business
 import com.muse.wprk.presentation.components.LiveButton
 
@@ -122,6 +127,61 @@ fun MembershipHome(backgroundColor: Color, onLiveButtonClick: (String) -> Unit) 
 }
 
 
+
+
+@Composable
+fun MembershipCard() {
+    val context = LocalContext.current
+    Spacer(modifier = Modifier.height(10.dp))
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(20.dp))
+            .background(color = Color.parse("#BDBDBD"))
+    ) {
+        Image(
+            painterResource(id = R.drawable.membership_card),
+            contentDescription = "Membership Card",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth(0.95f)
+                .height(220.dp)
+                .clip(RoundedCornerShape(20.dp))
+        )
+        Column(
+            Modifier
+                .fillMaxWidth(0.95f)
+                .height(220.dp)
+                .padding(bottom = 15.dp),
+            verticalArrangement = Arrangement.Bottom ,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TextButton(onClick = {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_VIEW
+                    data = Uri.parse("https://securelb.imodules.com/s/1282/giving/index.aspx?sid=1282&gid=1&pgid=1418&cid=2828&dids=95")
+                }
+                context.startActivity(intent)
+            }) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(text = buildAnnotatedString {
+                        withStyle(style = SpanStyle(color = Color.White)) {
+                            append("Don't have a membership? ")
+                        }
+                        withStyle(
+                            style = SpanStyle(
+                                color = Color.parse("#ffafcc"),
+                                fontWeight = FontWeight.Bold
+                            )
+                        ) {
+                            append("Register here")
+                        }
+                    }, color = Color.White)
+                    Icon(imageVector = Icons.Default.TouchApp, contentDescription = "Membership URL Icon", tint = Color.White)
+                }
+            }
+        }
+    }
+}
 @Composable
 fun BusinessCard(business: Business) {
     val context = LocalContext.current
@@ -241,28 +301,6 @@ fun BusinessCard(business: Business) {
         }
 
 
-    }
-}
-
-
-@Composable
-fun MembershipCard() {
-    val imageBitmap = ImageBitmap.imageResource(R.drawable.membership_card)
-    Spacer(modifier = Modifier.height(10.dp))
-    Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(20.dp))
-            .background(color = Color.parse("#BDBDBD"))
-    ) {
-        Image(
-            painterResource(id = R.drawable.membership_card),
-            contentDescription = "Membership Card",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth(0.95f)
-                .height(220.dp)
-                .clip(RoundedCornerShape(20.dp))
-        )
     }
 }
 
@@ -386,6 +424,7 @@ fun BusinessCardContent() {
     }
 
 }
+
 
 @Composable
 @Preview
