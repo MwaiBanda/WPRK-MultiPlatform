@@ -151,7 +151,7 @@ Get app on the app store or playstore available for Android, iPhone & iPad
   <tr>
     <td><img src="https://user-images.githubusercontent.com/49708426/172768161-db5a5238-eea2-4d0e-8d3a-c1075bcd7a0b.png" width=320 height=500></td>
     <td><img src="https://user-images.githubusercontent.com/49708426/172767658-0d36e188-ef53-4aa3-a014-8453258e2690.png" width=320 height=500</td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/172767919-12132cdb-a502-442d-8fc1-885539d380cf.png" width=320 height=500</td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/173213171-2ed595e0-5aa4-4314-b678-4ae2ee97ceac.png" width=320 height=500</td>
 
   </tr>
 </table>
