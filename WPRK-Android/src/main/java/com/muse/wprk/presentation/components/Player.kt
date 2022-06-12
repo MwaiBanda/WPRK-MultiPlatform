@@ -1,7 +1,5 @@
 package com.muse.wprk.presentation.components
 
-import android.media.MediaMetadataRetriever
-import android.net.Uri
 import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -22,23 +20,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaMetadata
-import com.google.android.exoplayer2.MetadataRetriever
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.muse.wprk.core.exts.parse
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalCoilApi::class)
 @Composable
 fun WPRKPlayer(player : ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) -> Unit) {
     var currentTitle by remember { mutableStateOf("") }
@@ -120,54 +115,57 @@ fun WPRKPlayer(player : ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean)
                         )
 
                     }
-                    AnimatedContent(
-                        targetState = count,
-                        transitionSpec = {
-                            if (targetState > initialState) {
-                                slideInHorizontally(
-                                    animationSpec = tween(
-                                        durationMillis = 9000
+
+
+                        AnimatedContent(
+                            targetState = count,
+                            transitionSpec = {
+                                if (targetState > initialState) {
+                                    slideInHorizontally(
+                                        animationSpec = tween(
+                                            durationMillis = 9000
+                                        )
+                                    ) { width -> (width + (width * 0.3)).toInt() } + fadeIn(
+                                        animationSpec = tween(
+                                            durationMillis = 9000,
+                                        )
+                                    ) with slideOutHorizontally(
+                                        animationSpec = tween(
+                                            durationMillis = 9000,
+                                        )
+                                    ) { width -> -(width + (width.toDouble() * 0.3).toInt()) } + fadeOut(
+                                        animationSpec = tween(
+                                            durationMillis = 9000,
+                                        )
                                     )
-                                ) { width -> (width + (width * 0.3)).toInt() } + fadeIn(
-                                    animationSpec = tween(
-                                        durationMillis = 9000,
+                                } else {
+                                    slideInHorizontally(
+                                        animationSpec = tween(
+                                            durationMillis = 9000,
+                                        )
+                                    ) { width -> -(width + (width.toDouble() * 0.3).toInt()) } + fadeIn(
+                                        animationSpec = tween(
+                                            durationMillis = 9000,
+                                        )
+                                    ) with slideOutHorizontally(
+                                        animationSpec = tween(
+                                            durationMillis = 9000,
+                                        )
+                                    ) { width -> (width + (width.toDouble() * 0.3).toInt()) } + fadeOut()
+                                }
+                                    .using(
+                                        SizeTransform(clip = true)
                                     )
-                                ) with slideOutHorizontally(
-                                    animationSpec = tween(
-                                        durationMillis = 9000,
-                                    )
-                                ) { width -> -(width + (width.toDouble() * 0.3).toInt()) } + fadeOut(
-                                    animationSpec = tween(
-                                        durationMillis = 9000,
-                                    )
-                                )
-                            } else {
-                                slideInHorizontally(
-                                    animationSpec = tween(
-                                        durationMillis = 9000,
-                                    )
-                                ) { width -> -(width + (width.toDouble() * 0.3).toInt()) } + fadeIn(
-                                    animationSpec = tween(
-                                        durationMillis = 9000,
-                                    )
-                                ) with slideOutHorizontally(
-                                    animationSpec = tween(
-                                        durationMillis = 9000,
-                                    )
-                                ) { width -> (width + (width.toDouble() * 0.3).toInt()) } + fadeOut()
-                            }
-                                .using(
-                                    SizeTransform(clip = true)
-                                )
-                        },
-                        modifier = Modifier.fillMaxWidth(0.8f)
-                    ) {
-                        Text(
-                            if (currentTitle == "") "Tune In..." else currentTitle,
-                            color = Color.White,
-                            maxLines = 1,
-                        )
-                    }
+                            },
+                            modifier = Modifier.fillMaxWidth(0.8f)
+                        ) {
+                            Text(
+                                if (currentTitle == "") "Tune In..." else currentTitle,
+                                color = Color.White,
+                                maxLines = 1,
+                            )
+                        }
+
                 }
             }
 

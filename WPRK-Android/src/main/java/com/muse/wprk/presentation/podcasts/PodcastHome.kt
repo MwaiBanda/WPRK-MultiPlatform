@@ -206,10 +206,9 @@ fun PodcastHome(
             Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 state = columnState,
-                modifier = Modifier.height(350.dp)
+                modifier = Modifier.height(500.dp)
             ) {
-                item {
-                    episodes.forEachIndexed { i, item ->
+                itemsIndexed(episodes) { i, item ->
                         if(i < 4) {
                             EpisodeRow(episode = item){ onEpisodeClick(it) }
                             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
@@ -241,11 +240,10 @@ fun PodcastHome(
 
             }
 
-            Spacer(modifier = Modifier.height(80.dp))
         }
 
     }
-}
+
 fun getURL(list: List<Podcast>, index: Int): String {
     return URLEncoder.encode(list[index].thumbnailURL, StandardCharsets.UTF_8.toString())
 }

@@ -1,6 +1,6 @@
 package com.muse.wprk_concept.presentation
 
-import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,6 +53,7 @@ fun ShowHome(
     showsViewModel: ShowViewModel,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     onShowClick: (Show) -> Unit,
+    onShowSetScheduleClick: (Show, Context) -> Unit,
     onSwitchToDefault: (String) -> Unit
 ) {
     var days = remember {
@@ -65,7 +67,6 @@ fun ShowHome(
     val mainColumnState = rememberLazyListState()
     val shows = remember { mutableStateListOf<Show>() }
     val scheduledShows = remember { mutableStateListOf<Show>() }
-
     var currentDayString by remember { mutableStateOf("") }
     var selectedDate = remember { mutableStateOf(showsViewModel.currentDay()) }
     var selectedDateString by remember {
@@ -100,7 +101,7 @@ fun ShowHome(
         }
         selectedDateString = showsViewModel.currentDay().toString()
         showsViewModel.getShows {
-            scheduledShows.addAll(shows.filter { it.getFormattedDate(ShowTime.START) == selectedDate.value })
+            scheduledShows.addAll(shows.filter { it.getShowDate(ShowTime.START) == selectedDate.value })
         }
     }
 
@@ -201,7 +202,7 @@ fun ShowHome(
                                 currentDayString = days[i]
                                 selectedDateString = selectedDate.value.toString()
                                 scheduledShows.clear()
-                                scheduledShows.addAll(shows.filter { it.getFormattedDate(ShowTime.START) == selectedDate.value })
+                                scheduledShows.addAll(shows.filter { it.getShowDate(ShowTime.START) == selectedDate.value })
                                 Log.d("MAIN", "[SHOWS] ${scheduledShows}")
                                 Log.d("MAIN", "[SELECTED] $selectedDateString")
                                 when {
@@ -279,7 +280,7 @@ fun ShowHome(
 
         }
         item {
-            ScheduledShows(list = if (scheduledShows.isEmpty()) empty else scheduledShows)
+            ScheduledShows(list = if (scheduledShows.isEmpty()) empty else scheduledShows, onShowSetScheduleClick)
         }
     }
 }
@@ -288,7 +289,8 @@ fun ShowHome(
 @Composable
 fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black, Color.LightGray))
-    ShowHome(rememberNavController(), gradient = Color.Black, showsViewModel = hiltViewModel<ShowViewModel>(), onShowClick = {}) {
+    ShowHome(rememberNavController(), gradient = Color.Black, showsViewModel = hiltViewModel<ShowViewModel>(), onShowClick = {} , onShowSetScheduleClick = { _, _ -> }) {
+
     }
 }
 

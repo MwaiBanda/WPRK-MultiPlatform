@@ -79,7 +79,7 @@ data class Show(
         return timeStr
     }
 
-    fun getFormattedDate(showTime: ShowTime): LocalDate {
+    fun getShowDate(showTime: ShowTime): LocalDate {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         val date = when (showTime) {
             ShowTime.START -> {
@@ -100,10 +100,30 @@ data class Show(
         }
         return date
     }
+    fun getShowDateTime(showTime: ShowTime): LocalDateTime {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+        val date = when (showTime) {
+            ShowTime.START -> {
+                val current = getTime(ShowTime.START)
+                val date =
+                    if (current.endsWith("PM") && (current.split(":").first().toInt()) > 6) {
+                        LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter)
+                            .minusDays(1)
+                    } else {
+                        LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter)
+                    }
+                date
 
-    fun displayDate(): String {
+            }
+            ShowTime.END -> {
+                LocalDateTime.parse(getDate(showTime = ShowTime.END), formatter)
+            }
+        }
+        return date
+    }
+    fun getDisplayDate(): String {
         val res = try {
-            val dateObj: LocalDate = getFormattedDate(ShowTime.START)
+            val dateObj: LocalDate = getShowDate(ShowTime.START)
             val formatter = DateTimeFormatter.ofPattern("E, d MMM yyyy")
             formatter.format(dateObj)
         } catch (e: ParseException) {

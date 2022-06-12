@@ -147,7 +147,7 @@ fun ShowDetail(
                     tint = Color.Gray
                 )
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text = show.displayDate(), color = Color.White)
+                Text(text = show.getDisplayDate(), color = Color.White)
             }
             Spacer(modifier = Modifier.height(10.dp))
             Row {

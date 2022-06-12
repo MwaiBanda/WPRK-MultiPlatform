@@ -14,18 +14,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.muse.wprk.main.model.Show
 
 @Composable
 fun ScheduleUnit(
     title: String,
     category: String,
     time: String,
-    isLast: (String) -> Boolean
-) {
+    isLast: () -> Boolean,
+    onShowSetScheduleClick: () -> Unit,
+    ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(75.dp)
     ) {
         Row(
             verticalAlignment = Alignment.Bottom ,
@@ -41,15 +42,16 @@ fun ScheduleUnit(
 
                 Text(text = category, color = Color.Gray, fontWeight = FontWeight.Normal)
             }
+            if (title != "Nothing Scheduled")
             Column(
                 horizontalAlignment = Alignment.End
             ) {
                 IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier.size(20.dp),
+                    onClick = { onShowSetScheduleClick() },
                 ) {
                     Icon(
-                        Icons.Default.Alarm,
+                        modifier = Modifier.size(30.dp),
+                        imageVector = Icons.Default.Alarm,
                         contentDescription = "Access alarm",
                         tint = Color.LightGray
                     )
@@ -60,13 +62,8 @@ fun ScheduleUnit(
             }
 
         }
-        Spacer(modifier = Modifier.height(10.dp))
-        if (!isLast(title)) {
-            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-        }
-        if (isLast(title)){
-            Spacer(modifier = Modifier.height(50.dp))
-        }
+
+
 
     }
 }
