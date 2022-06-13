@@ -4,7 +4,7 @@ Built in Kotlin Multiplatform Mobile(KMM) w/ SwiftUI & Jetpack Compose, the app 
 podcasts which are playable as well. 
 
 ### Download Via AppStore or PlayStore
-Get app on the app store or playstore available for Android, iPhone & iPad
+The app's are available for download on the app store & playstore for Android, iPhone & iPad
 <table>
   <tr>
     <th colspan="2"> <b>WPRK - Podcast & Radio(Android, iOS & iPadOS)</b> </th>
