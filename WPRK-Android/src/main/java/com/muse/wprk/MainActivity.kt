@@ -241,14 +241,7 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setAlarm(context: Context, show: Show) {
-        val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, NotificationReceiver::class.java).apply {
-            putExtra(NotificationReceiver.titleKey, "Reminder ⏰")
-            putExtra(NotificationReceiver.messageKey, "${show.title} Is Now Live On WPRK 91.5FM")
-            putExtra(NotificationReceiver.notificationId, show.id)
-        }
-        val pendingIntent = PendingIntent.getBroadcast(context, show.id, intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-        alarmManager.set(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis() + 10000 * 6, pendingIntent)
+
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun getShowTimeInMillis(show: Show): Long {
