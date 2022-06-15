@@ -1,11 +1,8 @@
 package com.muse.wprk
 
-import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.media.AudioManager
 import android.media.AudioManager.AUDIOFOCUS_GAIN
 import android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT
@@ -29,14 +26,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import com.muse.wprk.core.utilities.*
+import com.jakewharton.threetenabp.AndroidThreeTen
+import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.NavigationRoutes.*
+import com.muse.wprk.core.utilities.NotificationReceiver
+import com.muse.wprk.core.utilities.NotificationWorker
+import com.muse.wprk.core.utilities.ShowTime
 import com.muse.wprk.main.PodcastHome
 import com.muse.wprk.main.model.Show
 import com.muse.wprk.presentation.podcasts.PodcastDetail
@@ -46,9 +50,10 @@ import com.muse.wprk_concept.presentation.MembershipHome
 import com.muse.wprk_concept.presentation.ShowHome
 import com.mwaibanda.virtualgroceries.Domain.Presentation.Navigation.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDateTime
-import java.time.ZoneId
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.temporal.ChronoUnit
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.log10
 import kotlin.math.roundToInt
 
@@ -241,22 +246,28 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setAlarm(context: Context, show: Show) {
+        val scheduleTime = getShowTimeInMillis(show)
+        Log.d("SCH", "Scheduled Delay ${scheduleTime}")
 
+        val scheduleShow = OneTimeWorkRequestBuilder<NotificationWorker>()
+            .setInitialDelay(scheduleTime, TimeUnit.MILLISECONDS)
+            .setInputData(workDataOf(
+                "title" to show.title,
+                "showId" to show.id
+            ))
+            .build()
+
+        WorkManager.getInstance(this).enqueue(scheduleShow)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun getShowTimeInMillis(show: Show): Long {
 
-        val showDateTime = LocalDateTime.now(ZoneId.systemDefault()).plusMinutes(5)
-        val minute = showDateTime.minute
-        val hour = showDateTime.hour
-        val day  = showDateTime.dayOfMonth
-        val month = showDateTime.monthValue
-        val year = showDateTime.year
-        val calender = Calendar.getInstance()
-        calender.set(year, month, day, hour, minute)
-        Log.d("SCH", "${day}/${month}/${year}  ${hour}:${minute}")
+        val showDateTime = show.getShowDateTime(ShowTime.START)
+        val now = LocalDateTime.now()
 
-        return calender.timeInMillis - System.currentTimeMillis()
+        Log.d("SCH", "${showDateTime.dayOfMonth}/${showDateTime.monthValue}/${showDateTime.year}  ${showDateTime.hour}:${showDateTime.minute}")
+
+        return now.until(showDateTime, ChronoUnit.MILLIS)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {

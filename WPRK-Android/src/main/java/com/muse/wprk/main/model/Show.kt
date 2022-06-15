@@ -108,9 +108,9 @@ data class Show(
                 val date =
                     if (current.endsWith("PM") && (current.split(":").first().toInt()) > 6) {
                         LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter)
-                            .minusDays(1)
+                            .minusDays(1).minusHours(5)
                     } else {
-                        LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter)
+                        LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter).minusHours(5)
                     }
                 date
 
