@@ -4,22 +4,19 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioManager
-import android.media.AudioManager.AUDIOFOCUS_GAIN
-import android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT
+import android.media.AudioManager.*
 import android.media.audiofx.LoudnessEnhancer
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,7 +32,6 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import com.jakewharton.threetenabp.AndroidThreeTen
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.NavigationRoutes.*
 import com.muse.wprk.core.utilities.NotificationReceiver
@@ -52,14 +48,13 @@ import com.mwaibanda.virtualgroceries.Domain.Presentation.Navigation.SplashScree
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
-import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.log10
 import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListener {
+class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
     private lateinit var loudnessEnhancer: LoudnessEnhancer
     private lateinit var player: ExoPlayer
     private val audioManager: AudioManager by lazy {
@@ -108,6 +103,7 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
             }
             var isPlaying by rememberSaveable { mutableStateOf(false) }
             var currentShow: Show? by rememberSaveable { mutableStateOf(null) }
+            var isShowingSnackbar by remember { mutableStateOf(false) }
 
             WPRKEntry(
                 player,
@@ -132,8 +128,8 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
                             gradient = backgroundColor,
                             showsViewModel = hiltViewModel(),
                             onShowClick = { currentShow = it },
-                            onShowSetScheduleClick = { s, c ->
-                                setAlarm(context = c, show = s)
+                            onShowSetScheduleClick = { context, show ->
+                                scheduleShow(context = context, show = show)
                             }
                         ) {
                             switchToURL(it) {
@@ -146,7 +142,9 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
                             ShowDetail(
                                 show = it,
                                 gradient = backgroundColor
-                            )
+                            ) { context, show ->
+                                scheduleShow(context = context, show = show)
+                            }
                         }
                     }
                     composable(PodcastHome.route) {
@@ -222,7 +220,6 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
             val source = ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(sourceURL)
 
-
             setMediaSource(source)
             prepare()
             playWhenReady = true
@@ -244,8 +241,7 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setAlarm(context: Context, show: Show) {
+    private fun scheduleShow(context: Context, show: Show) {
         val scheduleTime = getShowTimeInMillis(show)
         Log.d("SCH", "Scheduled Delay ${scheduleTime}")
 
@@ -256,12 +252,10 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
                 "showId" to show.id
             ))
             .build()
-
         WorkManager.getInstance(this).enqueue(scheduleShow)
+        Toast.makeText(context, "⏰ Reminder set for ${show.title}", Toast.LENGTH_SHORT).show()
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getShowTimeInMillis(show: Show): Long {
-
+    private fun getShowTimeInMillis(show: Show): Long {
         val showDateTime = show.getShowDateTime(ShowTime.START)
         val now = LocalDateTime.now()
 
@@ -282,8 +276,8 @@ class MainActivity : ComponentActivity(), AudioManager.OnAudioFocusChangeListene
         super.onResume()
         audioManager.requestAudioFocus(
             this,
-            AudioManager.STREAM_MUSIC,
-            AudioManager.AUDIOFOCUS_GAIN
+            STREAM_MUSIC,
+            AUDIOFOCUS_GAIN
         )
     }
 

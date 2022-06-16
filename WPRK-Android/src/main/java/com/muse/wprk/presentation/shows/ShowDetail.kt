@@ -1,5 +1,6 @@
 package com.muse.wprk.presentation.shows
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,16 +9,20 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,8 +35,10 @@ import com.muse.wprk.presentation.components.ExpandableText
 fun ShowDetail(
     show: Show,
     gradient: Color,
-) {
+    onShowSetScheduleClick: (Context, Show) -> Unit,
+    ) {
     val lazyListState = rememberLazyListState()
+    val context = LocalContext.current
 
     LazyColumn(Modifier.fillMaxHeight(), state = lazyListState) {
         item {
@@ -130,7 +137,7 @@ fun ShowDetail(
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold
                 )
-                ExpandableText(text = "Below Is The Scheduled Time", minimizedMaxLines = 4)
+                ExpandableText(text = "Set Reminders To Get Notified When Show Starts", minimizedMaxLines = 4)
                 Spacer(modifier = Modifier.height(10.dp))
                 Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             }
@@ -138,30 +145,47 @@ fun ShowDetail(
 
         item {
             Spacer(modifier = Modifier.height(10.dp))
-
-            Row {
-                Spacer(modifier = Modifier.width(10.dp))
-                Icon(
-                    imageVector = Icons.Outlined.DateRange,
-                    contentDescription = null,
-                    tint = Color.Gray
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(text = show.getDisplayDate(), color = Color.White)
-            }
-            Spacer(modifier = Modifier.height(10.dp))
-            Row {
-                Spacer(modifier = Modifier.width(10.dp))
-                Icon(
-                    imageVector = Icons.Default.AccessTime,
-                    contentDescription = null,
-                    tint = Color.Gray
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = "${show.getTime(ShowTime.START)} - ${show.getTime(ShowTime.END)}",
-                    color = Color.White
-                )
+            Row(
+                Modifier.fillMaxWidth().padding(end = 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Row {
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Icon(
+                            imageVector = Icons.Outlined.DateRange,
+                            contentDescription = null,
+                            tint = Color.Gray
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(text = show.getDisplayDate(), color = Color.White)
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row {
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Icon(
+                            imageVector = Icons.Default.AccessTime,
+                            contentDescription = null,
+                            tint = Color.Gray
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = "${show.getTime(ShowTime.START)} - ${show.getTime(ShowTime.END)}",
+                            color = Color.White
+                        )
+                    }
+                }
+                IconButton(onClick = {
+                    onShowSetScheduleClick(context, show)
+                }) {
+                    Icon(
+                        modifier = Modifier.size(40.dp),
+                        imageVector = Icons.Default.Alarm,
+                        contentDescription = "Access alarm",
+                        tint = Color.LightGray
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(10.dp))
         }

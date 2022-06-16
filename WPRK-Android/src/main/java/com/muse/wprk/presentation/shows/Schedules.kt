@@ -16,7 +16,7 @@ import com.muse.wprk.main.model.Show
 import com.muse.wprk_concept.presentation.ScheduleUnit
 
 @Composable
-fun ScheduledShows(list: List<Show>,  onShowSetScheduleClick: (Show, Context) -> Unit) {
+fun ScheduledShows(list: List<Show>, onShowSetScheduleClick: (Context, Show) -> Unit) {
     val context = LocalContext.current
     Column(Modifier.fillMaxWidth()) {
         list.forEach { show ->
@@ -30,7 +30,7 @@ fun ScheduledShows(list: List<Show>,  onShowSetScheduleClick: (Show, Context) ->
                 category = if (show.category == "unset") "WPRK" else show.category ?: "WPRK",
                 time = show.getTime(showTime = ShowTime.START).toString(),
                 isLast = { list.last().id == show.id },
-                onShowSetScheduleClick = { onShowSetScheduleClick(show, context) }
+                onShowSetScheduleClick = { onShowSetScheduleClick(context, show) }
             )
             if (show.id != list.last().id) {
                 Spacer(modifier = Modifier.height(10.dp))

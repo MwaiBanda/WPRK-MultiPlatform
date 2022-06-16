@@ -12,9 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -53,7 +51,7 @@ fun ShowHome(
     showsViewModel: ShowViewModel,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     onShowClick: (Show) -> Unit,
-    onShowSetScheduleClick: (Show, Context) -> Unit,
+    onShowSetScheduleClick: (Context, Show) -> Unit,
     onSwitchToDefault: (String) -> Unit
 ) {
     var days = remember {
@@ -281,6 +279,7 @@ fun ShowHome(
         }
         item {
             ScheduledShows(list = if (scheduledShows.isEmpty()) empty else scheduledShows, onShowSetScheduleClick)
+
         }
     }
 }
