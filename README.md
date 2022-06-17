@@ -62,7 +62,7 @@ The app's are available for download on the app store & playstore for Android, i
      <td>Networking</td>
   </tr>
    <tr>
-    <td>Retrofit</td>
+    <td>LottieAnimations </td>
      <td>LottieAnimations</td>
   </tr>
      <tr>
@@ -75,8 +75,12 @@ The app's are available for download on the app store & playstore for Android, i
      <td>Firebase Auth</td>
   </tr>
   <tr>
-    <td> </td>
+    <td>Local Notifications w/ WorkManager</td>
      <td>Local Notifications</td>
+  </tr>
+   <tr>
+    <td>Retrofit</td>
+     <td></td>
   </tr>
   </table>
   
@@ -155,12 +159,12 @@ The app's are available for download on the app store & playstore for Android, i
   </tr>
    <tr>
     <td>Notification Center</td>
-    <td></td>
+    <td>No Internet Access</td>
     <td></td>
   </tr>
   <tr>
     <td><img src="https://user-images.githubusercontent.com/49708426/174218027-2a6565e0-c3f3-4efc-8f4a-08ae5d7256de.png" width=320 height=500></td>
-    <td></td>
+    <td> <img src="https://user-images.githubusercontent.com/49708426/174341467-976dc7c6-d0ac-4a20-ba35-fcecfe12a92d.png" width=320 height=500></td>
     <td></td>
 
   </tr>
