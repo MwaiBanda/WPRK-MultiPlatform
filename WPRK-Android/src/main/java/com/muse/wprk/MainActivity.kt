@@ -19,6 +19,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,6 +34,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import com.muse.wprk.core.utilities.ConnectivityStatus
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.NavigationRoutes.*
 import com.muse.wprk.core.utilities.NotificationWorker
@@ -54,14 +57,15 @@ import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
-    private lateinit var loudnessEnhancer: LoudnessEnhancer
     private lateinit var player: ExoPlayer
+    private lateinit var loudnessEnhancer: LoudnessEnhancer
     private val audioManager: AudioManager by lazy {
         getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
 
     override fun onStart() {
         super.onStart()
+
         player = ExoPlayer.Builder(this)
             .build()
             .apply {
@@ -88,6 +92,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                 setMediaSource(source)
                 prepare()
             }
+
     }
 
 
@@ -102,14 +107,19 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
             }
             var isPlaying by rememberSaveable { mutableStateOf(false) }
             var currentShow: Show? by rememberSaveable { mutableStateOf(null) }
-            var isShowingSnackbar by remember { mutableStateOf(false) }
+            var isConnected by remember { mutableStateOf(false) }
+            ConnectivityStatus(LocalContext.current).observe(LocalLifecycleOwner.current) {
+                isConnected = it
+            }
 
             WPRKEntry(
                 player,
                 isPlaying,
+                isConnected,
                 onPlayPauseClick = {
                     isPlaying = it
-                }) { navController, navPadding ->
+                }
+            ) { navController, navPadding ->
                 val backgroundColor = Color.Black
                 NavHost(
                     navController = navController,
@@ -290,5 +300,10 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                 player.play()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.release();
     }
 }

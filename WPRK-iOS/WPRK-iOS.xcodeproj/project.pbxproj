@@ -221,7 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				81721BF727AE26BE00C86F65 /* Core */,
-				81721C2227AE26BE00C86F65 /* Remote */,
+				81721C2227AE26BE00C86F65 /* Data */,
 				81721C0427AE26BE00C86F65 /* Main */,
 				81721C0C27AE26BE00C86F65 /* Presentation */,
 				8112C0EB27CAE867004319EE /* Launch Screen.storyboard */,
@@ -355,12 +355,12 @@
 			path = Membership;
 			sourceTree = "<group>";
 		};
-		81721C2227AE26BE00C86F65 /* Remote */ = {
+		81721C2227AE26BE00C86F65 /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				81721C2327AE26BE00C86F65 /* ContentServiceImplementation.swift */,
 			);
-			path = Remote;
+			path = Data;
 			sourceTree = "<group>";
 		};
 		81B736CB284182D900F7A9D4 /* TestUtils */ = {

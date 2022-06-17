@@ -7,4 +7,12 @@ object ScreenConfigurations {
         ShowDetail.route.take(7),
         PodcastDetail.route.take(7),
     )
+
+    val screensWithoutBottomBar = listOf(
+        SplashScreen.route
+    )
+    val screensWithoutTopAppBar = listOf(
+        SplashScreen.route
+    )
+
 }
