@@ -13,8 +13,6 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.WPRK_concept">
-        <receiver android:name=".core.utilities.NotificationReceiver"
-            android:enabled="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

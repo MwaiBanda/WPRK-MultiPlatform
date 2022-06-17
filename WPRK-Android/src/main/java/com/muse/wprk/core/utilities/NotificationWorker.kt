@@ -14,9 +14,10 @@ import com.muse.wprk.R
 
 class NotificationWorker(val context: Context, workerParams: WorkerParameters): Worker(context, workerParams) {
     override fun doWork(): Result {
-        val showTitle = inputData.getString("title")
-        val showID= inputData.getInt("showId", 1)
-        val builder = NotificationCompat.Builder(context, NotificationReceiver.channelId)
+        val showTitle = inputData.getString(titleKey)
+        val showID = inputData.getInt(showIDKey, 1)
+
+        val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.wprk_black)
             .setContentTitle("Reminder ⏰")
             .setContentText("$showTitle Is Now Live On WPRK 91.5FM")
@@ -28,5 +29,13 @@ class NotificationWorker(val context: Context, workerParams: WorkerParameters): 
         }
 
         return Result.success()
+    }
+    companion object {
+        const val name = "Schedule Shows"
+        const val description = "Used to Schedule Reminders for Shows"
+        const val notificationId = "notificationId"
+        const val channelId = "channel1"
+        const val titleKey = "titleKey"
+        const val showIDKey = "messageKey"
     }
 }

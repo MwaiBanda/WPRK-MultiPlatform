@@ -34,7 +34,6 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.NavigationRoutes.*
-import com.muse.wprk.core.utilities.NotificationReceiver
 import com.muse.wprk.core.utilities.NotificationWorker
 import com.muse.wprk.core.utilities.ShowTime
 import com.muse.wprk.main.PodcastHome
@@ -248,10 +247,11 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
         val scheduleShow = OneTimeWorkRequestBuilder<NotificationWorker>()
             .setInitialDelay(scheduleTime, TimeUnit.MILLISECONDS)
             .setInputData(workDataOf(
-                "title" to show.title,
-                "showId" to show.id
+                NotificationWorker.titleKey to show.title,
+                NotificationWorker.showIDKey to show.id
             ))
             .build()
+
         WorkManager.getInstance(this).enqueue(scheduleShow)
         Toast.makeText(context, "⏰ Reminder set for ${show.title}", Toast.LENGTH_SHORT).show()
     }
@@ -266,8 +266,8 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel() {
         val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel(NotificationReceiver.channelId, NotificationReceiver.name, importance)
-        channel.description = NotificationReceiver.description
+        val channel = NotificationChannel(NotificationWorker.channelId, NotificationWorker.name, importance)
+        channel.description = NotificationWorker.description
 
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
