@@ -149,9 +149,19 @@ The app's are available for download on the app store & playstore for Android, i
     <td>Membership</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/49708426/172768161-db5a5238-eea2-4d0e-8d3a-c1075bcd7a0b.png" width=320 height=500></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/174217844-e935f878-57fd-4943-92da-eb758e0b4ab8.png" width=320 height=500></td>
     <td><img src="https://user-images.githubusercontent.com/49708426/172767658-0d36e188-ef53-4aa3-a014-8453258e2690.png" width=320 height=500</td>
     <td><img src="https://user-images.githubusercontent.com/49708426/173213171-2ed595e0-5aa4-4314-b678-4ae2ee97ceac.png" width=320 height=500</td>
+  </tr>
+   <tr>
+    <td>Notification Center</td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/49708426/174218027-2a6565e0-c3f3-4efc-8f4a-08ae5d7256de.png" width=320 height=500></td>
+    <td></td>
+    <td></td>
 
   </tr>
 </table>
