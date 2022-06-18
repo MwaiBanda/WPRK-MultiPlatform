@@ -16,7 +16,7 @@ The app's are available for download on the app store & playstore for Android, i
   </tr>
 </table>
 ✅ <b>iOS & iPadOS:</b> 30+ Five Star Reviews & 500+ Downloads<br>
-✅ <b>Android:</b> 2+ Five Star Reviews & 45+ Downloads
+✅ <b>Android:</b> 2+ Five Star Reviews & 50+ Downloads
 
 ## Dependencies, Targets & Stack 
 
