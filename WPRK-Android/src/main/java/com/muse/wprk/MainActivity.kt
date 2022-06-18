@@ -1,18 +1,14 @@
 package com.muse.wprk
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioManager
 import android.media.AudioManager.*
 import android.media.audiofx.LoudnessEnhancer
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
@@ -35,7 +31,6 @@ import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.muse.wprk.core.utilities.ConnectivityStatus
-import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.NavigationRoutes.*
 import com.muse.wprk.core.utilities.NotificationWorker
 import com.muse.wprk.core.utilities.ShowTime
@@ -51,60 +46,18 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
-import kotlin.math.log10
-import kotlin.math.roundToInt
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
-    private lateinit var player: ExoPlayer
-    private lateinit var loudnessEnhancer: LoudnessEnhancer
-    private val audioManager: AudioManager by lazy {
-        getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        player = ExoPlayer.Builder(this)
-            .build()
-            .apply {
-                val dataSourceFactory = DefaultHttpDataSource.Factory()
-                val media = MediaItem.Builder()
-                    .setUri(Constants.DEFAULT_STREAM)
-                    .setLiveConfiguration(
-                        MediaItem.LiveConfiguration.Builder()
-                            .build().apply {
-                                setPlaybackSpeed(1.02f)
-                                setAudioAttributes(
-                                    AudioAttributes.Builder()
-                                        .setUsage(C.USAGE_MEDIA)
-                                        .setContentType(C.CONTENT_TYPE_MUSIC)
-                                        .build(),
-                                    true
-                                )
-                                setForegroundMode(true)
-                            })
-                    .build()
-                val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(media)
-
-                setMediaSource(source)
-                prepare()
-            }
-
-    }
-
+    @Inject lateinit var player: ExoPlayer
+    @Inject lateinit var loudnessEnhancer: LoudnessEnhancer
+    @Inject lateinit var audioManager: AudioManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            LaunchedEffect(key1 = Unit) {
-                enhanceLoudness(player)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    createNotificationChannel()
-                }
-            }
             var isPlaying by rememberSaveable { mutableStateOf(false) }
             var currentShow: Show? by rememberSaveable { mutableStateOf(null) }
             var isConnected by remember { mutableStateOf(false) }
@@ -141,7 +94,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                                 scheduleShow(context = context, show = show)
                             }
                         ) {
-                            switchToURL(it) {
+                            onSwitchMediaURL(it) {
                                 isPlaying = true
                             }
                         }
@@ -162,7 +115,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                             backgroundColor = backgroundColor,
                             podcastViewModel = hiltViewModel()
                         ) {
-                            switchToURL(it) {
+                            onSwitchMediaURL(it) {
                                 isPlaying = true
                             }
                         }
@@ -185,7 +138,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                             gradient = backgroundColor,
                             podcastViewModel = hiltViewModel<PodcastViewModel>()
                         ) {
-                            switchToURL(it) {
+                            onSwitchMediaURL(it) {
                                 isPlaying = true
                             }
                         }
@@ -194,7 +147,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
 
                     composable(Membership.route) {
                         MembershipHome(backgroundColor = backgroundColor) {
-                            switchToURL(it) {
+                            onSwitchMediaURL(it) {
                                 isPlaying = true
                             }
                         }
@@ -204,13 +157,12 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
         }
     }
 
-    private fun switchToURL(
+    private fun onSwitchMediaURL(
         URL: String,
         onCompletion: () -> Unit
     ) {
         player.apply {
             val dataSourceFactory = DefaultHttpDataSource.Factory()
-
             val sourceURL = MediaItem.Builder()
                 .setUri(URL)
                 .setLiveConfiguration(MediaItem.LiveConfiguration.Builder().build().apply {
@@ -228,26 +180,12 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
 
             val source = ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(sourceURL)
-
             setMediaSource(source)
             prepare()
             playWhenReady = true
-
-        }.also { enhanceLoudness(it) }
+        }
 
         onCompletion()
-    }
-
-    private fun enhanceLoudness(player: ExoPlayer) {
-        try {
-            val audioPct = 1.2
-            val gainMB = (log10(audioPct) * 10000).roundToInt()
-            loudnessEnhancer = LoudnessEnhancer(player.audioSessionId)
-            loudnessEnhancer.setTargetGain(gainMB)
-            loudnessEnhancer.enabled = true
-        } catch (e: RuntimeException) {
-            e.printStackTrace()
-        }
     }
 
     private fun scheduleShow(context: Context, show: Show) {
@@ -256,32 +194,29 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
 
         val scheduleShow = OneTimeWorkRequestBuilder<NotificationWorker>()
             .setInitialDelay(scheduleTime, TimeUnit.MILLISECONDS)
-            .setInputData(workDataOf(
-                NotificationWorker.titleKey to show.title,
-                NotificationWorker.showIDKey to show.id
-            ))
+            .setInputData(
+                workDataOf(
+                    NotificationWorker.titleKey to show.title,
+                    NotificationWorker.showIDKey to show.id
+                )
+            )
             .build()
 
         WorkManager.getInstance(this).enqueue(scheduleShow)
         Toast.makeText(context, "⏰ Reminder set for ${show.title}", Toast.LENGTH_SHORT).show()
     }
+
     private fun getShowTimeInMillis(show: Show): Long {
         val showDateTime = show.getShowDateTime(ShowTime.START)
         val now = LocalDateTime.now()
 
-        Log.d("SCH", "${showDateTime.dayOfMonth}/${showDateTime.monthValue}/${showDateTime.year}  ${showDateTime.hour}:${showDateTime.minute}")
-
+        Log.d(
+            "SCH",
+            "${showDateTime.dayOfMonth}/${showDateTime.monthValue}/${showDateTime.year}  ${showDateTime.hour}:${showDateTime.minute}"
+        )
         return now.until(showDateTime, ChronoUnit.MILLIS)
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel() {
-        val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel(NotificationWorker.channelId, NotificationWorker.name, importance)
-        channel.description = NotificationWorker.description
 
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-    }
     override fun onResume() {
         super.onResume()
         audioManager.requestAudioFocus(
@@ -304,6 +239,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        player.release();
+        player.release()
+        loudnessEnhancer.release()
     }
 }
