@@ -9,6 +9,10 @@ podacasts which are playable as well.
 - Hilt
 - Retrofit
 - Accompanist
+- Lottie Animations
+- Work Manager
+- Local Notifications
+- Shelf(Cache)
 
 <table>
   <tr>
@@ -27,9 +31,19 @@ podacasts which are playable as well.
     <td>Membership</td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/49708426/172768161-db5a5238-eea2-4d0e-8d3a-c1075bcd7a0b.png" width=320 height=500></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/174217844-e935f878-57fd-4943-92da-eb758e0b4ab8.png" width=320 height=500></td>
     <td><img src="https://user-images.githubusercontent.com/49708426/172767658-0d36e188-ef53-4aa3-a014-8453258e2690.png" width=320 height=500</td>
-    <td><img src="https://user-images.githubusercontent.com/49708426/172767919-12132cdb-a502-442d-8fc1-885539d380cf.png" width=320 height=500</td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/173213171-2ed595e0-5aa4-4314-b678-4ae2ee97ceac.png" width=320 height=500</td>
+  </tr>
+   <tr>
+    <td>Notification Center</td>
+    <td>No Internet Access</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/49708426/174218027-2a6565e0-c3f3-4efc-8f4a-08ae5d7256de.png" width=320 height=500></td>
+    <td> <img src="https://user-images.githubusercontent.com/49708426/174341467-976dc7c6-d0ac-4a20-ba35-fcecfe12a92d.png" width=320 height=500></td>
+    <td></td>
 
   </tr>
 </table>
