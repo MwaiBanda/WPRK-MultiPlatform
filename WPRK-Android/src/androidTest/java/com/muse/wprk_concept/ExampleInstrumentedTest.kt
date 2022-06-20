@@ -1,6 +1,5 @@
 package com.muse.wprk_concept
 
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.muse.wprk.main.model.Podcast
@@ -26,12 +25,8 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the WPRK-Android under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.muse.wprk_concept", appContext.packageName)
+        assertEquals("com.muse.wprk", appContext.packageName)
 
     }
 
-    @Test
-    fun testPodcasts() {
-
-    }
 }

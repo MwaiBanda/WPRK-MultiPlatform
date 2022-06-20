@@ -23,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
 import com.muse.wprk.main.model.Episode
 import com.muse.wprk.presentation.components.EpisodeRow
@@ -43,7 +42,7 @@ fun PodcastDetail(
 ) {
     val episodes = remember { mutableStateListOf<Episode>() }
     val lazyListState = rememberLazyListState()
-    podcastViewModel.episodeDTO.observe(LocalLifecycleOwner.current) { newEpisodes ->
+    podcastViewModel.episodes.observe(LocalLifecycleOwner.current) { newEpisodes ->
         episodes.swapList(newEpisodes)
     }
     LaunchedEffect(key1 = true) {

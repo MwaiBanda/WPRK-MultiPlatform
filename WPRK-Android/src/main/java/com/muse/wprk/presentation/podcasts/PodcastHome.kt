@@ -66,7 +66,7 @@ fun PodcastHome(
     podcastViewModel.podcasts.observe(lifecycle) { newPodcasts ->
         podcasts.swapList(newPodcasts)
     }
-    podcastViewModel.episodeDTO.observe(lifecycle) { newEpisodes ->
+    podcastViewModel.episodes.observe(lifecycle) { newEpisodes ->
             episodes.swapList(newEpisodes)
     }
 

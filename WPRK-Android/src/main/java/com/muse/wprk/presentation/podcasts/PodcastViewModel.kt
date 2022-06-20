@@ -27,7 +27,7 @@ class PodcastViewModel @Inject constructor(
     var loadError = mutableStateOf("")
 
     private val _episodes: MutableLiveData<List<Episode>> = MutableLiveData()
-    var episodeDTO: LiveData<List<Episode>> = _episodes
+    var episodes: LiveData<List<Episode>> = _episodes
     var isLoadingEpisode = mutableStateOf(false)
 
 
