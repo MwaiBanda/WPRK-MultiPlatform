@@ -31,8 +31,8 @@ import com.muse.wprk.main.model.Podcast
 import com.muse.wprk.presentation.components.EpisodeRow
 import com.muse.wprk.presentation.components.LiveButton
 import com.muse.wprk.presentation.podcasts.PodcastViewModel
-import com.muse.wprk_concept.presentation.parse
-import com.muse.wprk_concept.presentation.swapList
+import com.muse.wprk.presentation.parse
+import com.muse.wprk.presentation.swapList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.net.URLEncoder

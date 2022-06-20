@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.muse.wprk.core.utilities.ShowTime
 import com.muse.wprk.main.model.Show
-import com.muse.wprk_concept.presentation.ScheduleUnit
+import com.muse.wprk.presentation.ScheduleUnit
 
 @Composable
 fun ScheduledShows(list: List<Show>, onShowSetScheduleClick: (Context, Show) -> Unit) {

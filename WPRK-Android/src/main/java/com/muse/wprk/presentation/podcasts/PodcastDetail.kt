@@ -27,7 +27,7 @@ import coil.compose.rememberImagePainter
 import com.muse.wprk.main.model.Episode
 import com.muse.wprk.presentation.components.EpisodeRow
 import com.muse.wprk.presentation.components.ExpandableText
-import com.muse.wprk_concept.presentation.swapList
+import com.muse.wprk.presentation.swapList
 
 @Composable
 fun PodcastDetail(

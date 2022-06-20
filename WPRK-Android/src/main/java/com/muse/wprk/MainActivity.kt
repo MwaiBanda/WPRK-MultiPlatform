@@ -39,8 +39,8 @@ import com.muse.wprk.main.model.Show
 import com.muse.wprk.presentation.podcasts.PodcastDetail
 import com.muse.wprk.presentation.podcasts.PodcastViewModel
 import com.muse.wprk.presentation.shows.ShowDetail
-import com.muse.wprk_concept.presentation.MembershipHome
-import com.muse.wprk_concept.presentation.ShowHome
+import com.muse.wprk.presentation.MembershipHome
+import com.muse.wprk.presentation.ShowHome
 import com.mwaibanda.virtualgroceries.Domain.Presentation.Navigation.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDateTime
