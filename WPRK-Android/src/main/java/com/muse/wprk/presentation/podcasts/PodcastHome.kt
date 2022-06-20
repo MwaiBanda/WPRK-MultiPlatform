@@ -49,25 +49,24 @@ fun PodcastHome(
     var podcasts = remember { mutableStateListOf<Podcast>() }
     val lifecycle = LocalLifecycleOwner.current
     val scheduleState = rememberLazyListState()
-    val columnState = rememberLazyListState()
     var currentShow by remember { mutableStateOf(0) }
     var previousTab by remember { mutableStateOf(0) }
     var isTabingForward by remember { mutableStateOf(false) }
-    var episodes = remember { mutableStateListOf<Episode>()}
+    var episodes = remember { mutableStateListOf<Episode>() }
 
     val navigateToDetail: (Podcast, String) -> Unit = { podcast, imageURL ->
         navController.navigate("pDetail/${podcast.id}/$imageURL/${podcast.title}/${podcast.description}")
     }
     LaunchedEffect(key1 = Unit) {
         podcastViewModel.getPodcasts {
-            podcastViewModel.getEpisodes(podcasts[currentShow].id)
+            podcastViewModel.getFeaturedEpisodes(podcasts[currentShow].id)
         }
     }
     podcastViewModel.podcasts.observe(lifecycle) { newPodcasts ->
         podcasts.swapList(newPodcasts)
     }
     podcastViewModel.episodes.observe(lifecycle) { newEpisodes ->
-            episodes.swapList(newEpisodes)
+        episodes.swapList(newEpisodes)
     }
 
     LazyColumn(
@@ -80,10 +79,11 @@ fun PodcastHome(
             Spacer(modifier = Modifier.height(5.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(5.dp))
-            Row (Modifier.fillMaxWidth(),
+            Row(
+                Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Column {
                     Text(
                         text = "Podcasts",
@@ -93,7 +93,7 @@ fun PodcastHome(
                     )
                     Text(text = "Tap Featured Podcasts", color = Color.Gray)
                 }
-                LiveButton(Modifier.offset(y= 3.dp), onEpisodeClick)
+                LiveButton(Modifier.offset(y = 3.dp), onEpisodeClick)
             }
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
@@ -102,13 +102,14 @@ fun PodcastHome(
         item {
             LazyRow(state = LazyListState(), modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed(podcasts) { i, podcast ->
-                    var imageURL = URLEncoder.encode(podcast.thumbnailURL, StandardCharsets.UTF_8.toString())
+                    var imageURL =
+                        URLEncoder.encode(podcast.thumbnailURL, StandardCharsets.UTF_8.toString())
                     if (i != 0) Spacer(modifier = Modifier.width(8.dp))
                     Box(Modifier.clickable { navigateToDetail(podcast, imageURL) }) {
                         Image(
                             painter = rememberImagePainter(
                                 data = podcast.thumbnailURL,
-                                onExecute = {_,_ -> true},
+                                onExecute = { _, _ -> true },
                                 builder = {
                                     crossfade(true)
                                     transformations(RoundedCornersTransformation(10f))
@@ -128,7 +129,12 @@ fun PodcastHome(
 
         item {
             Spacer(modifier = Modifier.height(20.dp))
-            Text(text = "Featured Episodes", fontWeight = FontWeight.ExtraBold, style = MaterialTheme.typography.h5, color = Color.White)
+            Text(
+                text = "Featured Episodes",
+                fontWeight = FontWeight.ExtraBold,
+                style = MaterialTheme.typography.h5,
+                color = Color.White
+            )
             Text(text = "Discover Popular Episodes From Our Podcasts", color = Color.Gray)
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
@@ -136,15 +142,15 @@ fun PodcastHome(
         }
         item {
             LazyRow(state = scheduleState, modifier = Modifier.fillMaxWidth()) {
-                itemsIndexed(podcasts) { i, item ->
+                itemsIndexed(podcasts) { i, podcast ->
 
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.clickable {
-                            currentShow = podcasts.indexOf(item)
+                            currentShow = podcasts.indexOf(podcast)
                             Log.d("MAIN", "[INDEX] $currentShow")
-                            podcastViewModel.getEpisodes(item.id)
+                            podcastViewModel.getFeaturedEpisodes(podcast.id)
                             coroutineScope.launch {
                                 if (previousTab < currentShow) {
                                     isTabingForward = true
@@ -187,11 +193,15 @@ fun PodcastHome(
                                     color = if (currentShow == i) Color.Black else Color.White,
                                     RoundedCornerShape(25f)
                                 )
-                                .padding(horizontal = 15.dp)
-                            ,
+                                .padding(horizontal = 15.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(text = item.title, color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = podcast.title,
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         }
                     }
 
@@ -204,45 +214,44 @@ fun PodcastHome(
 
         item {
             Spacer(modifier = Modifier.height(10.dp))
-            LazyColumn(
-                state = columnState,
-                modifier = Modifier.height(500.dp)
-            ) {
-                itemsIndexed(episodes) { i, item ->
-                        if(i < 4) {
-                            EpisodeRow(episode = item){ onEpisodeClick(it) }
-                            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-                        }
-                        if (i == 4 || item.id == episodes.last().id  && episodes.count()  < 5) {
-                            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-                            Spacer(modifier = Modifier.height(15.dp))
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navigateToDetail(
-                                            podcasts[currentShow],
-                                            getURL(podcasts, currentShow)
-                                        )
-                                    },
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(text = "${if (podcasts.isEmpty()) 0 else podcasts[currentShow].episodesAvailable} Episodes Available", fontWeight = FontWeight.Bold, color = Color.White)
-                                Text(text = "See More", fontWeight = FontWeight.Bold,  color = Color.White, modifier = Modifier.padding(end = 15.dp))
-                            }
-                            Spacer(modifier = Modifier.height(15.dp))
-                            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-
-                        }
-                    }
+        }
+        itemsIndexed(episodes) { i, item ->
+            EpisodeRow(episode = item) { onEpisodeClick(it) }
+            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+            if (item.id == episodes.last().id) {
+                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                Spacer(modifier = Modifier.height(15.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navigateToDetail(
+                                podcasts[currentShow],
+                                getURL(podcasts, currentShow)
+                            )
+                        },
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "${if (podcasts.isEmpty()) 0 else podcasts[currentShow].episodesAvailable} Episodes Available",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "See More",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier.padding(end = 15.dp)
+                    )
                 }
-
+                Spacer(modifier = Modifier.height(15.dp))
+                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
 
             }
-
         }
 
     }
+}
 
 fun getURL(list: List<Podcast>, index: Int): String {
     return URLEncoder.encode(list[index].thumbnailURL, StandardCharsets.UTF_8.toString())
@@ -254,7 +263,9 @@ fun getURL(list: List<Podcast>, index: Int): String {
 fun PodcastsHomePreview() {
 
     val navController = rememberNavController()
-    PodcastHome(navController = navController,backgroundColor = Color.Black, podcastViewModel = hiltViewModel<PodcastViewModel>()){
-
-    }
+    PodcastHome(
+        navController = navController,
+        backgroundColor = Color.Black,
+        podcastViewModel = hiltViewModel<PodcastViewModel>()
+    ) { }
 }

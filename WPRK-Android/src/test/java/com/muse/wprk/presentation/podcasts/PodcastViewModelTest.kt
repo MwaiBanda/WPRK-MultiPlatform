@@ -58,13 +58,32 @@ internal class PodcastViewModelTest {
     }
 
     @Test
-    fun `testing fetch Episodes`() = runTest {
+    fun `testing fetch episodes`() = runTest {
         podcastViewModel.getEpisodes("10010")
-        delay(1000)
         podcastViewModel.episodes?.value?.let {
             assertFalse(it.isEmpty())
             assertNotEquals(it, emptyList<Episode>())
+            assertTrue(it.count() > 4)
         }
+    }
 
+    @Test
+    fun `testing fetch featured episodes`() = runTest {
+        podcastViewModel.getFeaturedEpisodes("10010")
+        podcastViewModel.episodes?.value?.let {
+            assertFalse(it.isEmpty())
+            assertNotEquals(it, emptyList<Episode>())
+            assertTrue(it.count() < 5)
+
+        }
+    }
+    @Test
+    fun `testing featured episodes sort order`() = runTest {
+        podcastViewModel.getFeaturedEpisodes("10010")
+        podcastViewModel.episodes?.value?.let {
+            assertFalse(it.isEmpty())
+            assertNotEquals(it, emptyList<Episode>())
+            assertTrue(it[0].number > it[1].number)
+        }
     }
 }

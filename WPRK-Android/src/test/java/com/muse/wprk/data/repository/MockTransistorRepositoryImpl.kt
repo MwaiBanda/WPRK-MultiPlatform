@@ -24,6 +24,10 @@ internal class MockTransistorRepositoryImpl: TransistorRepository {
             listOf<Episode>().apply {
                 buildList {
                     add(Episode("10001", "", "", 1, "00.00", ""))
+                    add(Episode("10002", "", "", 2, "00.00", ""))
+                    add(Episode("10003", "", "", 3, "00.00", ""))
+                    add(Episode("10004", "", "", 4, "00.00", ""))
+                    add(Episode("10004", "", "", 5, "00.00", ""))
                 }
             }
         )

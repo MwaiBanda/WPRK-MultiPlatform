@@ -51,6 +51,26 @@ class PodcastViewModel @Inject constructor(
         }
     }
 
+    fun getFeaturedEpisodes(showID: String) {
+        viewModelScope.launch {
+            getEpisodesUseCase(showID) {
+                when (it) {
+                    is Resource.Success -> {
+                        _episodes.value = it.data?.take(4)
+                            ?.sortedBy { it.number }
+                            ?.reversed()
+                        Log.d("Main", "Fetch Success ${it.data!!}")
+                    }
+                    is Resource.Error -> {
+                        loadError.value = it.message!!
+                        Log.d("Main", "Fetch Failure ${it.message!!}")
+                    }
+                    is Resource.Loading -> {
+                    }
+                }
+            }
+        }
+    }
 
     fun getEpisodes(showID: String){
         viewModelScope.launch {
