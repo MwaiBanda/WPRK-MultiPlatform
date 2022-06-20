@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.muse.wprk.data.repository.MockCacheRepositoryImpl
 import com.muse.wprk.data.repository.MockSpinitronRepositoryImpl
 import com.muse.wprk.main.usecase.GetShowUseCase
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.newSingleThreadContext
@@ -18,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
 internal class ShowViewModelTest {
     private lateinit var mockCacheRepositoryImpl: MockCacheRepositoryImpl
     private lateinit var mockSpinitronRepositoryImpl: MockSpinitronRepositoryImpl
@@ -41,11 +42,14 @@ internal class ShowViewModelTest {
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+        mainThreadSurrogate.close()
     }
 
     @Test
-    fun getShows()  = runTest {
-        showViewModel.getShows { }
-        showViewModel.shows.value?.let { assertTrue(it.isNotEmpty()) }
+    fun `test fetching shows`()  = runTest {
+        showViewModel.getShows {
+            val shows = showViewModel.shows.value ?: emptyList()
+            assertTrue(shows.isNotEmpty())
+        }
     }
 }

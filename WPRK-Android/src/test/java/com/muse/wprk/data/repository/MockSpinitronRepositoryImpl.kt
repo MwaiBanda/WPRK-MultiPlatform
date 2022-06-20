@@ -8,7 +8,7 @@ import org.junit.Assert.*
 class MockSpinitronRepositoryImpl: SpinitronRepository {
     override suspend fun getShows(accessToken: String): Resource<Show> {
         return Resource.Success(listOf<Show>().apply {
-            buildList<Show> {
+            buildList {
                 add(Show(0, "","",0,"","", "", "", "", "", ""))
             }
         })
