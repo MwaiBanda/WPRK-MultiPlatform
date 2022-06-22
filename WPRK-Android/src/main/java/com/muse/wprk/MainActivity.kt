@@ -44,6 +44,7 @@ import com.muse.wprk.presentation.ShowHome
 import com.mwaibanda.virtualgroceries.Domain.Presentation.Navigation.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 import org.threeten.bp.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -51,9 +52,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
-    @Inject lateinit var player: ExoPlayer
-    @Inject lateinit var loudnessEnhancer: LoudnessEnhancer
-    @Inject lateinit var audioManager: AudioManager
+    @Inject
+    lateinit var player: ExoPlayer
+    @Inject
+    lateinit var loudnessEnhancer: LoudnessEnhancer
+    @Inject
+    lateinit var audioManager: AudioManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -209,10 +213,12 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
     private fun getShowTimeInMillis(show: Show): Long {
         val showDateTime = show.getShowDateTime(ShowTime.START)
         val now = LocalDateTime.now()
-
         Log.d(
             "SCH",
-            "${showDateTime.dayOfMonth}/${showDateTime.monthValue}/${showDateTime.year}  ${showDateTime.hour}:${showDateTime.minute}"
+            """
+             Schedule Time: ${showDateTime.dayOfMonth}/${showDateTime.monthValue}/${showDateTime.year}  ${showDateTime.hour}:${showDateTime.minute}
+               Time Now: ${now.dayOfMonth}/${now.monthValue}/${now.year}  ${now.hour}:${now.minute}
+            """
         )
         return now.until(showDateTime, ChronoUnit.MILLIS)
     }

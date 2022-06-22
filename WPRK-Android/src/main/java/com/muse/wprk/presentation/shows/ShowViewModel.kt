@@ -1,7 +1,6 @@
 package com.muse.wprk.presentation.shows
 
 import android.util.Log
-import androidx.annotation.MainThread
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,12 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muse.wprk.core.exts.LocalDateEx
 import com.muse.wprk.core.utilities.Resource
+import com.muse.wprk.core.utilities.ShowTime
 import com.muse.wprk.main.model.Show
 import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.usecase.GetShowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
@@ -27,6 +26,9 @@ class ShowViewModel @Inject constructor(
 
     private val _shows: MutableLiveData<List<Show>> = MutableLiveData()
     var shows: LiveData<List<Show>> = _shows
+
+    private val _scheduledShows: MutableLiveData<List<Show>> = MutableLiveData()
+    var scheduledShows: LiveData<List<Show>> = _scheduledShows
 
     private var loadError = mutableStateOf("")
     private var isLoading = mutableStateOf(false)
@@ -42,7 +44,7 @@ class ShowViewModel @Inject constructor(
                     is Resource.Success -> {
                         _shows.value = it.data!!
                         isLoading.value = false
-                        Log.d("Main", "Fetch Success $shows")
+                        Log.d("Main", "Fetch Success ${shows.value}")
                         onSuccess()
                     }
                     is Resource.Error -> {
@@ -57,12 +59,8 @@ class ShowViewModel @Inject constructor(
             }
         }
     }
-    @MainThread
-    fun onScheduleChange(scheduleDate: LocalDate): Flow<List<Show>> {
-        val shows = cacheRepository.getShows("SHOWS")
-        return flow {
-             emit(shows)
-        }
+    fun onScheduleChange(scheduleDate: LocalDate) {
+        _scheduledShows.value = _shows.value?.filter { it.getShowDate(ShowTime.START) == scheduleDate }
     }
 
     fun onSelectedChange(newValue: Int) {
@@ -78,3 +76,6 @@ class ShowViewModel @Inject constructor(
     }
 }
 
+fun ViewModel.getViewModelScope(coroutineScope: CoroutineScope?) =
+    if (coroutineScope == null) this.viewModelScope
+    else coroutineScope

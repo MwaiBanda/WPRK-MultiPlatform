@@ -1,5 +1,6 @@
 package com.muse.wprk.data.repository
 
+import android.util.Log
 import com.muse.wprk.main.model.Episode
 import com.muse.wprk.main.model.Podcast
 import com.muse.wprk.main.model.Show
@@ -7,28 +8,30 @@ import com.muse.wprk.main.repository.CacheRepository
 import org.junit.jupiter.api.Assertions.*
 
 class MockCacheRepositoryImpl: CacheRepository {
+    private val inMemoryCache = hashMapOf<String, List<Any>?>()
+
     override fun getShows(id: String): List<Show> {
-        return emptyList()
+        return (inMemoryCache[id] ?: emptyList()) as List<Show>
     }
 
     override fun setShows(id: String, shows: List<Show>) {
-        print("Set")
+        inMemoryCache[id] = shows
     }
 
     override fun getPodcasts(id: String): List<Podcast> {
-        return emptyList()
+        return (inMemoryCache[id] ?: emptyList()) as List<Podcast>
     }
 
-    override fun setPodcasts(id: String, shows: List<Podcast>) {
-        print("Set")
+    override fun setPodcasts(id: String, podcasts: List<Podcast>) {
+        inMemoryCache[id] = podcasts
     }
 
     override fun getEpisodes(id: String): List<Episode> {
-        return emptyList()
+        return (inMemoryCache[id] ?: emptyList()) as List<Episode>
     }
 
-    override fun setEpisodes(id: String, shows: List<Episode>) {
-        print("Set")
+    override fun setEpisodes(id: String, episodes: List<Episode>) {
+        inMemoryCache[id] = episodes
     }
 
 }

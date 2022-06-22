@@ -64,6 +64,10 @@ fun ShowHome(
     val mainColumnState = rememberLazyListState()
     val shows = remember { mutableStateListOf<Show>() }
     val scheduledShows = remember { mutableStateListOf<Show>() }
+    showsViewModel.scheduledShows.observe(lifecycle) {
+        scheduledShows.clear()
+        scheduledShows.addAll(it)
+    }
     var currentDayString by remember { mutableStateOf("") }
     var selectedDate = remember { mutableStateOf(showsViewModel.currentDay()) }
     var selectedDateString by remember {
@@ -98,7 +102,7 @@ fun ShowHome(
         }
         selectedDateString = showsViewModel.currentDay().toString()
         showsViewModel.getShows {
-            scheduledShows.addAll(shows.filter { it.getShowDate(ShowTime.START) == selectedDate.value })
+            showsViewModel.onScheduleChange(selectedDate.value)
         }
     }
 
@@ -198,8 +202,7 @@ fun ShowHome(
                                 }
                                 currentDayString = days[i]
                                 selectedDateString = selectedDate.value.toString()
-                                scheduledShows.clear()
-                                scheduledShows.addAll(shows.filter { it.getShowDate(ShowTime.START) == selectedDate.value })
+                                showsViewModel.onScheduleChange(selectedDate.value)
                                 Log.d("MAIN", "[SHOWS] ${scheduledShows}")
                                 Log.d("MAIN", "[SELECTED] $selectedDateString")
                                 when {

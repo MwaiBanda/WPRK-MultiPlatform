@@ -104,19 +104,13 @@ data class Show(
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         val date = when (showTime) {
             ShowTime.START -> {
-                val current = getTime(ShowTime.START)
-                val date =
-                    if (current.endsWith("PM") && (current.split(":").first().toInt()) > 6) {
-                        LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter)
-                            .minusDays(1).minusHours(5)
-                    } else {
-                        LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter).minusHours(5)
-                    }
+                val date = LocalDateTime.parse(getDate(showTime = ShowTime.START), formatter)
+                    .minusHours(5)
                 date
-
             }
             ShowTime.END -> {
                 LocalDateTime.parse(getDate(showTime = ShowTime.END), formatter)
+                    .minusHours(5)
             }
         }
         return date

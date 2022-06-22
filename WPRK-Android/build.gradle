@@ -67,8 +67,8 @@ android {
     namespace 'com.muse.wprk'
 
     testOptions {
-//        unitTests.includeAndroidResources  = true
-//        unitTests.returnDefaultValues = true
+        unitTests.includeAndroidResources  = true
+       unitTests.returnDefaultValues = true
         unitTests.all {
             useJUnitPlatform()
         }
@@ -112,13 +112,15 @@ dependencies {
 
     //Unit Testing
     testImplementation "junit:junit:4.13.2"
-    testImplementation 'androidx.test:core-ktx:1.4.0'
+    testImplementation 'androidx.test:core:1.4.0'
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     kaptTest 'com.google.dagger:hilt-android-compiler:2.38.1'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
     testImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
     testImplementation 'org.robolectric:robolectric:4.4'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
 
     //Instrument Testing
     androidTestImplementation "junit:junit:4.13.2"
