@@ -163,7 +163,7 @@ The app's are available for download on the app store & playstore for Android, i
     <td></td>
   </tr>
   <tr>
-    <td><img src="https://user-images.githubusercontent.com/49708426/174218027-2a6565e0-c3f3-4efc-8f4a-08ae5d7256de.png" width=320 height=500></td>
+    <td><img src="https://user-images.githubusercontent.com/49708426/174918693-d6493308-af0c-4678-820e-73347e99a0ba.png" width=320 height=500></td>
     <td> <img src="https://user-images.githubusercontent.com/49708426/174341467-976dc7c6-d0ac-4a20-ba35-fcecfe12a92d.png" width=320 height=500></td>
     <td></td>
 
