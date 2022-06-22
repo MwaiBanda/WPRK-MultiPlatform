@@ -31,6 +31,7 @@ object MainModule {
     @Singleton
     @Provides
     fun provideExoplayer(@ApplicationContext context: Context): ExoPlayer {
+
         return ExoPlayer.Builder(context)
             .build()
             .apply {
@@ -40,11 +41,10 @@ object MainModule {
                     .setLiveConfiguration(
                         MediaItem.LiveConfiguration.Builder()
                             .build().apply {
-                                setPlaybackSpeed(1.02f)
                                 setAudioAttributes(
                                     AudioAttributes.Builder()
                                         .setUsage(C.USAGE_MEDIA)
-                                        .setContentType(C.CONTENT_TYPE_MUSIC)
+                                        .setContentType(C.STREAM_TYPE_MUSIC)
                                         .build(),
                                     true
                                 )

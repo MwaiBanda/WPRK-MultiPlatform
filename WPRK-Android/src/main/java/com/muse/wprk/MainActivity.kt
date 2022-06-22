@@ -1,5 +1,7 @@
 package com.muse.wprk
 
+import android.app.Notification
+import android.app.PendingIntent
 import android.content.Context
 import android.media.AudioManager
 import android.media.AudioManager.*
@@ -17,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.core.app.ServiceCompat.stopForeground
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.media2.exoplayer.external.offline.DownloadService.startForeground
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
@@ -27,8 +31,10 @@ import androidx.work.workDataOf
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.muse.wprk.core.utilities.ConnectivityStatus
 import com.muse.wprk.core.utilities.NavigationRoutes.*
@@ -48,6 +54,8 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.log10
+import kotlin.math.roundToInt
 
 
 @AndroidEntryPoint
@@ -103,7 +111,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                             }
                         }
                     }
-                    composable(ShowDetail.route) { backStackEntry ->
+                    composable(ShowDetail.route) {
                         currentShow?.let {
                             ShowDetail(
                                 show = it,
@@ -170,11 +178,10 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
             val sourceURL = MediaItem.Builder()
                 .setUri(URL)
                 .setLiveConfiguration(MediaItem.LiveConfiguration.Builder().build().apply {
-                    setPlaybackSpeed(1.02f)
                     setAudioAttributes(
                         AudioAttributes.Builder()
                             .setUsage(C.USAGE_MEDIA)
-                            .setContentType(C.CONTENT_TYPE_MUSIC)
+                            .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
                             .build(),
                         true
                     )
@@ -187,7 +194,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
             setMediaSource(source)
             prepare()
             playWhenReady = true
-        }
+        }.also { enhanceAudio() }
 
         onCompletion()
     }
@@ -206,7 +213,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
             )
             .build()
 
-        WorkManager.getInstance(this).enqueue(scheduleShow)
+        WorkManager.getInstance(context).enqueue(scheduleShow)
         Toast.makeText(context, "⏰ Reminder set for ${show.title}", Toast.LENGTH_SHORT).show()
     }
 
@@ -230,15 +237,28 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
             STREAM_MUSIC,
             AUDIOFOCUS_GAIN
         )
+        enhanceAudio()
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        enhanceAudio()
+    }
+
+    private fun enhanceAudio() {
+        loudnessEnhancer = LoudnessEnhancer(player.audioSessionId).apply {
+            val audioPct = 1.2
+            val gainMB = (log10(audioPct) * 10000).roundToInt()
+            setTargetGain(gainMB)
+            enabled = true
+        }
+    }
     override fun onAudioFocusChange(focusState: Int) {
         when (focusState) {
-            AUDIOFOCUS_LOSS_TRANSIENT -> {
-                player.pause()
-            }
+            AUDIOFOCUS_LOSS_TRANSIENT -> {}
             AUDIOFOCUS_GAIN -> {
                 player.play()
+                enhanceAudio()
             }
         }
     }

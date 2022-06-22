@@ -20,7 +20,6 @@ import com.muse.wprk.ui.theme.WPRK_conceptTheme
 import com.muse.wprk.presentation.navigation.TopAppBar
 
 
-@OptIn(ExperimentalAnimationApi::class, coil.annotation.ExperimentalCoilApi::class)
 @Composable
 fun WPRKEntry(
     player: ExoPlayer,

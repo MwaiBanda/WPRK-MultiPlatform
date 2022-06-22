@@ -1,5 +1,8 @@
 package com.muse.wprk.presentation.components
 
+import android.R
+import android.app.PendingIntent
+import android.content.Intent
 import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
@@ -33,6 +36,7 @@ import com.google.android.exoplayer2.MediaMetadata
 import com.muse.wprk.core.exts.parse
 import kotlinx.coroutines.delay
 
+
 @OptIn(ExperimentalAnimationApi::class, ExperimentalCoilApi::class)
 @Composable
 fun WPRKPlayer(player : ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) -> Unit) {
@@ -49,6 +53,7 @@ fun WPRKPlayer(player : ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean)
         delay(1500L)
         if (isPlaying) {
             onMediaMetadataChanged(player.mediaMetadata)
+
             delay(15000L)
             count++
         }
