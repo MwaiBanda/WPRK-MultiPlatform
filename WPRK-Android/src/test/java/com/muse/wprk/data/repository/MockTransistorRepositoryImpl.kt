@@ -7,8 +7,11 @@ import com.muse.wprk.main.repository.TransistorRepository
 import org.junit.jupiter.api.Assertions.*
 
 import org.junit.jupiter.api.Test
+import javax.inject.Inject
+import javax.inject.Singleton
 
-internal class MockTransistorRepositoryImpl: TransistorRepository {
+@Singleton
+class MockTransistorRepositoryImpl  @Inject constructor(): TransistorRepository {
     override suspend fun getPodcasts(): Resource<Podcast> {
         return Resource.Success(
             listOf<Podcast>().apply {

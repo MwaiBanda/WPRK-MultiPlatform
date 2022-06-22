@@ -17,7 +17,6 @@ fun ScheduleUnit(
     title: String,
     category: String,
     time: String,
-    isLast: () -> Boolean,
     onShowSetScheduleClick: () -> Unit,
     ) {
     Column(
@@ -31,7 +30,7 @@ fun ScheduleUnit(
                 .padding(end = 10.dp)
                 .fillMaxWidth()
         ) {
-            Column(Modifier.fillMaxWidth(0.75f),
+            Column(Modifier.fillMaxWidth(0.73f),
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Text(text = title, color = Color.White, fontWeight = FontWeight.ExtraBold, fontSize = 18.sp)
@@ -62,8 +61,5 @@ fun ScheduleUnit(
                 }
 
         }
-
-
-
     }
 }

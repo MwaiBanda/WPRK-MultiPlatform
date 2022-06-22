@@ -19,7 +19,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object SingletonModule {
+object CacheModule {
 
     @OptIn(InternalSerializationApi::class)
     @Provides
@@ -33,9 +33,9 @@ object SingletonModule {
             register(Episode.serializer())
         }
     }
-    @Provides
     @Singleton
-    fun provideSCache(
+    @Provides
+    fun provideCache(
         shelf: Shelf
     ): CacheRepository = CacheRepositoryImpl(shelf)
 

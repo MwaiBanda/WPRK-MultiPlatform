@@ -27,7 +27,7 @@ import kotlin.math.roundToInt
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+object MainModule {
     @Singleton
     @Provides
     fun provideExoplayer(@ApplicationContext context: Context): ExoPlayer {

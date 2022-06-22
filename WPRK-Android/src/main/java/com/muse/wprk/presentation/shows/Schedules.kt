@@ -29,7 +29,6 @@ fun ScheduledShows(list: List<Show>, onShowSetScheduleClick: (Context, Show) -> 
                 title = show.title,
                 category = if (show.category == "unset") "WPRK" else show.category ?: "WPRK",
                 time = show.getTime(showTime = ShowTime.START).toString(),
-                isLast = { list.last().id == show.id },
                 onShowSetScheduleClick = { onShowSetScheduleClick(context, show) }
             )
             if (show.id != list.last().id) {

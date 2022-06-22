@@ -17,22 +17,15 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
-object RepoModule {
-
-    @ViewModelScoped
-    @Provides
-    fun provideSpinitronRepo(
-        api: SpinitronApi,
-        cache: CacheRepository
-    ): SpinitronRepository = SpinitronRepositoryImpl(api, cache)
-
-
-    @ViewModelScoped
+@InstallIn(SingletonComponent::class)
+object DataModule {
+    @Singleton
     @Provides
     fun provideSpinitron(): SpinitronApi {
         return Retrofit.Builder()
@@ -42,7 +35,7 @@ object RepoModule {
             .create(SpinitronApi::class.java)
 
     }
-    @ViewModelScoped
+    @Singleton
     @Provides
     fun provideTransistor(): TransistorApi {
         return Retrofit.Builder()
@@ -51,23 +44,29 @@ object RepoModule {
             .build()
             .create(TransistorApi::class.java)
     }
+    @Singleton
+    @Provides
+    fun provideSpinitronRepo(
+        api: SpinitronApi,
+        cache: CacheRepository
+    ): SpinitronRepository = SpinitronRepositoryImpl(api, cache)
 
-    @ViewModelScoped
+    @Singleton
     @Provides
     fun provideTransistorRepo(
         api: TransistorApi,
         cache: CacheRepository
     ): TransistorRepository = TransistorRepositoryImpl(api, cache)
 
-    @ViewModelScoped
+    @Singleton
     @Provides
     fun provideShowsUseCase(repo: SpinitronRepository) = GetShowUseCase(repo)
 
-    @ViewModelScoped
+    @Singleton
     @Provides
     fun provideEpisodesUseCase(repo: TransistorRepository) = GetEpisodesUseCase(repo)
 
-    @ViewModelScoped
+    @Singleton
     @Provides
     fun providePodcastsUseCase(repo: TransistorRepository) = GetPodcastsUseCase(repo)
 

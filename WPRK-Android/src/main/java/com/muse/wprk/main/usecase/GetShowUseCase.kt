@@ -4,8 +4,11 @@ import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.Resource
 import com.muse.wprk.main.model.Show
 import com.muse.wprk.main.repository.SpinitronRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class GetShowUseCase(
+@Singleton
+class GetShowUseCase @Inject constructor(
     private val spinitronRepository: SpinitronRepository
 ) {
      suspend operator fun invoke(onFetchCompletion: (Resource<Show>) -> Unit){

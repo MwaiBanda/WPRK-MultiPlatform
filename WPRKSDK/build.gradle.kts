@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
@@ -9,26 +11,27 @@ version = "1.0"
 kotlin {
     android()
     iosX64()
-   iosArm64()
+    iosArm64()
     iosSimulatorArm64() //sure all ios dependencies support this target
 
     cocoapods {
-        summary = "WPRK SDK allows seamlessly integration with WPRK auth, shows & podcast functionality"
+        summary =
+            "WPRK SDK allows seamlessly integration with WPRK auth, shows & podcast functionality"
         homepage = "https://wprk.org"
         ios.deploymentTarget = "14.1"
         framework {
             baseName = "WPRKSDK"
         }
     }
-    
+
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation("dev.gitlive:firebase-auth:1.4.3")
                 implementation("io.insert-koin:koin-core:3.1.5")
-                implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
             }
-            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
@@ -58,17 +61,24 @@ kotlin {
             dependsOn(commonTest)
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
-           iosSimulatorArm64Test.dependsOn(this)
+            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }
 
+
 android {
-    compileSdk = 31
+    compileSdk = 32
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
         targetSdk = 31
     }
     namespace = "com.mwaibanda.wprksdk"
+}
+
+kotlin.targets.withType(KotlinNativeTarget::class.java) {
+    binaries.all {
+        binaryOptions["memoryModel"] = "experimental"
+    }
 }
