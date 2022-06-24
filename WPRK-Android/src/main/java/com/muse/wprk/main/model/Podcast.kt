@@ -9,4 +9,4 @@ data class Podcast(
     val description: String,
     val thumbnailURL: String,
     val episodesAvailable: Int
-    )
+)

@@ -2,7 +2,7 @@ package com.muse.wprk.data.repository
 
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.Resource
-import com.muse.wprk.data.remote.TransistorApi
+import com.muse.wprk.main.api.TransistorApi
 import com.muse.wprk.main.model.Episode
 import com.muse.wprk.main.model.Podcast
 import com.muse.wprk.main.repository.CacheRepository

@@ -1,13 +1,10 @@
 package com.muse.wprk.data.repository
 import android.util.Log
 import com.muse.wprk.core.utilities.Resource
-import com.muse.wprk.data.remote.SpinitronApi
+import com.muse.wprk.main.api.SpinitronApi
 import com.muse.wprk.main.model.Show
 import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.repository.SpinitronRepository
-import com.toddway.shelf.Shelf
-import com.toddway.shelf.getList
-import com.toddway.shelf.olderThan
 import dagger.hilt.android.scopes.ActivityScoped
 import retrofit2.HttpException
 import java.io.IOException
