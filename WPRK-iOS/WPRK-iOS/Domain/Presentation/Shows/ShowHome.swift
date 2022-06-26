@@ -186,6 +186,8 @@ struct ShowHome: View {
         .foregroundColor(.white)
         .background(Color.white.opacity(0).ignoresSafeArea(.all))
         .onAppear {
+            DispatchQueue.main.async {
+
             let currentDateStr = streamer.getCurrentDayOfWeek()
             while(currentDateStr != days.first) {
                 days.append(days.remove(at: 0))
@@ -194,6 +196,7 @@ struct ShowHome: View {
             showViewModel.currentDate = showViewModel.getCurrent()
             showViewModel.currentDay = days.first ?? ""
             AppReviewRequest.RequestReviewWhenNeeeded()
+            }
 
         }
         .sheet(item: $showViewModel.selected){ show in

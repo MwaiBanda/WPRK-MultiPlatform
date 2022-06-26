@@ -9,7 +9,7 @@ import Foundation
 
 
 // MARK: - ShowDTO
-struct ShowDTO: Decodable, Identifiable {
+struct ShowDTO: Decodable {
     var id: Int
     var start, end: String
     var duration: Int

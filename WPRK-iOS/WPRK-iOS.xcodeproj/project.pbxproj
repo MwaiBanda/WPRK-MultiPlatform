@@ -12,7 +12,7 @@
 		8112C0EE27CAECE8004319EE /* PodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */; };
 		8112DFD8284016EE003FC13C /* ContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8112DFD7284016EE003FC13C /* ContentService.swift */; };
 		81635F8227F65D6B00650F7D /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81635F8127F65D6B00650F7D /* SDWebImageSwiftUI */; };
-		81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */; };
+		81721BE627AE264F00C86F65 /* WPRK_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721BE527AE264F00C86F65 /* WPRK_iOS.swift */; };
 		81721BED27AE265000C86F65 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BEC27AE265000C86F65 /* Preview Assets.xcassets */; };
 		81721BF427AE269C00C86F65 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81721BF327AE269C00C86F65 /* Assets.xcassets */; };
 		81721C2427AE26BE00C86F65 /* View+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721BF927AE26BE00C86F65 /* View+Swift.swift */; };
@@ -48,13 +48,7 @@
 		81721C4327AE26BE00C86F65 /* ContentServiceImplementation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C2327AE26BE00C86F65 /* ContentServiceImplementation.swift */; };
 		81721C4627AE273C00C86F65 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 81721C4527AE273C00C86F65 /* Lottie */; };
 		81754BFA2867D5D000A381EF /* Show.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81754BF92867D5D000A381EF /* Show.swift */; };
-		81944B282840B49B00CC0136 /* PodcastDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0727AE26BE00C86F65 /* PodcastDTO.swift */; };
-		81944B292840B49E00CC0136 /* ShowDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0827AE26BE00C86F65 /* ShowDTO.swift */; };
-		81944B2A2840B4A200CC0136 /* EpisodeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C0927AE26BE00C86F65 /* EpisodeDTO.swift */; };
-		81B736C42840B7EA00F7A9D4 /* ContentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8112DFD7284016EE003FC13C /* ContentService.swift */; };
-		81B736C52840BCAA00F7A9D4 /* ShowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81721C1F27AE26BE00C86F65 /* ShowViewModel.swift */; };
 		81B736C72840C49400F7A9D4 /* PodcastViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B736C62840C49400F7A9D4 /* PodcastViewModelTests.swift */; };
-		81B736C82840C4AD00F7A9D4 /* PodcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */; };
 		81B736CA2840E6D500F7A9D4 /* FetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B736C92840E6D400F7A9D4 /* FetchError.swift */; };
 		81B736CD284182F800F7A9D4 /* Contants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B736CC284182F800F7A9D4 /* Contants.swift */; };
 		81BCFF4428404BD800DF0D1D /* ShowViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BCFF4328404BD800DF0D1D /* ShowViewModelTests.swift */; };
@@ -92,7 +86,7 @@
 		811357CE27AF4A65003B7234 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		81635F8727F6A7F500650F7D /* WPRK-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WPRK-iOS.entitlements"; sourceTree = "<group>"; };
 		81721BE227AE264F00C86F65 /* WPRK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WPRK.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPRK_iOSApp.swift; sourceTree = "<group>"; };
+		81721BE527AE264F00C86F65 /* WPRK_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WPRK_iOS.swift; sourceTree = "<group>"; };
 		81721BEC27AE265000C86F65 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		81721BF327AE269C00C86F65 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81721BF927AE26BE00C86F65 /* View+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Swift.swift"; sourceTree = "<group>"; };
@@ -283,6 +277,7 @@
 			children = (
 				81721BF827AE26BE00C86F65 /* Exts */,
 				81721BFC27AE26BE00C86F65 /* LottieAnimations */,
+				81CCE5C828680DA200016144 /* Streamer */,
 				81721BFE27AE26BE00C86F65 /* Utils */,
 			);
 			path = Core;
@@ -320,11 +315,9 @@
 		81721C0427AE26BE00C86F65 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				81721C0227AE26BE00C86F65 /* WPRKStreamer.swift */,
 				8112DFD6284016B5003FC13C /* Service */,
 				81721C0527AE26BE00C86F65 /* Model */,
-				81721C0A27AE26BE00C86F65 /* ContentView.swift */,
-				81721BE527AE264F00C86F65 /* WPRK_iOSApp.swift */,
+				81721BE527AE264F00C86F65 /* WPRK_iOS.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -343,6 +336,7 @@
 		81721C0C27AE26BE00C86F65 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				81721C0A27AE26BE00C86F65 /* ContentView.swift */,
 				81721C1327AE26BE00C86F65 /* Podcasts */,
 				81721C1C27AE26BE00C86F65 /* Shows */,
 				81721C2027AE26BE00C86F65 /* Membership */,
@@ -434,6 +428,14 @@
 				81B736C92840E6D400F7A9D4 /* FetchError.swift */,
 			);
 			path = WPRKTests;
+			sourceTree = "<group>";
+		};
+		81CCE5C828680DA200016144 /* Streamer */ = {
+			isa = PBXGroup;
+			children = (
+				81721C0227AE26BE00C86F65 /* WPRKStreamer.swift */,
+			);
+			path = Streamer;
 			sourceTree = "<group>";
 		};
 		81F9F4702867E93300A4CD18 /* EpisodeDTO */ = {
@@ -606,7 +608,7 @@
 				81721C2527AE26BE00C86F65 /* Date+Swift.swift in Sources */,
 				81721C2D27AE26BE00C86F65 /* BusinessDeal.swift in Sources */,
 				81721C3327AE26BE00C86F65 /* TabBar.swift in Sources */,
-				81721BE627AE264F00C86F65 /* WPRK_iOSApp.swift in Sources */,
+				81721BE627AE264F00C86F65 /* WPRK_iOS.swift in Sources */,
 				81721C2627AE26BE00C86F65 /* Color+Swift.swift in Sources */,
 				81721C2427AE26BE00C86F65 /* View+Swift.swift in Sources */,
 				81754BFA2867D5D000A381EF /* Show.swift in Sources */,
@@ -636,14 +638,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81944B292840B49E00CC0136 /* ShowDTO.swift in Sources */,
 				81BCFF4F2840520600DF0D1D /* MockDataSource.swift in Sources */,
-				81B736C42840B7EA00F7A9D4 /* ContentService.swift in Sources */,
-				81B736C52840BCAA00F7A9D4 /* ShowViewModel.swift in Sources */,
 				81BCFF4428404BD800DF0D1D /* ShowViewModelTests.swift in Sources */,
-				81B736C82840C4AD00F7A9D4 /* PodcastViewModel.swift in Sources */,
-				81944B2A2840B4A200CC0136 /* EpisodeDTO.swift in Sources */,
-				81944B282840B49B00CC0136 /* PodcastDTO.swift in Sources */,
 				81B736C72840C49400F7A9D4 /* PodcastViewModelTests.swift in Sources */,
 				81BCFF4C28404DAA00DF0D1D /* MockContentService.swift in Sources */,
 				81B736CA2840E6D500F7A9D4 /* FetchError.swift in Sources */,

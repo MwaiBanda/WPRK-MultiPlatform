@@ -12,7 +12,7 @@ import AVFoundation
 import SDWebImageSwiftUI
 
 @main
-struct WPRK_iOSApp: App {
+struct WPRK_iOS: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var networkService = NetworkService.sharedInstance
     @StateObject private var podcastViewModel = PodcastViewModel(contentService: ContentServiceImplementation.sharedInstance, group: DispatchGroup())

@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import WPRK
 
 class PodcastViewModelTests: XCTestCase {
     var mockContentService: ContentService!
@@ -43,8 +44,8 @@ class PodcastViewModelTests: XCTestCase {
         sut.getEpisodes(showID: Contants.testID)
         var episodes = sut.episodes
         episodes = Array(episodes.dropFirst(9)).shuffled()
-        episodes = episodes.sorted(by: { return $0.attributes.number > $1.attributes.number })
-        XCTAssertLessThan(episodes[1].attributes.number, episodes[0].attributes.number)
+        episodes = episodes.sorted(by: { return $0.number > $1.number })
+        XCTAssertLessThan(episodes[1].number, episodes[0].number)
     }
 
     func testPerformance() throws {

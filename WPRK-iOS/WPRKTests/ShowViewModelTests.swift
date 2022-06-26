@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import WPRK
 
 class ShowViewModelTests: XCTestCase {
     var mockContentService: ContentService!
