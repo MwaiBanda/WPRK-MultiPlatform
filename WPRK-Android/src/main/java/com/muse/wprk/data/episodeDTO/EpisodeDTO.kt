@@ -1,4 +1,4 @@
-package com.muse.wprk.data.podcastDTO.episodes
+package com.muse.wprk.data.episodeDTO
 
 import com.muse.wprk.main.model.Episode
 import kotlinx.serialization.Serializable

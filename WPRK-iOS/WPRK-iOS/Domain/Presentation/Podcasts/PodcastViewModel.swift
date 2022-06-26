@@ -52,7 +52,7 @@ final class PodcastViewModel: ObservableObject {
             fetchEpisodes(showID: showID) { eps in
                 DispatchQueue.main.async {
                     eps.sorted(
-                        by: { return $0.attributes.number > $1.attributes.number }
+                        by: { return $0.number > $1.number }
                     ).forEach { episode in
                         if self.featured.count < 4 {
                             self.featured.append(episode)

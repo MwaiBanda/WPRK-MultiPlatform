@@ -19,8 +19,8 @@ final class ContentServiceImplementation: ContentService {
                 if let data = data, let response = res as? HTTPURLResponse {
                     if response.statusCode == 200 {
                         do {
-                            let shows = try JSONDecoder().decode(Shows.self, from: data)
-                            onCompletion(.success(shows.items))
+                            let shows = try JSONDecoder().decode(ShowsDTO.self, from: data)
+                            onCompletion(.success(shows.collection.map({ $0.toShow() })))
                         } catch DecodingError.dataCorrupted(let context) {
                             print(context)
                         } catch DecodingError.keyNotFound(let key, let context) {
@@ -53,8 +53,8 @@ final class ContentServiceImplementation: ContentService {
                 if let data = data, let response = res as? HTTPURLResponse {
                     if response.statusCode == 200 {
                         do {
-                            let podcasts = try JSONDecoder().decode(Podcasts.self, from: data)
-                            onCompletion(.success(podcasts.data))
+                            let podcasts = try JSONDecoder().decode(PodcastsDTO.self, from: data)
+                            onCompletion(.success(podcasts.collection.map({ $0.toPodcast() })))
                         } catch DecodingError.dataCorrupted(let context) {
                             print(context)
                         } catch DecodingError.keyNotFound(let key, let context) {
@@ -92,8 +92,8 @@ final class ContentServiceImplementation: ContentService {
                         do {
                             let dataString = String(data: data, encoding: .utf8)
                             if let jsondata = dataString?.data(using: .utf8) {
-                                let result = try JSONDecoder().decode(Episodes.self, from: jsondata)
-                                onCompletion(.success(result.data))
+                                let episodes = try JSONDecoder().decode(EpisodesDTO.self, from: jsondata)
+                                onCompletion(.success(episodes.collection.map({ $0.toEpisode() })))
                             }
                         } catch DecodingError.dataCorrupted(let context) {
                             print(context)

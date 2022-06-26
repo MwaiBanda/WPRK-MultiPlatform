@@ -162,7 +162,7 @@ struct ShowHome: View {
                         Divider().background(Color(.lightGray))
                     } else {
                         ForEach(showViewModel.showsScheduled) { i in
-                            ScheduleUnit(title: i.title, category:i.category == .unset ? "WPRK" : i.category?.rawValue ?? "WPRK", startTime: i.getTime12(time: .START), endTime: i.getTime12(time: .END), currentDate: showViewModel.currentDate)
+                            ScheduleUnit(title: i.title, category: i.category ?? "WPRK", startTime: i.getTime12(time: .START), endTime: i.getTime12(time: .END), currentDate: showViewModel.currentDate)
                                 .padding(.top)
                                 .onTapGesture {
                                     showViewModel.selected = i

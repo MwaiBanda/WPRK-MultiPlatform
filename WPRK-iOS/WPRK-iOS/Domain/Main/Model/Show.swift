@@ -1,53 +1,26 @@
 //
-//  Shows.swift
-//  WPRK
+//  Show.swift
+//  WPRK-iOS
 //
-//  Created by Mwai Banda on 10/2/21.
+//  Created by Mwai Banda on 6/25/22.
 //
 
 import Foundation
 
 
-struct Shows: Decodable {
-    var items: [Show]
-    var links: WelcomeLinks
-    var meta: ShowsMetaData
-
-       enum CodingKeys: String, CodingKey {
-           case items
-           case links = "_links"
-           case meta = "_meta"
-       }
-}
-
-// MARK: - Item
-struct Show: Decodable, Identifiable {
-
+struct Show: Identifiable {
     var id: Int
-    var start, end: String
+    var category: String?
+    var description: String
     var duration: Int
-    var timezone: String
-    var oneOff: Bool
-    var category: Category?
-    var title, itemDescription: String
-    var since: Int?
-    var url: String
-    var hideDj: Int
+    var end: String
     var image: String
-    var links: ItemLinks
-
-    enum CodingKeys: String, CodingKey {
-        case id, start, end, duration, timezone
-        case oneOff = "one_off"
-        case category, title
-        case itemDescription = "description"
-        case since, url
-        case hideDj = "hide_dj"
-        case image
-        case links = "_links"
-    }
+    var since: Int?
+    var start: String
+    var timezone: String
+    var title: String
+    var url: String
 }
-
 
 extension Show {
     enum ShowTime {
@@ -128,48 +101,4 @@ extension Show {
         return dateFormatter.string(from: date!)
 
     }
-    
-    
-}
-enum Category: String, Codable {
-    case music = "Music"
-    case talk = "Talk"
-    case sport = "Sport"
-    case unset = "unset"
-    case news = "News"
-}
-
-
-// MARK: - ItemLinks
-struct ItemLinks: Codable, Hashable {
-
-    var linksSelf: Last
-    var personas: [Last]
-    var playlists: Last
-
-    enum CodingKeys: String, CodingKey {
-        case linksSelf = "self"
-        case personas, playlists
-    }
-}
-
-// MARK: - Last
-struct Last: Codable, Hashable {
-    var href: String
-}
-
-
-// MARK: - WelcomeLinks
-struct WelcomeLinks: Codable {
-    let linksSelf, next, last: Last
-
-    enum CodingKeys: String, CodingKey {
-        case linksSelf = "self"
-        case next, last
-    }
-}
-
-// MARK: - Meta
-struct ShowsMetaData: Codable {
-    let totalCount, pageCount, currentPage, perPage: Int
 }

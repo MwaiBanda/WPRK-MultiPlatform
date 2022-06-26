@@ -6,23 +6,19 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct Podcasts : Codable {   
-    let data: [Podcast]
-    let meta: PodcastsMetaData
-}
 
-// MARK: - WelcomeDatum
-struct Podcast: Codable, Identifiable, Equatable {
-    static func == (lhs: Podcast, rhs: Podcast) -> Bool {
-        return lhs.id == rhs.id
-    }
-    
+// MARK: - PodcastDTO
+struct PodcastDTO: Codable {
     let id, type: String
     let attributes: Attributes
     let relationships: Relationships
 }
 
+extension PodcastDTO {
+    func toPodcast() -> Podcast {
+        return Podcast(id: id, title: attributes.title, category: attributes.category, description: attributes.attributesDescription, imageURL: attributes.imageURL, episodesAvailable: relationships.episodes.data.count)
+    }
+}
 
 // MARK: - Attributes
 struct Attributes: Codable {
@@ -105,8 +101,4 @@ enum TypeEnum: String, Codable {
     case episode = "episode"
 }
 
-// MARK: - Meta
-struct PodcastsMetaData: Codable {
-    let currentPage, totalPages, totalCount: Int
-}
 

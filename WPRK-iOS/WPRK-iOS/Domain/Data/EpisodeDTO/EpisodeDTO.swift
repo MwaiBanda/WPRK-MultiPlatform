@@ -7,20 +7,27 @@
 
 import Foundation
 
-// MARK: - Welcome
-struct Episodes: Codable {
-    let data: [Episode]
-    let meta: EpisodeMeta
-}
 
-// MARK: - Datum
-struct Episode: Codable {
+
+// MARK: - EpisodeDTO
+struct EpisodeDTO: Codable {
     let id: String
     let type: String
     let attributes: EpisodeAttributes
     let relationships: EpisodeRelationships
 }
-
+extension EpisodeDTO {
+    func toEpisode() -> Episode {
+        return Episode(
+            id: id,
+            title: attributes.title,
+            number: attributes.number,
+            description: attributes.attributesDescription,
+            mediaURL: attributes.mediaURL,
+            durationInMmss: attributes.durationInMmss
+        )
+    }
+}
 // MARK: - Attributes
 struct EpisodeAttributes: Codable {
     let title: String
@@ -63,9 +70,6 @@ struct EpisodeAttributes: Codable {
     }
 }
 
-
-
-
 // MARK: - Relationships
 struct EpisodeRelationships: Codable {
     let show: EpisodeShow
@@ -82,7 +86,3 @@ struct DataClass: Codable {
     let type: String
 }
 
-// MARK: - Meta
-struct EpisodeMeta: Codable {
-    let currentPage, totalPages, totalCount: Int
-}

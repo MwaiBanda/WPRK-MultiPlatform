@@ -37,15 +37,15 @@ struct ContentRow: View {
             if (episode != nil) {
                 HStack {
                     VStack(alignment: .leading){
-                        Text("EPISODE \(episode?.attributes.number ?? 0)")
+                        Text("EPISODE \(episode?.number ?? 0)")
                             .font(.caption)
                             .fontWeight(.light)
-                        Text(episode?.attributes.title ?? "")
+                        Text(episode?.title ?? "")
                             .foregroundColor(.white)
                             .bold()
                             .font(.headline)
                         ExpandableText(
-                            episode?.attributes.attributesDescription.replacingOccurrences(of: "<div>", with: "")
+                            episode?.description.replacingOccurrences(of: "<div>", with: "")
                                 .replacingOccurrences(of: "</div>", with: "")
                                 .replacingOccurrences(of: "&nbsp;", with: "")
                                 .replacingOccurrences(of: "<br>", with: "")
@@ -61,7 +61,7 @@ struct ContentRow: View {
                         
                         HStack {
                             Image(systemName: "play.circle")
-                            Text(episode?.attributes.durationInMmss ?? "")
+                            Text(episode?.durationInMmss ?? "")
                         }
                     }
                     Spacer()

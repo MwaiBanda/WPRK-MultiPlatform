@@ -16,23 +16,23 @@ struct PodcastDetail: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
-                ImageCover(imageUrl: podcast.attributes.imageURL, category: podcast.attributes.category)
+                ImageCover(imageUrl: podcast.imageURL, category: podcast.category)
                 
                 VStack {
                     HStack {
                         VStack(alignment: .leading, spacing: 0) {
                         
-                        Text(podcast.attributes.title)
+                        Text(podcast.title)
                             .font(.title)
                             .bold()
-                        ExpandableText(podcast.attributes.attributesDescription                                        .trimmingCharacters(in: .whitespacesAndNewlines)
+                        ExpandableText(podcast.description                                       .trimmingCharacters(in: .whitespacesAndNewlines)
                                        , lineLimit: 4)
                             .foregroundColor(.gray)
                     }.padding(.leading)
                     }
 
                     ForEach(podcastViewModel.episodes, id: \.id) { episode in
-                        ContentRow(showTitle: podcast.attributes.title ,episode: episode, streamer: streamer, paddingHorizontal: 20, paddingVertical: 20)
+                        ContentRow(showTitle: podcast.title ,episode: episode, streamer: streamer, paddingHorizontal: 20, paddingVertical: 20)
                         
                         Divider()
                             .background(Color.gray)

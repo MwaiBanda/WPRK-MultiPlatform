@@ -56,14 +56,14 @@ final class WPRKStreamer:  AVPlayer, ObservableObject {
     
     
     func switchToEpisode(episode: Episode?, show: String){
-        let episodeItem = AVPlayerItem(url: URL(string: episode?.attributes.mediaURL ?? "")!)
+        let episodeItem = AVPlayerItem(url: URL(string: episode?.mediaURL ?? "")!)
         player.replaceCurrentItem(with: episodeItem)
         if !isPlaying {
             initiateStream()
         }
-        itemTitle = "EP \(episode?.attributes.number ?? 0) - " + (episode?.attributes.title ?? "")
-        displayTitle = "EP \(episode?.attributes.number ?? 0) - " + (episode?.attributes.title ?? "")
-        mediaURL = episode?.attributes.imageURL ?? ""
+        itemTitle = "EP \(episode?.number ?? 0) - " + (episode?.title ?? "")
+        displayTitle = "EP \(episode?.number ?? 0) - " + (episode?.title ?? "")
+        mediaURL = episode?.mediaURL ?? ""
         isPlayingPodcast = true
         updateNowPlaying(isPause: false, title: show)
         showTitle = show

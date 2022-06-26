@@ -12,7 +12,7 @@ struct ShowDetail: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                ImageCover(imageUrl: show.image, category: show.category == .unset ? "WPRK" : show.category?.rawValue ?? "WPRK")
+                ImageCover(imageUrl: show.image, category: show.category == "unset" ? "WPRK" : show.category ?? "WPRK")
                 HStack {
                     VStack(alignment: .leading) {
                         
@@ -20,7 +20,7 @@ struct ShowDetail: View {
                             .font(.title)
                             .bold()
                             .padding(.vertical, 5)
-                        ExpandableText(show.itemDescription
+                        ExpandableText(show.description
                                         .replacingOccurrences(of: "<p>", with: "")
                                         .replacingOccurrences(of: "<p", with: "")
                                         .replacingOccurrences(of: "style=", with: "")
