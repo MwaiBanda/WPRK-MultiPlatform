@@ -15,7 +15,7 @@ The app's are available for download on the app store & playstore for Android, i
     <td><a href="https://play.google.com/store/apps/details?id=com.muse.wprk"  target="_blank" rel="noopener noreferrer"><img src="https://user-images.githubusercontent.com/49708426/152633576-d28488c9-68e1-4d5e-9922-b502e74d5c00.png"  width=140 height=70></a></td>
   </tr>
 </table>
-✅ <b>iOS & iPadOS:</b> 50+ Five Star Reviews & 500+ Downloads<br>
+✅ <b>iOS & iPadOS:</b> 60+ Five Star Reviews & 500+ Downloads<br>
 ✅ <b>Android:</b> 10+ Five Star Reviews & 100+ Downloads
 
 ## Dependencies, Targets & Stack 
