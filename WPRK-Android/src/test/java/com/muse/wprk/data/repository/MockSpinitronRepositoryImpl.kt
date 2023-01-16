@@ -1,7 +1,7 @@
 package com.muse.wprk.data.repository
 
 import com.muse.wprk.core.utilities.Resource
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.repository.SpinitronRepository
 import javax.inject.Inject

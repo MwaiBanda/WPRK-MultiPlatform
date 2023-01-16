@@ -1,15 +1,16 @@
 package com.muse.wprk.di
 
 import android.app.Application
-import com.muse.wprk.data.repository.CacheRepositoryImpl
-import com.muse.wprk.main.model.Episode
-import com.muse.wprk.main.model.Podcast
-import com.muse.wprk.main.model.Show
+import com.muse.wprk.data.CacheRepositoryImpl
+import com.mwaibanda.wprksdk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Podcast
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.main.repository.CacheRepository
 import com.toddway.shelf.FileStorage
 import com.toddway.shelf.GsonSerializer
 import com.toddway.shelf.KotlinxSerializer
 import com.toddway.shelf.Shelf
+import com.toddway.shelf.Shelf.Companion.serializer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +27,7 @@ object CacheModule {
     @Singleton
     fun provideShelf(
         app: Application
-    ) = Shelf(FileStorage(app.cacheDir), GsonSerializer()).apply {
+    ) = Shelf(FileStorage(app.cacheDir), KotlinxSerializer()).apply {
         serializer = KotlinxSerializer().apply {
             register(Show.serializer())
             register(Podcast.serializer())

@@ -1,6 +1,6 @@
 package com.mwaibanda.wprksdk.di
 
-import com.mwaibanda.wprksdk.data.remote.AuthRepositoryImpl
+import com.mwaibanda.wprksdk.data.repository.AuthRepositoryImpl
 import com.mwaibanda.wprksdk.main.repository.AuthRepository
 import com.mwaibanda.wprksdk.main.usecase.auth.LoginWithEmailAndPasswordUseCase
 import com.mwaibanda.wprksdk.main.usecase.auth.SignInInAsAGuestUseCase

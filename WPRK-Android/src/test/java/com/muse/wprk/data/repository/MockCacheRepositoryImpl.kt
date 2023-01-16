@@ -1,9 +1,9 @@
 package com.muse.wprk.data.repository
 
 import android.util.Log
-import com.muse.wprk.main.model.Episode
-import com.muse.wprk.main.model.Podcast
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Podcast
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.main.repository.CacheRepository
 import org.junit.jupiter.api.Assertions.*
 

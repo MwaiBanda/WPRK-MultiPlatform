@@ -3,8 +3,8 @@ package com.muse.wprk.main.usecase
 import com.muse.wprk.core.utilities.Resource
 import com.muse.wprk.data.repository.MockCacheRepositoryImpl
 import com.muse.wprk.data.repository.MockTransistorRepositoryImpl
-import com.muse.wprk.main.model.Episode
-import com.muse.wprk.main.model.Podcast
+import com.mwaibanda.wprksdk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Podcast
 import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.repository.TransistorRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -32,7 +32,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import com.muse.wprk.core.utilities.ShowTime
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.presentation.components.LiveButton
 import com.muse.wprk.presentation.shows.ShowViewModel
 import com.muse.wprk.presentation.shows.ScheduledShows

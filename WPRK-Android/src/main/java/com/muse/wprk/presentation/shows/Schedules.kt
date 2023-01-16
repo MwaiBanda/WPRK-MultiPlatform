@@ -11,8 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.muse.wprk.core.exts.getTime
 import com.muse.wprk.core.utilities.ShowTime
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.presentation.ScheduleUnit
 
 @Composable

@@ -1,8 +1,8 @@
 package com.muse.wprk.main.repository
 
-import com.muse.wprk.main.model.Episode
-import com.muse.wprk.main.model.Podcast
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Podcast
+import com.mwaibanda.wprksdk.main.model.Show
 
 interface CacheRepository {
     fun getShows(id: String): List<Show>

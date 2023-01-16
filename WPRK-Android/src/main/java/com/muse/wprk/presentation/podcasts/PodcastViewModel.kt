@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.muse.wprk.core.exts.LocalDateEx
 import com.muse.wprk.core.utilities.Resource
-import com.muse.wprk.main.model.Episode
-import com.muse.wprk.main.model.Podcast
+import com.mwaibanda.wprksdk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Podcast
 import com.muse.wprk.main.usecase.GetEpisodesUseCase
 import com.muse.wprk.main.usecase.GetPodcastsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

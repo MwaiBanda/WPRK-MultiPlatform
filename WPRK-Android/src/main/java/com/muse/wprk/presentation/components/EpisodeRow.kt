@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.muse.wprk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Episode
 
 @Composable
 fun EpisodeRow(modifier: Modifier = Modifier, episode: Episode, onEpisodeClick: (String) -> Unit) {

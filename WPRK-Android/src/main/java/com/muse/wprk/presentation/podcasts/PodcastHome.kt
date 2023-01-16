@@ -26,8 +26,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
-import com.muse.wprk.main.model.Episode
-import com.muse.wprk.main.model.Podcast
+import com.mwaibanda.wprksdk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Podcast
 import com.muse.wprk.presentation.components.EpisodeRow
 import com.muse.wprk.presentation.components.LiveButton
 import com.muse.wprk.presentation.podcasts.PodcastViewModel
@@ -48,6 +48,7 @@ fun PodcastHome(
 ) {
     var podcasts = remember { mutableStateListOf<Podcast>() }
     val lifecycle = LocalLifecycleOwner.current
+    val mainColumnState = rememberLazyListState()
     val scheduleState = rememberLazyListState()
     var currentShow by remember { mutableStateOf(0) }
     var previousTab by remember { mutableStateOf(0) }
@@ -59,7 +60,9 @@ fun PodcastHome(
     }
     LaunchedEffect(key1 = Unit) {
         podcastViewModel.getPodcasts {
-            podcastViewModel.getFeaturedEpisodes(podcasts[currentShow].id)
+            if (podcastViewModel.podcasts.value.orEmpty().isNotEmpty()) {
+                podcastViewModel.getFeaturedEpisodes(podcasts[currentShow].id)
+            }
         }
     }
     podcastViewModel.podcasts.observe(lifecycle) { newPodcasts ->
@@ -70,7 +73,8 @@ fun PodcastHome(
     }
 
     LazyColumn(
-        Modifier
+        state = mainColumnState,
+        modifier = Modifier
             .fillMaxSize()
             .background(backgroundColor)
             .padding(start = 10.dp)
@@ -100,7 +104,7 @@ fun PodcastHome(
             Spacer(modifier = Modifier.height(10.dp))
         }
         item {
-            LazyRow(state = LazyListState(), modifier = Modifier.fillMaxWidth()) {
+            LazyRow(state = rememberLazyListState(), modifier = Modifier.fillMaxWidth()) {
                 itemsIndexed(podcasts) { i, podcast ->
                     var imageURL =
                         URLEncoder.encode(podcast.thumbnailURL, StandardCharsets.UTF_8.toString())

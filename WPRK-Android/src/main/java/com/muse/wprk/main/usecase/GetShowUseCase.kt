@@ -2,7 +2,7 @@ package com.muse.wprk.main.usecase
 
 import com.muse.wprk.core.utilities.Constants
 import com.muse.wprk.core.utilities.Resource
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.main.repository.SpinitronRepository
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -2,7 +2,7 @@ package com.muse.wprk
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.muse.wprk.main.model.Podcast
+import com.mwaibanda.wprksdk.main.model.Podcast
 import com.muse.wprk.main.usecase.GetEpisodesUseCase
 import com.muse.wprk.main.usecase.GetPodcastsUseCase
 import com.muse.wprk.presentation.podcasts.PodcastViewModel

@@ -4,6 +4,8 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
+    id("org.jetbrains.kotlin.plugin.serialization")
+
 }
 
 version = "1.0"
@@ -30,6 +32,8 @@ kotlin {
                 implementation("dev.gitlive:firebase-auth:1.4.3")
                 implementation("io.insert-koin:koin-core:3.1.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+                implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+
             }
         }
         val commonTest by getting {

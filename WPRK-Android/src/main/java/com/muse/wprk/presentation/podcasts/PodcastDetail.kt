@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-import com.muse.wprk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Episode
 import com.muse.wprk.presentation.components.EpisodeRow
 import com.muse.wprk.presentation.components.ExpandableText
 import com.muse.wprk.presentation.swapList

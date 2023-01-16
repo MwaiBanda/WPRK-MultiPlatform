@@ -5,8 +5,8 @@ import com.muse.wprk.core.utilities.Resource
 import com.muse.wprk.data.repository.MockCacheRepositoryImpl
 import com.muse.wprk.data.repository.MockSpinitronRepositoryImpl
 import com.muse.wprk.data.repository.MockTransistorRepositoryImpl
-import com.muse.wprk.main.model.Episode
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Episode
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.repository.SpinitronRepository
 import com.muse.wprk.main.repository.TransistorRepository

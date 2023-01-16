@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.muse.wprk.R
 import com.muse.wprk.core.exts.parse
-import com.muse.wprk.main.model.Business
+import com.mwaibanda.wprksdk.main.model.Business
 import com.muse.wprk.presentation.components.LiveButton
 
 

@@ -36,12 +36,13 @@ import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import com.muse.wprk.core.exts.getShowDateTime
 import com.muse.wprk.core.utilities.ConnectivityStatus
 import com.muse.wprk.core.utilities.NavigationRoutes.*
 import com.muse.wprk.core.utilities.NotificationWorker
 import com.muse.wprk.core.utilities.ShowTime
 import com.muse.wprk.main.PodcastHome
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.presentation.podcasts.PodcastDetail
 import com.muse.wprk.presentation.podcasts.PodcastViewModel
 import com.muse.wprk.presentation.shows.ShowDetail

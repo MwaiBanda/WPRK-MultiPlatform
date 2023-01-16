@@ -7,9 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muse.wprk.core.exts.LocalDateEx
+import com.muse.wprk.core.exts.getShowDate
 import com.muse.wprk.core.utilities.Resource
 import com.muse.wprk.core.utilities.ShowTime
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.main.repository.CacheRepository
 import com.muse.wprk.main.usecase.GetShowUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

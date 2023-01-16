@@ -27,8 +27,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.muse.wprk.core.exts.getDisplayDate
+import com.muse.wprk.core.exts.getTime
 import com.muse.wprk.core.utilities.ShowTime
-import com.muse.wprk.main.model.Show
+import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.presentation.components.ExpandableText
 
 @Composable
