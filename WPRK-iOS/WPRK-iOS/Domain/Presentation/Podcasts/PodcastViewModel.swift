@@ -9,35 +9,46 @@ import Foundation
 import SwiftUI
 import WPRKSDK
 
+@MainActor
 final class PodcastViewModel: ObservableObject {
-    var group: DispatchGroup?
     @Published var podcasts = [Podcast]()
     @Published var featured = [Episode]()
     @Published var episodes = [Episode]()
     @Published var selectedFeatured: Podcast? = nil
-    
-    init(group: DispatchGroup? = nil){
-        self.group = group
-    }
+    @Published var canLoadMore = false
+    @Published var currentPage = 1
     
     private func fetchEpisodes(
+        isFeatured: Bool = false,
         showID: String,
-        onCompletion: @escaping ([Episode]) -> Void
+        onCompletion: @escaping ([Episode]) -> Void = {_ in }
     ) async {
         do {
             try await WPRK.shared
                 .getEpisodesUseCase
                 .invoke(
                     showID: showID,
-                    pageNumber: Int32(1)
+                    pageNumber: Int32(isFeatured ? 1 : currentPage)
                 ) { res in
-                if let data = res.data {
-                    self.episodes = data.third as? [Episode] ?? []
-                    onCompletion(data.third as? [Episode] ?? [])
-                } else if let error = res.message {
-                    print(error)
+                    if let data = res.data {
+                        self.canLoadMore = data.first?.boolValue ?? false
+                        self.currentPage = (data.second?.intValue ?? 1) + 1
+                        if isFeatured {
+                            (data.third as? [Episode] )?
+                                .sorted(by: { return $0.number > $1.number })
+                                .forEach {
+                                    if self.featured.count < 4 {
+                                        self.featured.append($0)
+                                    }
+                                }
+                        } else {
+                            self.episodes +=  Array(Set(data.third as? [Episode] ?? [] + self.episodes))
+                            self.episodes = self.episodes.sorted(by: { return $0.number > $1.number })
+                        }
+                    } else if let error = res.message {
+                        print(error)
+                    }
                 }
-            }
         } catch {
             print(error.localizedDescription)
         }
@@ -50,6 +61,7 @@ final class PodcastViewModel: ObservableObject {
                     guard let firstPodcast  = (data as? [Podcast])?.first else { return }
                     self.podcasts = data as? [Podcast] ?? []
                     self.selectedFeatured = firstPodcast
+                    
                 }
             }
         } catch {
@@ -57,51 +69,36 @@ final class PodcastViewModel: ObservableObject {
         }
     }
     
-    func getFeatured(showID: String) async {
-        if let group = group {
-            group.enter()
-            featured.removeAll()
-            await fetchEpisodes(showID: showID) { eps in
-                DispatchQueue.main.async {
-                    eps.sorted(
-                        by: { return $0.number > $1.number }
-                    ).forEach { episode in
-                        if self.featured.count < 4 {
-                            self.featured.append(episode)
-                        }
-                    }
-                }
-            }
-            group.leave()
-        } else  {
-            await fetchEpisodes(showID: showID) { eps in
-                eps.forEach { episode in
-                    if self.featured.count < 4 {
-                        self.featured.append(episode)
-                    }
-                }
-            }
-            
+    private func getFeatured(showID: String) async {
+        featured.removeAll()
+        await fetchEpisodes(isFeatured: true, showID: showID)
+    }
+    
+    func getFeatured(showID: String) {
+        Task.detached {
+            await self.getFeatured(showID: showID)
         }
     }
     
-    func getPodcasts() async {
-        if let group = group {
-            group.enter()
-            await fetchPodcasts()
-            await self.getFeatured(showID: podcasts.first?.id ?? "")
-            group.leave()
-        } else {
-            await fetchPodcasts()
-            await self.getFeatured(showID: podcasts.first?.id ?? "")
-
-        }
+    private func getPodcasts() async {
+        let group = DispatchGroup()
+        group.enter()
+        await self.fetchPodcasts()
+        await self.getFeatured(showID: podcasts.first?.id ?? "")
+        group.leave()
     }
     
-    func getEpisodes(showID: String) async {
-        self.episodes.removeAll()
-        await fetchEpisodes(showID: showID) { eps in
-            self.episodes.append(contentsOf: eps)
+    func getPodcasts()  {
+        Task.detached {
+            await self.getPodcasts()
+        }
+    }
+    private func getEpisodes(showID: String) async {
+        await fetchEpisodes(showID: showID)
+    }
+    func getEpisodes(showID: String) {
+        Task.detached {
+            await self.getEpisodes(showID: showID)
         }
     }
 }

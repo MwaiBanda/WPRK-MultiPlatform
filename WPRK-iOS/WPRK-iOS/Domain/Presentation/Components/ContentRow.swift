@@ -32,7 +32,7 @@ struct ContentRow: View {
         self.paddingHor = paddingHorizontal
         self.paddingVer = paddingVertical
     }
- 
+    
     var body: some View {
         ZStack {
             if (episode != nil) {

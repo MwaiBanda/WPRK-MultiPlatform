@@ -8,6 +8,7 @@
 import Foundation
 
 struct Constants {
+    static let ANNIVERSARY = "WPRK 70th Anniversary Show"
     static let TRANSISTOR_KEY = "_UjUTm9oCpI3alNx90W4zw"
     static let SPINITRON_KEY = "3bmYKhP4hpOmwy4vRQr_Tukg"
     static let DEFAULT_STREAM = "http://wprk.broadcasttool.stream:80/stream"

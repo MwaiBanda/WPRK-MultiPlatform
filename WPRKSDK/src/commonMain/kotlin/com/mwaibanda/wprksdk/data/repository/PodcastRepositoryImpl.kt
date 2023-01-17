@@ -2,8 +2,6 @@ package com.mwaibanda.wprksdk.data.repository
 
 import com.mwaibanda.wprksdk.data.episodeDTO.EpisodesDTO
 import com.mwaibanda.wprksdk.data.podcastDTO.PodcastsDTO
-import com.mwaibanda.wprksdk.main.model.Episode
-import com.mwaibanda.wprksdk.main.model.Podcast
 import com.mwaibanda.wprksdk.main.repository.PodcastRepository
 import com.mwaibanda.wprksdk.main.usecase.cache.GetAllItemsUseCase
 import com.mwaibanda.wprksdk.main.usecase.cache.GetItemUseCase
@@ -24,7 +22,7 @@ class PodcastRepositoryImpl(
     private val getEpisodesUseCase: GetItemUseCase<EpisodeResponse>,
     private val setEpisodeUseCase: SetItemUseCase<EpisodeResponse>,
     private val getAllEpisodesUseCase: GetAllItemsUseCase<EpisodeResponse>
-): PodcastRepository {
+) : PodcastRepository {
 
     override suspend fun getPodcasts(): Resource<PodcastResponse> {
         val cachedPodcasts = getPodcastsUseCase(Constants.PODCASTS_KEY).orEmpty()
@@ -40,24 +38,27 @@ class PodcastRepositoryImpl(
         } catch (e: Exception) {
             return Resource.Error(e.message.toString())
         }
-        val  newlyCachedPodcasts = getPodcastsUseCase(Constants.PODCASTS_KEY).orEmpty()
+        val newlyCachedPodcasts = getPodcastsUseCase(Constants.PODCASTS_KEY).orEmpty()
         return Resource.Success(newlyCachedPodcasts)
     }
 
     override suspend fun getEpisodes(showID: String, pageNumber: Int): Resource<EpisodeResponse> {
-         getEpisodesUseCase(key = "$showID-$pageNumber")?.let {
-             val (_, _, cachedEpisode) = it
-             if (cachedEpisode.isNotEmpty()) {
-                 val allCachedEpisodeResponses: List<EpisodeResponse> = getAllEpisodesUseCase(showID)
-                 return Resource.Success (
-                     Triple(
-                         pageNumber < allCachedEpisodeResponses.maxByOrNull { it.second }?.second ?: 1,
-                         allCachedEpisodeResponses.maxByOrNull { it.second }?.second ?: 1,
-                         allCachedEpisodeResponses.flatMap { it.third }
-                     )
-                 )
-             }
-         }
+        val cachedResource = getEpisodesUseCase(key = "$showID-$pageNumber")
+        if (cachedResource != null) {
+            val (_, _, cachedEpisodes) = cachedResource
+            if (cachedEpisodes.isNotEmpty()) {
+                val allCachedEpisodeResponses: List<EpisodeResponse> = getAllEpisodesUseCase(showID)
+                return Resource.Success(
+                    Triple(
+                        pageNumber <= (allCachedEpisodeResponses.maxByOrNull { it.second }?.second
+                            ?: 1),
+                        allCachedEpisodeResponses.maxByOrNull { it.second }?.second ?: 1,
+                        allCachedEpisodeResponses.flatMap { it.third }
+                    )
+                )
+            }
+        }
+
 
         try {
             val episodesDTO: EpisodesDTO = httpClient.get {
@@ -68,19 +69,19 @@ class PodcastRepositoryImpl(
                 parameter("show_id", "$showID")
                 parameter("pagination[page]", "$pageNumber")
             }.body()
-            val remoteEpisodes  = episodesDTO.data.map { it.toEpisode() }
-            setEpisodeUseCase("$showID-$pageNumber",
-                Triple(
-                    pageNumber < 1,
-                    pageNumber,
-                    remoteEpisodes
-                )
+            val remoteEpisodes = episodesDTO.episodes.map { it.toEpisode() }
+            val newlyCachedEpisodeResource = Triple(
+                (episodesDTO.meta?.currentPage ?: 1) <= (episodesDTO.meta?.totalPages ?: 1),
+                (episodesDTO.meta?.currentPage ?: 1),
+                remoteEpisodes
             )
+            setEpisodeUseCase(
+                "$showID-$pageNumber",
+                newlyCachedEpisodeResource
+            )
+            return Resource.Success(newlyCachedEpisodeResource)
         } catch (e: Exception) {
             return Resource.Error(e.message.toString())
         }
-
-        val newlyCachedEpisodes = getEpisodesUseCase("$showID-$pageNumber")!!
-        return Resource.Success(newlyCachedEpisodes)
     }
 }

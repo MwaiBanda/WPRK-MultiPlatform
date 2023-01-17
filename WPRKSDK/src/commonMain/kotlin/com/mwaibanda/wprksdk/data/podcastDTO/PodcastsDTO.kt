@@ -1,5 +1,6 @@
 package com.mwaibanda.wprksdk.data.podcastDTO
 
+import com.mwaibanda.wprksdk.data.metadataDTO.MetadataDTO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -7,6 +8,6 @@ import kotlinx.serialization.Serializable
 data class PodcastsDTO(
     @SerialName("data")
     val collection: List<PodcastDTO>,
-    val meta: PodcastDTOMetadata
+    val meta: MetadataDTO
 )
 

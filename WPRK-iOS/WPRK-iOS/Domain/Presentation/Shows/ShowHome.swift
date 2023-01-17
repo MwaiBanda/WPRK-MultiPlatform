@@ -111,10 +111,12 @@ struct ShowHome: View {
                                         showViewModel.showsScheduled = showViewModel.shows.filter({ $0.getDate() == showViewModel.currentDate})
                                         let haptic = UIImpactFeedbackGenerator(style: .soft)
                                         haptic.impactOccurred()
-                                        if i != days.indices.last {
-                                            value.scrollTo(i, anchor: .center)
-                                        } else {
-                                            value.scrollTo(i, anchor: .trailing)
+                                        withAnimation(.easeIn(duration: 0.28)) {
+                                            if i != days.indices.last {
+                                                value.scrollTo(i, anchor: .center)
+                                            } else {
+                                                value.scrollTo(i, anchor: .trailing)
+                                            }
                                         }
                                     }
                                     Text(days[i])
@@ -190,9 +192,7 @@ struct ShowHome: View {
             while(currentDateStr != days.first) {
                 days.append(days.remove(at: 0))
             }
-            Task.detached() {
-                await showViewModel.getShows()
-            }
+            showViewModel.getShows()
             AppReviewRequest.RequestReviewWhenNeeeded()
             showViewModel.currentDate = showViewModel.getCurrent()
             showViewModel.currentDay = days.first ?? ""

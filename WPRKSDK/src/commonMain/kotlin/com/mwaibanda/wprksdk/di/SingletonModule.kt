@@ -16,6 +16,7 @@ import org.kodein.di.bind
 import org.kodein.di.instance
 import org.kodein.di.singleton
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
 import com.mwaibanda.wprksdk.data.cache.CacheControl as CacheControlImpl
 
 val SingletonModule = DI.Module("SDK/Singleton") {
@@ -29,6 +30,7 @@ val SingletonModule = DI.Module("SDK/Singleton") {
                     prettyPrint = true
                     isLenient = true
                     ignoreUnknownKeys = true
+                    explicitNulls = false
                 })
             }
             install(HttpTimeout) {
@@ -41,7 +43,7 @@ val SingletonModule = DI.Module("SDK/Singleton") {
     }
     bind<Cache<String, Any>>() with singleton {
         Cache.Builder()
-          .expireAfterWrite(24.hours)
+          .expireAfterWrite(1.hours)
           .build()
     }
     bind<FirebaseAuth>() with singleton { Firebase.auth }

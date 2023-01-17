@@ -52,6 +52,8 @@ struct PodcastHome: View {
                                     .foregroundColor(.gray)
                                     .onTapGesture {
                                         selected = podcast
+                                        podcastViewModel.currentPage = 1
+                                        podcastViewModel.episodes.removeAll()
                                         let haptic = UIImpactFeedbackGenerator(style: .soft)
                                         haptic.impactOccurred()
                                         
@@ -73,12 +75,14 @@ struct PodcastHome: View {
                         .foregroundColor(.gray)
                 }
                 Divider().background(Color(.gray))
-                PodcastTabRow
+                PodcastTabRow(podcastViewModel: podcastViewModel)
                 Divider().background(Color.gray)
                 ScrollView(.vertical, showsIndicators: false) {
                     if podcastViewModel.featured.isEmpty {
                         ForEach(0..<5, id: \.self) { i in
                             ContentRow(episode: Episode(id: "", title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ornare dapibus. Cras eu metus scelerisque, ullamcorper ex vestibulum, pretium purus. Ut quis elementum sapien. Phasellus eget magna in nunc pharetra interdum eu id elit. Maecenas sapien lectus, congue ut semper et, malesuada vitae ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", number: 0, duration: "",  episodeURL: ""))
+                                .redacted(reason: podcastViewModel.featured.isEmpty ? .placeholder : [])
+
                         }
                     } else {
                         ForEach(podcastViewModel.featured, id: \.id) { i in
@@ -120,23 +124,27 @@ struct PodcastHome: View {
             .padding(.top, 5)
             .foregroundColor(.white)
             .background(Color.white.opacity(0).ignoresSafeArea(.all))
-            
             .redacted(reason: podcastViewModel.podcasts.isEmpty ? .placeholder : [])
+            .onAppear {
+                DispatchQueue.main.async() {
+                    AppReviewRequest.RequestReviewWhenNeeeded()
+                    podcastViewModel.getPodcasts()
+                    
+                }
+            }
         }
-       
         .sheet(item: $selected) { podcast in
             ContentWrapper(streamer: streamer, navConfig: .detailConfig, navTitle: podcast.title) {
                 PodcastDetail(podcast: podcast, streamer: streamer, podcastViewModel: podcastViewModel)
             }
         }
-        .onAppear {
-            AppReviewRequest.RequestReviewWhenNeeeded()
-            Task.detached {
-                await podcastViewModel.getPodcasts()
-            }
-        }
     }
-    var PodcastTabRow: some View {
+}
+
+struct PodcastTabRow: View {
+    @ObservedObject var podcastViewModel: PodcastViewModel
+    var body: some View {
+        
         ScrollViewReader { value in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
@@ -145,7 +153,6 @@ struct PodcastHome: View {
                             VStack {
                                 Text("Lorem ipsum")
                                     .fontWeight(.heavy)
-                                
                             }
                             .padding()
                             .padding(.horizontal)
@@ -157,7 +164,7 @@ struct PodcastHome: View {
                             .redacted(reason: .placeholder)
                         }
                     } else {
-                        ForEach(podcastViewModel.podcasts, id: \.id) { i in
+                        ForEach(podcastViewModel.podcasts.filter({ $0.title != Constants.ANNIVERSARY }), id: \.id) { i in
                             HStack {
                                 VStack {
                                     Text(i.title)
@@ -166,23 +173,28 @@ struct PodcastHome: View {
                                 }
                                 .padding()
                                 .padding(.horizontal)
-                                .background(i.id == podcastViewModel.selectedFeatured?.id  ? Color.clear : Color(hex: 0xffafcc))
+                                .background(i.title == podcastViewModel.selectedFeatured?.title  ? Color.clear : Color(hex: 0xffafcc))
                                 .cornerRadius(10)
-                                .overlay(i.id == podcastViewModel.selectedFeatured?.id ? RoundedRectangle(cornerRadius: 10).stroke(Color.clear, lineWidth: 1.5) : RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 1.5))
+                                .overlay(i.title == podcastViewModel.selectedFeatured?.title ? RoundedRectangle(cornerRadius: 10).stroke(Color.clear, lineWidth: 1.5) : RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 1.5))
                                 .padding(2)
                                 .padding(.trailing)
                                 .onTapGesture {
-                                    podcastViewModel.selectedFeatured = i
-                                    let haptic = UIImpactFeedbackGenerator(style: .soft)
-                                    haptic.impactOccurred()
-                                    if i != podcastViewModel.podcasts.last {
-                                        value.scrollTo(i.title , anchor: .center)
-                                    } else {
-                                        value.scrollTo(i.title, anchor: .trailing)
-                                    }
-                                    Task.detached {
-                                        await podcastViewModel.getFeatured(showID: podcastViewModel.selectedFeatured?.id ?? "")
-                                        
+                                    DispatchQueue.main.async() {
+                                        let group = DispatchGroup()
+                                        podcastViewModel.currentPage = 1
+                                        podcastViewModel.selectedFeatured = i
+                                        group.enter()
+                                        withAnimation(.easeIn(duration: 0.28)) {
+                                            if i != podcastViewModel.podcasts.last {
+                                                value.scrollTo(i.title , anchor: .center)
+                                            } else {
+                                                value.scrollTo(i.title, anchor: .trailing)
+                                            }
+                                        }
+                                        podcastViewModel.getFeatured(showID: i.id)
+                                        let haptic = UIImpactFeedbackGenerator(style: .soft)
+                                        haptic.impactOccurred()
+                                        group.leave()
                                     }
                                 }
                                 
@@ -190,11 +202,11 @@ struct PodcastHome: View {
                         }
                     }
                 }
+                
             }
         }
     }
 }
-
 
 
 extension Podcast: Identifiable {

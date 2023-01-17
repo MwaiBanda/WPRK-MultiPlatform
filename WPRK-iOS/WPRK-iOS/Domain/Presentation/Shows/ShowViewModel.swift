@@ -8,6 +8,7 @@
 import Foundation
 import WPRKSDK
 
+@MainActor
 final class ShowViewModel: ObservableObject {
     @Published var shows = [Show]()
     @Published var showsScheduled = [Show]()
@@ -15,7 +16,7 @@ final class ShowViewModel: ObservableObject {
     @Published var currentDay = ""
     @Published var selected: Show? = nil
 
-    func getShows() async {
+    private func getShows() async {
         do {
             try await WPRK.shared.getShowUseCase.invoke { res in
                 if let shows = res.data {
@@ -26,6 +27,12 @@ final class ShowViewModel: ObservableObject {
             }
         } catch {
             print(error.localizedDescription)
+        }
+    }
+    
+    func getShows() {
+        Task.detached {
+            await self.getShows()
         }
     }
     

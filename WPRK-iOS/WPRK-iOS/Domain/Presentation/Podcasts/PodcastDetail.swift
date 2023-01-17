@@ -32,25 +32,31 @@ struct PodcastDetail: View {
                     }.padding(.leading)
                     }
 
-                    ForEach(podcastViewModel.episodes, id: \.id) { episode in
+                    ForEach(podcastViewModel.episodes, id: \.self) { episode in
                         ContentRow(showTitle: podcast.title ,episode: episode, streamer: streamer, paddingHorizontal: 20, paddingVertical: 20)
                         
                         Divider()
                             .background(Color.gray)
                     }
+                    if podcastViewModel.canLoadMore {
+                        Button { podcastViewModel.getEpisodes(showID: podcast.id) } label: {
+                            Text("Load more...")
+                                .font(.headline)
+                                .fontWeight(.heavy)
+                                .foregroundColor(Color(hex: 0xffafcc))
+                                .padding(.top)
+                        }
+                    }
                     Spacer()
                 }
                 .frame(maxHeight: .infinity)
                 .ignoresSafeArea(.all, edges: .bottom)
-                
             }
-   
         }
         .foregroundColor(.white)
         .onAppear {
-            Task.detached {
-                await podcastViewModel.getEpisodes(showID: podcast.id)
-            }
+            podcastViewModel.getEpisodes(showID: podcast.id)
+            podcastViewModel.currentPage = 1
         }
     }
 }

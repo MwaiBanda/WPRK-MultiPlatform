@@ -16,7 +16,7 @@ data class PodcastDTO(
             title = attributes.title,
             description = attributes.description ?: "",
             thumbnailURL = attributes.image_url,
-            episodesAvailable = relationships.episodes.data.count()
+            episodesAvailable = relationships.episodes.episodes.count()
         )
     }
 }
