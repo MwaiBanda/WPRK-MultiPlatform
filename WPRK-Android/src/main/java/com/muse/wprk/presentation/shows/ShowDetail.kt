@@ -26,7 +26,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.muse.wprk.core.exts.getDisplayDate
 import com.muse.wprk.core.exts.getTime
 import com.muse.wprk.core.utilities.ShowTime
@@ -45,12 +47,10 @@ fun ShowDetail(
     LazyColumn(Modifier.fillMaxHeight(), state = lazyListState) {
         item {
             Box(modifier = Modifier.height(350.dp)) {
-                Image(painter = rememberImagePainter(
-                    data = show.image,
-                    onExecute = { _, _ -> true },
-                    builder = {
+                Image(painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current).data(data = show.image).apply(block = fun ImageRequest.Builder.() {
                         crossfade(true)
-                    }
+                    }).build()
                 ),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,

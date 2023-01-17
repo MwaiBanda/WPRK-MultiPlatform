@@ -40,7 +40,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
                 // Cache4K
-                implementation("io.github.reactivecircus.cache4k:cache4k:0.6.0")
+                implementation("io.github.reactivecircus.cache4k:cache4k:0.8.0")
             }
         }
         val commonTest by getting {
@@ -86,7 +86,7 @@ kotlin {
 
 
 android {
-    compileSdk = 32
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21

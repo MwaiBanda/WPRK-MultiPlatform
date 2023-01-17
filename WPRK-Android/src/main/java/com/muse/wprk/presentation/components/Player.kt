@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +31,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaMetadata
 import com.muse.wprk.core.exts.parse
@@ -85,12 +88,13 @@ fun WPRKPlayer(player : ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean)
                     modifier = Modifier
                         .size(45.dp)
                 ) {
-                    Image(painter = rememberImagePainter(
-                        data = "https://firebasestorage.googleapis.com/v0/b/wprk-c6825.appspot.com/o/IMG_4018-removebg-preview%403x.png?alt=media&token=2c203484-1186-4b8e-81c7-5a3186d7640d",
-                        onExecute = { _, _ -> true },
-                        builder = {
-                            crossfade(true)
-                        }
+
+                    Image(painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(LocalContext.current)
+                            .data(data = "https://firebasestorage.googleapis.com/v0/b/wprk-c6825.appspot.com/o/IMG_4018-removebg-preview%403x.png?alt=media&token=2c203484-1186-4b8e-81c7-5a3186d7640d")
+                            .apply(block = fun ImageRequest.Builder.() {
+                                crossfade(true)
+                            }).build()
                     ),
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop,

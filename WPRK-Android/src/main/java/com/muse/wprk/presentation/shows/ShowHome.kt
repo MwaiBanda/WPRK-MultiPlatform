@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +30,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import com.muse.wprk.core.utilities.ShowTime
 import com.mwaibanda.wprksdk.main.model.Show
@@ -146,12 +149,11 @@ fun ShowHome(
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
                     Box {
                         Image(
-                            painter = rememberImagePainter(
-                                data = show.image,
-                                onExecute = { _, _ -> true },
-                                builder = {
-                                    transformations(RoundedCornersTransformation(10f))
-                                }
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(LocalContext.current).data(data = show.image)
+                                    .apply(block = fun ImageRequest.Builder.() {
+                                        transformations(RoundedCornersTransformation(10f))
+                                    }).build()
                             ),
                             contentDescription = null,
                             modifier = Modifier

@@ -18,12 +18,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.mwaibanda.wprksdk.main.model.Episode
 import com.muse.wprk.presentation.components.EpisodeRow
 import com.muse.wprk.presentation.components.ExpandableText
@@ -52,12 +55,11 @@ fun PodcastDetail(
     LazyColumn(Modifier.fillMaxHeight(), state = lazyListState) {
         item {
             Box(modifier = Modifier.height(350.dp)) {
-                Image(painter = rememberImagePainter(
-                    data = thumbnailURL ?: "",
-                    onExecute = { _, _ -> true },
-                    builder = {
-                        crossfade(true)
-                    }
+                Image(painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current).data(data = thumbnailURL ?: "")
+                        .apply(block = fun ImageRequest.Builder.() {
+                            crossfade(true)
+                        }).build()
                 ),
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,

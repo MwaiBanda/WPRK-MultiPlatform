@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +25,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import com.mwaibanda.wprksdk.main.model.Episode
 import com.mwaibanda.wprksdk.main.model.Podcast
@@ -111,13 +114,12 @@ fun PodcastHome(
                     if (i != 0) Spacer(modifier = Modifier.width(8.dp))
                     Box(Modifier.clickable { navigateToDetail(podcast, imageURL) }) {
                         Image(
-                            painter = rememberImagePainter(
-                                data = podcast.thumbnailURL,
-                                onExecute = { _, _ -> true },
-                                builder = {
-                                    crossfade(true)
-                                    transformations(RoundedCornersTransformation(10f))
-                                }
+                            painter = rememberAsyncImagePainter(
+                                ImageRequest.Builder(LocalContext.current)
+                                    .data(data = podcast.thumbnailURL).apply(block = fun ImageRequest.Builder.() {
+                                        crossfade(true)
+                                        transformations(RoundedCornersTransformation(10f))
+                                    }).build()
                             ),
                             contentDescription = null,
                             modifier = Modifier

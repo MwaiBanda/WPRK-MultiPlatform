@@ -14,10 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.mwaibanda.wprksdk.util.Constants
 import com.muse.wprk.core.utilities.ScreenConfigurations
 
@@ -34,12 +37,11 @@ fun TopAppBar(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Image(painter = rememberImagePainter(
-                        data = Constants.LOGO_URL,
-                        onExecute = { _, _ -> true },
-                        builder = {
-                            crossfade(true)
-                        }
+                    Image(painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(LocalContext.current).data(data = Constants.LOGO_URL)
+                            .apply(block = fun ImageRequest.Builder.() {
+                                crossfade(true)
+                            }).build()
                     ),
                         modifier = Modifier
                             .size(50.dp)

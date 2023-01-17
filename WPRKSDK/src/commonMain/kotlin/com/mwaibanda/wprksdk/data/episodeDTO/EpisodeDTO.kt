@@ -14,7 +14,10 @@ data class EpisodeDTO(
         return  Episode(
             id = id,
             title = attributes?.title ?: "",
-            description = attributes?.description ?: "",
+            description = attributes?.description
+                ?.replace("<br>", "")
+                ?.replace("&nbsp;", " ")
+                ?: "",
             number = attributes?.number ?: 0,
             duration = attributes?.duration_in_mmss ?: "",
             episodeURL = attributes?.media_url ?: ""

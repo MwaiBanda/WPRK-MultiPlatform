@@ -13,12 +13,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.muse.wprk.core.utilities.NavigationRoutes
 import com.mwaibanda.wprksdk.util.Constants
 import kotlinx.coroutines.delay
@@ -52,12 +55,10 @@ fun SplashScreen(navController: NavController){
             .fillMaxWidth()
             .background(Color.Black)
     ) {
-        Image(painter = rememberImagePainter(
-            data = Constants.LOGO_URL,
-            onExecute = { _, _ -> true },
-            builder = {
+        Image(painter = rememberAsyncImagePainter(
+            ImageRequest.Builder(LocalContext.current).data(data = Constants.LOGO_URL).apply(block = fun ImageRequest.Builder.() {
                 crossfade(true)
-            }
+            }).build()
         ),
             modifier = Modifier.offset(y = -20.dp).size(150.dp),
             contentScale = ContentScale.Crop,
