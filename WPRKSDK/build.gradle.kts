@@ -40,7 +40,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
                 // Cache4K
-                implementation("io.github.reactivecircus.cache4k:cache4k:0.8.0")
+                implementation("io.github.reactivecircus.cache4k:cache4k:0.6.0")
             }
         }
         val commonTest by getting {
@@ -68,6 +68,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting

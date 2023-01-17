@@ -1,28 +1,14 @@
 //
-//  Show.swift
+//  Show+Swift.swift
 //  WPRK-iOS
 //
-//  Created by Mwai Banda on 6/25/22.
+//  Created by Mwai Banda on 1/17/23.
 //
 
 import Foundation
+import WPRKSDK
 
-
-struct Show: Identifiable {
-    var id: Int
-    var category: String?
-    var description: String
-    var duration: Int
-    var end: String
-    var image: String
-    var since: Int?
-    var start: String
-    var timezone: String
-    var title: String
-    var url: String
-}
-
-extension Show {
+extension Show: Identifiable {
     enum ShowTime {
         case START
         case END
@@ -102,3 +88,5 @@ extension Show {
 
     }
 }
+
+

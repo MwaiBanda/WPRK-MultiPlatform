@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WPRKSDK
 
 struct ShowDetail: View {
     var show: Show
@@ -20,7 +21,7 @@ struct ShowDetail: View {
                             .font(.title)
                             .bold()
                             .padding(.vertical, 5)
-                        ExpandableText(show.description
+                        ExpandableText(show.description_
                                         .replacingOccurrences(of: "<p>", with: "")
                                         .replacingOccurrences(of: "<p", with: "")
                                         .replacingOccurrences(of: "style=", with: "")

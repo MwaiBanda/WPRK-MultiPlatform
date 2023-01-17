@@ -8,6 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 import AVFoundation
+import WPRKSDK
 
 struct PodcastHome: View {
     @ObservedObject var streamer: WPRKStreamer
@@ -43,7 +44,7 @@ struct PodcastHome: View {
                             }
                         } else {
                             ForEach(podcastViewModel.podcasts, id: \.id) { podcast in
-                                WebImage(url: URL(string: podcast.imageURL))
+                                WebImage(url: URL(string: podcast.thumbnailURL))
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 190, height: 200, alignment: .center)
@@ -77,7 +78,7 @@ struct PodcastHome: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     if podcastViewModel.featured.isEmpty {
                         ForEach(0..<5, id: \.self) { i in
-                            ContentRow(episode: Episode(id: "", title: "Lorem ipsum dolor sit amet", number: 0, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ornare dapibus. Cras eu metus scelerisque, ullamcorper ex vestibulum, pretium purus. Ut quis elementum sapien. Phasellus eget magna in nunc pharetra interdum eu id elit. Maecenas sapien lectus, congue ut semper et, malesuada vitae ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", mediaURL: "",  durationInMmss: ""))
+                            ContentRow(episode: Episode(id: "", title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ornare dapibus. Cras eu metus scelerisque, ullamcorper ex vestibulum, pretium purus. Ut quis elementum sapien. Phasellus eget magna in nunc pharetra interdum eu id elit. Maecenas sapien lectus, congue ut semper et, malesuada vitae ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", number: 0, duration: "",  episodeURL: ""))
                         }
                     } else {
                         ForEach(podcastViewModel.featured, id: \.id) { i in
@@ -119,15 +120,19 @@ struct PodcastHome: View {
             .padding(.top, 5)
             .foregroundColor(.white)
             .background(Color.white.opacity(0).ignoresSafeArea(.all))
-            .onAppear {
-                AppReviewRequest.RequestReviewWhenNeeeded()
-            }
+            
             .redacted(reason: podcastViewModel.podcasts.isEmpty ? .placeholder : [])
         }
-        
+       
         .sheet(item: $selected) { podcast in
             ContentWrapper(streamer: streamer, navConfig: .detailConfig, navTitle: podcast.title) {
                 PodcastDetail(podcast: podcast, streamer: streamer, podcastViewModel: podcastViewModel)
+            }
+        }
+        .onAppear {
+            AppReviewRequest.RequestReviewWhenNeeeded()
+            Task.detached {
+                await podcastViewModel.getPodcasts()
             }
         }
     }
@@ -168,13 +173,16 @@ struct PodcastHome: View {
                                 .padding(.trailing)
                                 .onTapGesture {
                                     podcastViewModel.selectedFeatured = i
-                                    podcastViewModel.getFeatured(showID: podcastViewModel.selectedFeatured?.id ?? "")
                                     let haptic = UIImpactFeedbackGenerator(style: .soft)
                                     haptic.impactOccurred()
                                     if i != podcastViewModel.podcasts.last {
                                         value.scrollTo(i.title , anchor: .center)
                                     } else {
                                         value.scrollTo(i.title, anchor: .trailing)
+                                    }
+                                    Task.detached {
+                                        await podcastViewModel.getFeatured(showID: podcastViewModel.selectedFeatured?.id ?? "")
+                                        
                                     }
                                 }
                                 
@@ -188,3 +196,7 @@ struct PodcastHome: View {
 }
 
 
+
+extension Podcast: Identifiable {
+    
+}

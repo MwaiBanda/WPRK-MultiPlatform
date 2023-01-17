@@ -25,7 +25,7 @@ data class ShowDTO(
     fun toShow(): Show {
         return Show(
             id = id,
-            category = category,
+            category = category?.replace("unset","WPRK"),
             description = description,
             duration = duration,
             end = end,

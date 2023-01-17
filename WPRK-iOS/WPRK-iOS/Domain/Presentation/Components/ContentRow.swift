@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import WPRKSDK
 
 struct ContentRow: View {
     var showTitle: String?
@@ -45,7 +46,7 @@ struct ContentRow: View {
                             .bold()
                             .font(.headline)
                         ExpandableText(
-                            episode?.description.replacingOccurrences(of: "<div>", with: "")
+                            episode?.description_.replacingOccurrences(of: "<div>", with: "")
                                 .replacingOccurrences(of: "</div>", with: "")
                                 .replacingOccurrences(of: "&nbsp;", with: "")
                                 .replacingOccurrences(of: "<br>", with: "")
@@ -61,7 +62,7 @@ struct ContentRow: View {
                         
                         HStack {
                             Image(systemName: "play.circle")
-                            Text(episode?.durationInMmss ?? "")
+                            Text(episode?.duration ?? "")
                         }
                     }
                     Spacer()

@@ -8,6 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 import AVKit
+import WPRKSDK
 
 struct PodcastDetail: View {
     var podcast: Podcast
@@ -16,7 +17,7 @@ struct PodcastDetail: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
-                ImageCover(imageUrl: podcast.imageURL, category: podcast.category)
+                ImageCover(imageUrl: podcast.thumbnailURL, category: "WPRK")
                 
                 VStack {
                     HStack {
@@ -25,7 +26,7 @@ struct PodcastDetail: View {
                         Text(podcast.title)
                             .font(.title)
                             .bold()
-                        ExpandableText(podcast.description                                       .trimmingCharacters(in: .whitespacesAndNewlines)
+                        ExpandableText(podcast.description_                                       .trimmingCharacters(in: .whitespacesAndNewlines)
                                        , lineLimit: 4)
                             .foregroundColor(.gray)
                     }.padding(.leading)
@@ -47,7 +48,9 @@ struct PodcastDetail: View {
         }
         .foregroundColor(.white)
         .onAppear {
-            podcastViewModel.getEpisodes(showID: podcast.id)
+            Task.detached {
+                await podcastViewModel.getEpisodes(showID: podcast.id)
+            }
         }
     }
 }

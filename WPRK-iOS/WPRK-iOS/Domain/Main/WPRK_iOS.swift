@@ -15,7 +15,7 @@ import SDWebImageSwiftUI
 struct WPRK_iOS: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var networkService = NetworkService.sharedInstance
-    @StateObject private var podcastViewModel = PodcastViewModel(contentService: ContentServiceImplementation.sharedInstance, group: DispatchGroup())
+    @StateObject private var podcastViewModel = PodcastViewModel(group: DispatchGroup())
     var body: some Scene {
         WindowGroup {
             ContentView(networkService: networkService, podcastViewModel: podcastViewModel)
@@ -27,7 +27,6 @@ class AppDelegate : NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-        DependencyRegistryKt.doInitKoin()
         authorizeUserNotifications()
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)

@@ -14,7 +14,7 @@ struct ShowHome: View {
     @State private var days = [
         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
     ]
-    @StateObject var showViewModel = ShowViewModel(contentService: ContentServiceImplementation.sharedInstance)
+    @StateObject var showViewModel = ShowViewModel()
   
 
     var body: some View {
@@ -186,18 +186,16 @@ struct ShowHome: View {
         .foregroundColor(.white)
         .background(Color.white.opacity(0).ignoresSafeArea(.all))
         .onAppear {
-            DispatchQueue.main.async {
-
             let currentDateStr = streamer.getCurrentDayOfWeek()
             while(currentDateStr != days.first) {
                 days.append(days.remove(at: 0))
             }
-            showViewModel.getShows()
+            Task.detached() {
+                await showViewModel.getShows()
+            }
+            AppReviewRequest.RequestReviewWhenNeeeded()
             showViewModel.currentDate = showViewModel.getCurrent()
             showViewModel.currentDay = days.first ?? ""
-            AppReviewRequest.RequestReviewWhenNeeeded()
-            }
-
         }
         .sheet(item: $showViewModel.selected){ show in
             ContentWrapper(streamer: streamer, navConfig: .detailConfig, navTitle: show.title) {

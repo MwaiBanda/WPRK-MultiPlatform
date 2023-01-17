@@ -9,7 +9,7 @@ data class AttributesDTO(
     val author: String,
     val created_at: String,
     val description: String,
-    val duration: Int,
+    val duration: Int?,
     val duration_in_mmss: String,
     val email_notifications: String?,
     val embed_html: String,

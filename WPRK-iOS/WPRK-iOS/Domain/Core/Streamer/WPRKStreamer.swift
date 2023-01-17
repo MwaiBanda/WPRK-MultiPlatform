@@ -10,6 +10,7 @@ import AVFoundation
 import Combine
 import SwiftUI
 import MediaPlayer
+import WPRKSDK
 
 final class WPRKStreamer:  AVPlayer, ObservableObject {
     @Published var placeholderTitle: String = "Tune In..."
@@ -56,14 +57,14 @@ final class WPRKStreamer:  AVPlayer, ObservableObject {
     
     
     func switchToEpisode(episode: Episode?, show: String){
-        let episodeItem = AVPlayerItem(url: URL(string: episode?.mediaURL ?? "")!)
+        let episodeItem = AVPlayerItem(url: URL(string: episode?.episodeURL ?? "")!)
         player.replaceCurrentItem(with: episodeItem)
         if !isPlaying {
             initiateStream()
         }
         itemTitle = "EP \(episode?.number ?? 0) - " + (episode?.title ?? "")
         displayTitle = "EP \(episode?.number ?? 0) - " + (episode?.title ?? "")
-        mediaURL = episode?.mediaURL ?? ""
+        mediaURL = episode?.episodeURL ?? ""
         isPlayingPodcast = true
         updateNowPlaying(isPause: false, title: show)
         showTitle = show

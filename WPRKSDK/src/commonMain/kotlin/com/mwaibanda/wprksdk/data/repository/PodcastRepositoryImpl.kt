@@ -45,10 +45,10 @@ class PodcastRepositoryImpl(
     }
 
     override suspend fun getEpisodes(showID: String, pageNumber: Int): Resource<EpisodeResponse> {
-         getEpisodesUseCase(key = "${Constants.EPISODE_PREFIX}$showID$pageNumber")?.let {
+         getEpisodesUseCase(key = "$showID-$pageNumber")?.let {
              val (_, _, cachedEpisode) = it
              if (cachedEpisode.isNotEmpty()) {
-                 val allCachedEpisodeResponses: List<EpisodeResponse> = getAllEpisodesUseCase(Constants.EPISODE_PREFIX)
+                 val allCachedEpisodeResponses: List<EpisodeResponse> = getAllEpisodesUseCase(showID)
                  return Resource.Success (
                      Triple(
                          pageNumber < allCachedEpisodeResponses.maxByOrNull { it.second }?.second ?: 1,
@@ -69,7 +69,7 @@ class PodcastRepositoryImpl(
                 parameter("pagination[page]", "$pageNumber")
             }.body()
             val remoteEpisodes  = episodesDTO.data.map { it.toEpisode() }
-            setEpisodeUseCase("${Constants.EPISODE_PREFIX}$showID$pageNumber",
+            setEpisodeUseCase("$showID-$pageNumber",
                 Triple(
                     pageNumber < 1,
                     pageNumber,
@@ -80,7 +80,7 @@ class PodcastRepositoryImpl(
             return Resource.Error(e.message.toString())
         }
 
-        val newlyCachedEpisodes = getEpisodesUseCase("${Constants.EPISODE_PREFIX}$showID$pageNumber")!!
+        val newlyCachedEpisodes = getEpisodesUseCase("$showID-$pageNumber")!!
         return Resource.Success(newlyCachedEpisodes)
     }
 }

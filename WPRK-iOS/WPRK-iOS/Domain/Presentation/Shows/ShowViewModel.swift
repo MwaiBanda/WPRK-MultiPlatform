@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WPRKSDK
 
 final class ShowViewModel: ObservableObject {
     @Published var shows = [Show]()
@@ -13,28 +14,25 @@ final class ShowViewModel: ObservableObject {
     @Published var currentDate = ""
     @Published var currentDay = ""
     @Published var selected: Show? = nil
-    var contentService: ContentService
-    
-    init(contentService: ContentService){
-        self.contentService = contentService
-    }
-    
-    func getShows() {
-            contentService.getShows { result in
-               switch(result) {
-               case .success(let shows):
-                   self.shows = shows
-                   self.showsScheduled = shows.filter({ $0.getDate() == self.currentDate})
-                       print(shows)
-               case .failure(let error):
-                   print(error.localizedDescription)
-               }
-           
+
+    func getShows() async {
+        do {
+            try await WPRK.shared.getShowUseCase.invoke { res in
+                if let shows = res.data {
+                    self.shows = shows as? [Show] ?? []
+                    self.showsScheduled = (shows as? [Show] ?? []).filter({ $0.getDate() == self.currentDate})
+                    print(shows)
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
+    
     func getCurrent() -> String {
         return Date().string(format: "yyyy-MM-dd")
     }
+    
     func getDayByOffset(offset: Int) -> String {
         var dayComponent    = DateComponents()
         dayComponent.day    = offset
