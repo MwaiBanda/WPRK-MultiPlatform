@@ -1,18 +1,21 @@
 package com.muse.wprk.data.repository
 
-import com.muse.wprk.core.utilities.Resource
 import com.mwaibanda.wprksdk.main.model.Show
-import com.muse.wprk.main.repository.CacheRepository
-import com.muse.wprk.main.repository.SpinitronRepository
+import com.mwaibanda.wprksdk.main.repository.ShowsRepository
+import com.mwaibanda.wprksdk.main.usecase.cache.GetItemUseCase
+import com.mwaibanda.wprksdk.main.usecase.cache.SetItemUseCase
+import com.mwaibanda.wprksdk.util.Resource
+import com.mwaibanda.wprksdk.util.ShowResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class MockSpinitronRepositoryImpl @Inject constructor(
-    private val cache: CacheRepository
-) : SpinitronRepository {
-    override suspend fun getShows(accessToken: String): Resource<Show> {
-        val cachedShows = cache.getShows(SHOWS_KEY)
+    private val getShowsUseCase: GetItemUseCase<ShowResponse>,
+    private val setShowsUseCase: SetItemUseCase<ShowResponse>,
+) : ShowsRepository {
+    override suspend fun getShows(accessToken: String): Resource<ShowResponse> {
+        val cachedShows = getShowsUseCase(SHOWS_KEY).orEmpty()
 
         if (cachedShows.isNotEmpty()) return Resource.Success(cachedShows)
 
@@ -34,9 +37,9 @@ class MockSpinitronRepositoryImpl @Inject constructor(
             )
         }
 
-        cache.setShows(SHOWS_KEY, remoteShows)
+        setShowsUseCase(SHOWS_KEY, remoteShows)
 
-        val newlyCachedShows = cache.getShows(SHOWS_KEY)
+        val newlyCachedShows = getShowsUseCase(SHOWS_KEY).orEmpty()
         return Resource.Success(newlyCachedShows)
     }
 

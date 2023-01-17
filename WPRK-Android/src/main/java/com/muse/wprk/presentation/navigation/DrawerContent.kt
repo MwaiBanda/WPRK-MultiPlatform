@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.muse.wprk.main.model.MenuOption
+import com.muse.wprk.core.utilities.MenuOption
 
 
 @Composable

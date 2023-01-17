@@ -17,9 +17,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberImagePainter
-import com.muse.wprk.core.utilities.Constants
+import com.mwaibanda.wprksdk.util.Constants
 import com.muse.wprk.core.utilities.ScreenConfigurations
 
 @Composable

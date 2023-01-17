@@ -1,4 +1,4 @@
-package com.mwaibanda.wprksdk.data.podcastDTO
+package com.mwaibanda.wprksdk.data.episodeDTO
 
 import com.mwaibanda.wprksdk.data.episodeDTO.EpisodeDTO
 import kotlinx.serialization.Serializable

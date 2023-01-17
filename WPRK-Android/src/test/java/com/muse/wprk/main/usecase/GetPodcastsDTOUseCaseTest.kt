@@ -1,28 +1,21 @@
 package com.muse.wprk.main.usecase
 
-import com.muse.wprk.core.utilities.Resource
-import com.muse.wprk.data.repository.MockCacheRepositoryImpl
-import com.muse.wprk.data.repository.MockTransistorRepositoryImpl
-import com.mwaibanda.wprksdk.main.model.Episode
 import com.mwaibanda.wprksdk.main.model.Podcast
-import com.muse.wprk.main.repository.CacheRepository
-import com.muse.wprk.main.repository.TransistorRepository
+import com.mwaibanda.wprksdk.main.repository.PodcastRepository
+import com.mwaibanda.wprksdk.main.usecase.podcasts.GetPodcastsUseCase
+import com.mwaibanda.wprksdk.util.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
-
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class GetPodcastsDTOUseCaseTest {
-    private lateinit var mocCacheRepository: CacheRepository
-    private lateinit var mockTransistorRepository: TransistorRepository
+    private lateinit var mockTransistorRepository: PodcastRepository
     private lateinit var sut: GetPodcastsUseCase
 
     @BeforeEach
     fun setUp() {
-        mocCacheRepository = MockCacheRepositoryImpl()
-        mockTransistorRepository = MockTransistorRepositoryImpl(mocCacheRepository)
         sut = GetPodcastsUseCase(mockTransistorRepository)
     }
 

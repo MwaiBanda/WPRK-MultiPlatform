@@ -4,15 +4,15 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.muse.wprk.core.exts.LocalDateEx
-import com.muse.wprk.core.utilities.Resource
 import com.mwaibanda.wprksdk.main.model.Episode
 import com.mwaibanda.wprksdk.main.model.Podcast
-import com.muse.wprk.main.usecase.GetEpisodesUseCase
-import com.muse.wprk.main.usecase.GetPodcastsUseCase
+import com.mwaibanda.wprksdk.main.usecase.podcasts.GetEpisodesUseCase
+import com.mwaibanda.wprksdk.main.usecase.podcasts.GetPodcastsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
+import com.mwaibanda.wprksdk.util.Resource
 
 @HiltViewModel
 class PodcastViewModel @Inject constructor(
@@ -35,7 +35,7 @@ class PodcastViewModel @Inject constructor(
         viewModelScope.launch {
             getPodcastsUseCase {
                 when (it) {
-                    is Resource.Success -> {
+                    is Resource.Success-> {
                         _podcasts.value = it.data!!
                         Log.d("Main", "Fetch Success ${it.data!!}")
                         onSuccess()
@@ -53,10 +53,10 @@ class PodcastViewModel @Inject constructor(
 
     fun getFeaturedEpisodes(showID: String) {
         viewModelScope.launch {
-            getEpisodesUseCase(showID) {
+            getEpisodesUseCase(showID, 1) {
                 when (it) {
                     is Resource.Success -> {
-                        _episodes.value = it.data?.take(4)
+                        _episodes.value = it.data?.third?.take(4)
                             ?.sortedBy { it.number }
                             ?.reversed()
                         Log.d("Main", "Fetch Success ${it.data!!}")
@@ -72,12 +72,12 @@ class PodcastViewModel @Inject constructor(
         }
     }
 
-    fun getEpisodes(showID: String){
+    fun getEpisodes(showID: String, pageNumber: Int = 1){
         viewModelScope.launch {
-            getEpisodesUseCase(showID) {
+            getEpisodesUseCase(showID, pageNumber) {
                 when (it) {
                     is Resource.Success -> {
-                        _episodes.value = it.data!!
+                        _episodes.value = it.data?.third!!
                         Log.d("Main", "Fetch Success ${it.data!!}")
                     }
                     is Resource.Error -> {

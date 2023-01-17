@@ -27,13 +27,20 @@ kotlin {
     }
 
     sourceSets {
+        val ktorVersion = "2.0.2"
         val commonMain by getting {
             dependencies {
+                api("org.kodein.di:kodein-di:7.10.0")
+                // Ktor
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+                implementation("io.ktor:ktor-client-logging:$ktorVersion")
                 implementation("dev.gitlive:firebase-auth:1.4.3")
-                implementation("io.insert-koin:koin-core:3.1.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
                 implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
-
+                // Cache4K
+                implementation("io.github.reactivecircus.cache4k:cache4k:0.8.0")
             }
         }
         val commonTest by getting {
@@ -42,7 +49,11 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))

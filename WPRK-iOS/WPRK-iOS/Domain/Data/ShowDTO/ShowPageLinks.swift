@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - ShowPageLinks
-struct ShowPageLinks: Codable {
+struct ShowPageLinksSW: Codable {
     let currentPage, nextPage, lastPage: Link
 
     enum CodingKeys: String, CodingKey {

@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PodcastsDTO(
     @SerialName("data")
-    val collection: List<PodcastDTO>
+    val collection: List<PodcastDTO>,
+    val meta: PodcastDTOMetadata
 )
+

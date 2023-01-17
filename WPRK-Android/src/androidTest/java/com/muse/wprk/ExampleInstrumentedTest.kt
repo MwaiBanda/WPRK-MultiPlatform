@@ -2,16 +2,11 @@ package com.muse.wprk
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.mwaibanda.wprksdk.main.model.Podcast
-import com.muse.wprk.main.usecase.GetEpisodesUseCase
-import com.muse.wprk.main.usecase.GetPodcastsUseCase
-import com.muse.wprk.presentation.podcasts.PodcastViewModel
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import javax.inject.Inject
 
 /**
  * Instrumented test, which will execute on an Android device.

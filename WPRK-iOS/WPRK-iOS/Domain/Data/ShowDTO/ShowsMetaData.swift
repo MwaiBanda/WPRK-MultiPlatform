@@ -8,6 +8,6 @@
 import Foundation
 
 // MARK: - ShowsMetaData
-struct ShowsMetaData: Codable {
+struct ShowsMetaDataSW: Codable {
     let totalCount, pageCount, currentPage, perPage: Int
 }

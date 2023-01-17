@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import WPRKSDK
+
 
 final class ContentServiceImplementation: ContentService {
     

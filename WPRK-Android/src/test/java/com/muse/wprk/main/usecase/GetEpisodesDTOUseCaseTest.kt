@@ -1,13 +1,13 @@
 package com.muse.wprk.main.usecase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.muse.wprk.core.utilities.Resource
 import com.muse.wprk.data.repository.MockCacheRepositoryImpl
-import com.muse.wprk.data.repository.MockSpinitronRepositoryImpl
 import com.muse.wprk.data.repository.MockTransistorRepositoryImpl
 import com.mwaibanda.wprksdk.main.model.Episode
-import com.muse.wprk.main.repository.CacheRepository
-import com.muse.wprk.main.repository.TransistorRepository
+import com.mwaibanda.wprksdk.main.repository.PodcastRepository
+import com.mwaibanda.wprksdk.main.usecase.podcasts.GetEpisodesUseCase
+import com.mwaibanda.wprksdk.util.CacheControl
+import com.mwaibanda.wprksdk.util.Resource
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -16,8 +16,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class GetEpisodesDTOUseCaseTest {
-    private lateinit var mocCacheRepository: CacheRepository
-    private lateinit var mockTransistorRepository: TransistorRepository
+    private lateinit var mocCacheRepository: CacheControl
+    private lateinit var mockTransistorRepository: PodcastRepository
     private lateinit var sut: GetEpisodesUseCase
 
     @get:Rule
@@ -25,8 +25,6 @@ internal class GetEpisodesDTOUseCaseTest {
 
     @BeforeEach
     fun setUp() {
-        mocCacheRepository = MockCacheRepositoryImpl()
-        mockTransistorRepository = MockTransistorRepositoryImpl(mocCacheRepository)
         sut = GetEpisodesUseCase(mockTransistorRepository)
     }
 
@@ -44,11 +42,11 @@ internal class GetEpisodesDTOUseCaseTest {
 
         }
         var res = emptyList<Episode>()
-        sut.invoke("10001") {
+        sut.invoke("10001", 1) {
             when(it) {
                 is Resource.Error -> TODO()
                 is Resource.Loading -> TODO()
-                is Resource.Success -> res = it.data ?: emptyList()
+                is Resource.Success -> res = it.data?.third ?: emptyList()
             }
         }
 

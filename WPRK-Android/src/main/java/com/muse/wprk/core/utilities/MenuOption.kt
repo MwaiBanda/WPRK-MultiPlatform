@@ -1,4 +1,4 @@
-package com.muse.wprk.main.model
+package com.muse.wprk.core.utilities
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

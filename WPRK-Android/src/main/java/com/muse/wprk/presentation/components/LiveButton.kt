@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.muse.wprk.core.utilities.Constants
+import com.mwaibanda.wprksdk.util.Constants
 
 @Composable
 fun LiveButton(modifier: Modifier, onSwitchToDefault: (String) -> Unit){

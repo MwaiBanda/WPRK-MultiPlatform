@@ -20,7 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.muse.wprk.core.utilities.NavigationRoutes
-import com.muse.wprk.core.utilities.Constants
+import com.mwaibanda.wprksdk.util.Constants
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalCoilApi::class)

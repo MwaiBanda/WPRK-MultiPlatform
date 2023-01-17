@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muse.wprk.core.exts.LocalDateEx
 import com.muse.wprk.core.exts.getShowDate
-import com.muse.wprk.core.utilities.Resource
 import com.muse.wprk.core.utilities.ShowTime
 import com.mwaibanda.wprksdk.main.model.Show
-import com.muse.wprk.main.repository.CacheRepository
-import com.muse.wprk.main.usecase.GetShowUseCase
+import com.mwaibanda.wprksdk.main.usecase.shows.GetShowUseCase
+import com.mwaibanda.wprksdk.util.Resource
+import com.mwaibanda.wprksdk.util.ShowResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -22,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ShowViewModel @Inject constructor(
     private val getShowUseCase: GetShowUseCase,
-    private val cacheRepository: CacheRepository
 ): ViewModel() {
 
     private val _shows: MutableLiveData<List<Show>> = MutableLiveData()
@@ -42,13 +41,13 @@ class ShowViewModel @Inject constructor(
         viewModelScope.launch {
             getShowUseCase {
                 when (it) {
-                    is Resource.Success -> {
+                    is Resource.Success-> {
                         _shows.value = it.data!!
                         isLoading.value = false
                         Log.d("Main", "Fetch Success ${shows.value}")
                         onSuccess()
                     }
-                    is Resource.Error -> {
+                    is Resource.Error-> {
                         isLoading.value = false
                         loadError.value = it.message ?: ""
                         Log.d("Main", "Fetch Failure ${loadError.value}")

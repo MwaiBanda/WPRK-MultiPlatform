@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - ShowsDTO
-struct ShowsDTO: Decodable {
+struct ShowsDTOSW: Decodable {
     var collection: [ShowDTO]
     var pageLinks: ShowPageLinks
     var meta: ShowsMetaData

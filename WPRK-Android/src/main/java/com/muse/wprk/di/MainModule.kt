@@ -1,21 +1,15 @@
 package com.muse.wprk.di
 
-import android.app.Application
 import android.content.Context
 import android.media.AudioManager
 import android.media.audiofx.LoudnessEnhancer
-import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query.Direction.ASCENDING
-import com.muse.wprk.core.utilities.Constants
-import com.muse.wprk.core.utilities.Constants.COLLECTION_NAME
-import com.muse.wprk.core.utilities.Constants.ORDER_BY
+import com.mwaibanda.wprksdk.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
