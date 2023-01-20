@@ -34,7 +34,15 @@ The app's are available for download on the app store & playstore for Android, i
     <td> </td>
   </tr>
  <tr>
-    <td>Koin</td>
+    <td>Kodein DI</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>Ktor Client</td>
+    <td> </td>
+  </tr>
+  <tr>
+    <td>Cache4k</td>
     <td> </td>
   </tr>
   <tr>
@@ -77,10 +85,6 @@ The app's are available for download on the app store & playstore for Android, i
   <tr>
     <td>Local Notifications w/ WorkManager</td>
      <td>Local Notifications</td>
-  </tr>
-   <tr>
-    <td>Retrofit</td>
-     <td></td>
   </tr>
   </table>
   

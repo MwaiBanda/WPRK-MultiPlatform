@@ -5,8 +5,11 @@ podcasts which are playable as well. The SDK allows seamless integration with
 authentication, data fetching & caching
 
 ## Dependencies
+- Ktor Client
 - Firebase(Kotlin SDK)
-- Koin
+- Kodein DI
+- Cache4k
+- Kotlin serialization 
 
 
 

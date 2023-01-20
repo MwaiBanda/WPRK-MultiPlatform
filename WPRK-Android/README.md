@@ -7,12 +7,10 @@ podacasts which are playable as well.
 - Jetpack Compose
 - Exoplayer
 - Hilt
-- Retrofit
 - Accompanist
 - Lottie Animations
 - Work Manager
 - Local Notifications
-- Shelf(Cache)
 
 <table>
   <tr>
