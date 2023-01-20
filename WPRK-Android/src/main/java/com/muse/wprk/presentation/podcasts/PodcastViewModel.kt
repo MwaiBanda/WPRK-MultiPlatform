@@ -13,12 +13,14 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDate
 import javax.inject.Inject
 import com.mwaibanda.wprksdk.util.Resource
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class PodcastViewModel @Inject constructor(
     private val getPodcastsUseCase: GetPodcastsUseCase,
     private val getEpisodesUseCase: GetEpisodesUseCase,
-): ViewModel() {
+) : ViewModel() {
 
     private val _podcasts: MutableLiveData<List<Podcast>> = MutableLiveData()
     var podcasts: LiveData<List<Podcast>> = _podcasts
@@ -29,13 +31,16 @@ class PodcastViewModel @Inject constructor(
     private val _episodes: MutableLiveData<List<Episode>> = MutableLiveData()
     var episodes: LiveData<List<Episode>> = _episodes
     var isLoadingEpisode = mutableStateOf(false)
+    private val currentPage = MutableStateFlow(1)
+    private val _canLoadMore = MutableStateFlow(false)
+    val canLoadMore = _canLoadMore.asStateFlow()
 
 
-    fun getPodcasts(onSuccess: () -> Unit){
+    fun getPodcasts(onSuccess: () -> Unit) {
         viewModelScope.launch {
             getPodcastsUseCase {
                 when (it) {
-                    is Resource.Success-> {
+                    is Resource.Success -> {
                         _podcasts.value = it.data!!
                         Log.d("Main", "Fetch Success ${it.data!!}")
                         onSuccess()
@@ -72,14 +77,23 @@ class PodcastViewModel @Inject constructor(
         }
     }
 
-    fun getEpisodes(showID: String, pageNumber: Int = 1){
+    private fun getEpisodes(showID: String, pageNumber: Int) {
         viewModelScope.launch {
             getEpisodesUseCase(showID, pageNumber) {
                 when (it) {
                     is Resource.Success -> {
-                        _episodes.value = it.data?.third!!
+                        _canLoadMore.value = it.data?.first ?: false
+                        currentPage.value = (it.data?.second ?: 1) + 1
+                        _episodes.value = buildList {
+                            addAll(
+                                ((it.data?.third ?: emptyList()) + (_episodes.value ?: emptyList()))
+                            )
+                            sortBy { it.number }
+                            reverse()
+                        }
                         Log.d("Main", "Fetch Success ${it.data!!}")
                     }
+
                     is Resource.Error -> {
                         loadError.value = it.message!!
                         Log.d("Main", "Fetch Failure ${it.message!!}")
@@ -90,6 +104,11 @@ class PodcastViewModel @Inject constructor(
             }
         }
     }
+
+    fun getEpisodes(showID: String) {
+        getEpisodes(showID, currentPage.value)
+    }
+
     fun currentDay(): LocalDate {
         return LocalDateEx.getNow()
     }

@@ -17,6 +17,8 @@ data class EpisodeDTO(
             description = attributes?.description
                 ?.replace("<br>", "")
                 ?.replace("&nbsp;", " ")
+                ?.replace("<strong>", "")
+                ?.replace("</strong>", "")
                 ?: "",
             number = attributes?.number ?: 0,
             duration = attributes?.duration_in_mmss ?: "",

@@ -93,9 +93,11 @@ final class PodcastViewModel: ObservableObject {
             await self.getPodcasts()
         }
     }
+    
     private func getEpisodes(showID: String) async {
         await fetchEpisodes(showID: showID)
     }
+    
     func getEpisodes(showID: String) {
         Task.detached {
             await self.getEpisodes(showID: showID)

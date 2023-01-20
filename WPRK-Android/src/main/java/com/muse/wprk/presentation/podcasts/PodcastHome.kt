@@ -106,32 +106,51 @@ fun PodcastHome(
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(10.dp))
         }
-        item {
-            LazyRow(state = rememberLazyListState(), modifier = Modifier.fillMaxWidth()) {
-                itemsIndexed(podcasts) { i, podcast ->
-                    var imageURL =
-                        URLEncoder.encode(podcast.thumbnailURL, StandardCharsets.UTF_8.toString())
-                    if (i != 0) Spacer(modifier = Modifier.width(8.dp))
-                    Box(Modifier.clickable { navigateToDetail(podcast, imageURL) }) {
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                ImageRequest.Builder(LocalContext.current)
-                                    .data(data = podcast.thumbnailURL).apply(block = fun ImageRequest.Builder.() {
-                                        crossfade(true)
-                                        transformations(RoundedCornersTransformation(10f))
-                                    }).build()
-                            ),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(175.dp)
-                                .height(180.dp)
-                        )
-                    }
-                    if (i == 6) Spacer(modifier = Modifier.width(10.dp))
-                }
 
+            item {
+                LazyRow(state = rememberLazyListState(), modifier = Modifier.fillMaxWidth()) {
+                    if (podcasts.isEmpty()) {
+                        itemsIndexed(MutableList(12){ return@MutableList 0 }) { i, _ ->
+                            if (i != 0) Spacer(modifier = Modifier.width(10.dp))
+                            Box(
+                                modifier = Modifier
+                                    .width(175.dp)
+                                    .height(180.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(Color.Gray.copy(0.3f))
+                            )
+                        }
+                    } else {
+                        itemsIndexed(podcasts) { i, podcast ->
+                            var imageURL =
+                                URLEncoder.encode(
+                                    podcast.thumbnailURL,
+                                    StandardCharsets.UTF_8.toString()
+                                )
+                            if (i != 0) Spacer(modifier = Modifier.width(8.dp))
+                            Box(Modifier.clickable { navigateToDetail(podcast, imageURL) }) {
+                                Image(
+                                    painter = rememberAsyncImagePainter(
+                                        ImageRequest.Builder(LocalContext.current)
+                                            .data(data = podcast.thumbnailURL)
+                                            .apply(block = fun ImageRequest.Builder.() {
+                                                crossfade(true)
+                                                transformations(RoundedCornersTransformation(10f))
+                                            }).build()
+                                    ),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .width(175.dp)
+                                        .height(180.dp)
+                                )
+                            }
+                            if (i == 6) Spacer(modifier = Modifier.width(10.dp))
+                        }
+                    }
+
+                }
             }
-        }
+
 
         item {
             Spacer(modifier = Modifier.height(20.dp))
@@ -148,6 +167,35 @@ fun PodcastHome(
         }
         item {
             LazyRow(state = scheduleState, modifier = Modifier.fillMaxWidth()) {
+                if (podcasts.isEmpty()) {
+                    itemsIndexed(MutableList(12){ return@MutableList 0 }) { i, _ ->
+                        if (i != 0) Spacer(modifier = Modifier.width(10.dp))
+                        Box(
+                            modifier = Modifier
+                                .clip(
+                                    RoundedCornerShape(
+                                        25f
+                                    )
+                                )
+                                .background(color =  Color.Transparent)
+                                .height(65.dp)
+                                .border(
+                                    1.dp,
+                                    color = Color.Black,
+                                    RoundedCornerShape(25f)
+                                )
+                                .padding(horizontal = 15.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "",
+                                color = Color.White,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                } else {
                 itemsIndexed(podcasts) { i, podcast ->
 
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
@@ -212,6 +260,7 @@ fun PodcastHome(
                     }
 
                     if (i == 6) Spacer(modifier = Modifier.width(10.dp))
+                }
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))

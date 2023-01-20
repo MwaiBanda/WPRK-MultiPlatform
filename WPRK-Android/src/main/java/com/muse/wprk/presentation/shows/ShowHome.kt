@@ -2,16 +2,11 @@ package com.muse.wprk.presentation
 
 import android.content.Context
 import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -39,6 +34,7 @@ import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.presentation.components.LiveButton
 import com.muse.wprk.presentation.shows.ShowViewModel
 import com.muse.wprk.presentation.shows.ScheduledShows
+import com.mwaibanda.wprksdk.main.model.Episode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
@@ -144,28 +140,43 @@ fun ShowHome(
 
         item {
             LazyRow(state = showState, modifier = Modifier.fillMaxWidth()) {
-                itemsIndexed(shows) { i, show ->
-                    var imageURL = URLEncoder.encode(show.image, StandardCharsets.UTF_8.toString())
-                    if (i != 0) Spacer(modifier = Modifier.width(10.dp))
-                    Box {
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                ImageRequest.Builder(LocalContext.current).data(data = show.image)
-                                    .apply(block = fun ImageRequest.Builder.() {
-                                        transformations(RoundedCornersTransformation(10f))
-                                    }).build()
-                            ),
-                            contentDescription = null,
+                if (shows.isEmpty()) {
+                    itemsIndexed(MutableList(12){ return@MutableList 0 }) { i, _ ->
+                        if (i != 0) Spacer(modifier = Modifier.width(10.dp))
+                        Box(
                             modifier = Modifier
-                                .clickable {
-                                    onShowClick(show)
-                                    navController.navigate("sDetail")
-                                }
                                 .width(175.dp)
                                 .height(180.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Color.Gray.copy(0.3f))
                         )
                     }
-                    if (show == shows.last()) Spacer(modifier = Modifier.width(10.dp))
+                } else {
+                    itemsIndexed(shows) { i, show ->
+                        var imageURL =
+                            URLEncoder.encode(show.image, StandardCharsets.UTF_8.toString())
+                        if (i != 0) Spacer(modifier = Modifier.width(10.dp))
+                        Box {
+                            Image(
+                                painter = rememberAsyncImagePainter(
+                                    ImageRequest.Builder(LocalContext.current)
+                                        .data(data = show.image)
+                                        .apply(block = fun ImageRequest.Builder.() {
+                                            transformations(RoundedCornersTransformation(10f))
+                                        }).build()
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .clickable {
+                                        onShowClick(show)
+                                        navController.navigate("sDetail")
+                                    }
+                                    .width(175.dp)
+                                    .height(180.dp)
+                            )
+                        }
+                        if (show == shows.last()) Spacer(modifier = Modifier.width(10.dp))
+                    }
                 }
             }
         }

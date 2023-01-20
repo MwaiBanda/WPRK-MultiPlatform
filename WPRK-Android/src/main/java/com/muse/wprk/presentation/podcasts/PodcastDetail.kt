@@ -1,5 +1,8 @@
 package com.muse.wprk.presentation.podcasts
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,11 +11,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -27,6 +30,7 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
+import com.muse.wprk.core.exts.parse
 import com.mwaibanda.wprksdk.main.model.Episode
 import com.muse.wprk.presentation.components.EpisodeRow
 import com.muse.wprk.presentation.components.ExpandableText
@@ -44,12 +48,13 @@ fun PodcastDetail(
     onEpisodeClick: (String) -> Unit
 ) {
     val episodes = remember { mutableStateListOf<Episode>() }
+    val canLoadMore by podcastViewModel.canLoadMore.collectAsState()
     val lazyListState = rememberLazyListState()
     podcastViewModel.episodes.observe(LocalLifecycleOwner.current) { newEpisodes ->
         episodes.swapList(newEpisodes)
     }
     LaunchedEffect(key1 = true) {
-        podcastViewModel.getEpisodes(showID!!)
+        podcastViewModel.getEpisodes(showID ?: "")
     }
 
     LazyColumn(Modifier.fillMaxHeight(), state = lazyListState) {
@@ -116,8 +121,27 @@ fun PodcastDetail(
                 Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             }
             EpisodeRow(Modifier.padding(horizontal = 10.dp),episode = episode){ onEpisodeClick(it) }
-            if (episodes.last() != episode) {
-                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+
+        }
+        item {
+            Column(Modifier.fillMaxWidth()) {
+                AnimatedVisibility(visible = canLoadMore, enter = fadeIn(), exit = fadeOut()) {
+                    Column(
+                        Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(modifier = Modifier.height(15.dp))
+                        TextButton(onClick = { podcastViewModel.getEpisodes(showID ?: "") }) {
+                            Text(
+                                text = "Load More...",
+                                color = Color.parse("#ffafcc"),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.ExtraBold
+                            )
+                        }
+                    }
+                }
             }
         }
     }

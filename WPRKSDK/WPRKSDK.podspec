@@ -1,11 +1,12 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'WPRKSDK'
-    spec.version                  = '1.0'
+    spec.version                  = '1.0.0'
     spec.homepage                 = 'https://wprk.org'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'WPRK SDK allows seamlessly integration with WPRK auth, shows & podcast functionality'
+    spec.summary                  = 'WPRK SDK allows seamlessly integration with WPRK auth, 
+shows & podcast fetching/caching functionality.'
     spec.vendored_frameworks      = 'build/cocoapods/framework/WPRKSDK.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'

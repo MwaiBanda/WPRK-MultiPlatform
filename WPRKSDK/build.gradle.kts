@@ -8,7 +8,7 @@ plugins {
 
 }
 
-version = "1.0"
+version = "1.0.0"
 
 kotlin {
     android()
@@ -17,8 +17,10 @@ kotlin {
     iosSimulatorArm64() //sure all ios dependencies support this target
 
     cocoapods {
-        summary =
-            "WPRK SDK allows seamlessly integration with WPRK auth, shows & podcast functionality"
+        summary = """
+        WPRK SDK allows seamlessly integration with WPRK auth, 
+        shows & podcast fetching/caching functionality.
+        """.trimIndent()
         homepage = "https://wprk.org"
         ios.deploymentTarget = "14.1"
         framework {
