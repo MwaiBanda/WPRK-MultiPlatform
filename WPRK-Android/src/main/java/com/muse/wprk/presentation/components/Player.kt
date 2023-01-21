@@ -23,11 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
@@ -42,28 +45,27 @@ import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalCoilApi::class)
 @Composable
-fun WPRKPlayer(player : ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) -> Unit) {
+fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) -> Unit) {
     var currentTitle by remember { mutableStateOf("") }
     var count by remember { mutableStateOf(0) }
 
-    val onMediaMetadataChanged: (MediaMetadata) -> Unit =  { mediaMetadata ->
+    val onMediaMetadataChanged: (MediaMetadata) -> Unit = { mediaMetadata ->
         if (mediaMetadata.title != null) {
             val remoteTitle = player.mediaMetadata.title.toString()
             if (remoteTitle != currentTitle) currentTitle = remoteTitle
         }
     }
     LaunchedEffect(key1 = count) {
-        delay(1500L)
         if (isPlaying) {
             onMediaMetadataChanged(player.mediaMetadata)
-
-            delay(15000L)
+            delay(6100L)
             count++
         }
     }
     Column(
         verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier.fillMaxWidth()
     ) {
         Spacer(
             modifier = Modifier
@@ -81,135 +83,181 @@ fun WPRKPlayer(player : ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean)
             verticalAlignment = Alignment.CenterVertically
 
         ) {
-            Row {
-                Spacer(modifier = Modifier.width(10.dp))
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
 
-                Box(
-                    modifier = Modifier
-                        .size(45.dp)
-                ) {
+                Column(Modifier.padding(start = 35.dp), horizontalAlignment = Alignment.Start) {
 
-                    Image(painter = rememberAsyncImagePainter(
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(data = "https://firebasestorage.googleapis.com/v0/b/wprk-c6825.appspot.com/o/IMG_4018-removebg-preview%403x.png?alt=media&token=2c203484-1186-4b8e-81c7-5a3186d7640d")
-                            .apply(block = fun ImageRequest.Builder.() {
-                                crossfade(true)
-                            }).build()
-                    ),
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop,
-                        contentDescription = null
+                    Text(
+                        buildAnnotatedString {
+                            withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                                append("WPRK 91.5")
+                            }
+                            withStyle(
+                                style = SpanStyle(
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 13.sp
+                                )
+                            ) {
+                                append("FM")
+                            }
+                        },
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.White,
+                        modifier = Modifier.padding(start = 15.dp)
                     )
-                }
-                Spacer(modifier = Modifier.width(15.dp))
 
-                Column() {
-                    Row(horizontalArrangement = Arrangement.Center) {
-                        Text(
-                            buildAnnotatedString {
-                                withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
-                                    append("WPRK 91.5")
-                                }
-                                withStyle(
-                                    style = SpanStyle(
-                                        fontWeight = FontWeight.ExtraBold,
-                                        fontSize = 13.sp
+
+
+
+                    AnimatedContent(
+                        targetState = count,
+                        transitionSpec = {
+                            if (targetState > initialState) {
+                                slideInHorizontally(
+                                    animationSpec = tween(
+                                        durationMillis = 5000
                                     )
-                                ) {
-                                    append("FM")
-                                }
-                            },
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
-                        )
+                                ) { width -> (width + (width * 0.5)).toInt() } + fadeIn(
+                                    animationSpec = tween(
+                                        durationMillis = 6000,
+                                    )
+                                ) with slideOutHorizontally(
+                                    animationSpec = tween(
+                                        durationMillis = 6000,
+                                    )
+                                ) { width -> -(width + (width.toDouble() * 0.5).toInt()) } + fadeOut(
+                                    animationSpec = tween(
+                                        durationMillis = 5000
+                                    )
+                                )
+                            } else {
+                                slideInHorizontally(
+                                    animationSpec = tween(
+                                        durationMillis = 4000,
+                                    )
+                                ) { width -> -(width + (width.toDouble() * 0.3).toInt()) } + fadeIn(
+                                    animationSpec = tween(
+                                        durationMillis = 5000,
+                                    )
+                                ) with slideOutHorizontally(
+                                    animationSpec = tween(
+                                        durationMillis = 4000,
+                                    )
+                                ) { width -> (width + (width.toDouble() * 0.3).toInt()) } + fadeOut()
+                            }
 
+                        },
+                        modifier = Modifier
+                            .widthIn(min = 50.dp)
+                            .layout { measurable, constraints ->
+                                val r =
+                                    measurable.measure(constraints = constraints.copy(maxWidth = Constraints.Infinity))
+                                layout(r.measuredWidth, r.measuredHeight, placementBlock = {
+                                    r.placeWithLayer(45, 0, 0f) {
+                                    }
+                                })
+                            }
+                            .wrapContentSize(unbounded = true)
+                    ) {
+                        Text(
+                            if (currentTitle == "") "Tune In..." else "$currentTitle",
+                            color = Color.White,
+                            maxLines = 1,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Start
+                        )
                     }
 
-
-                        AnimatedContent(
-                            targetState = count,
-                            transitionSpec = {
-                                if (targetState > initialState) {
-                                    slideInHorizontally(
-                                        animationSpec = tween(
-                                            durationMillis = 9000
-                                        )
-                                    ) { width -> (width + (width * 0.3)).toInt() } + fadeIn(
-                                        animationSpec = tween(
-                                            durationMillis = 9000,
-                                        )
-                                    ) with slideOutHorizontally(
-                                        animationSpec = tween(
-                                            durationMillis = 9000,
-                                        )
-                                    ) { width -> -(width + (width.toDouble() * 0.3).toInt()) } + fadeOut(
-                                        animationSpec = tween(
-                                            durationMillis = 9000,
-                                        )
-                                    )
-                                } else {
-                                    slideInHorizontally(
-                                        animationSpec = tween(
-                                            durationMillis = 9000,
-                                        )
-                                    ) { width -> -(width + (width.toDouble() * 0.3).toInt()) } + fadeIn(
-                                        animationSpec = tween(
-                                            durationMillis = 9000,
-                                        )
-                                    ) with slideOutHorizontally(
-                                        animationSpec = tween(
-                                            durationMillis = 9000,
-                                        )
-                                    ) { width -> (width + (width.toDouble() * 0.3).toInt()) } + fadeOut()
-                                }
-                                    .using(
-                                        SizeTransform(clip = true)
-                                    )
-                            },
-                            modifier = Modifier.fillMaxWidth(0.8f)
+                }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Box(
+                        modifier = Modifier
+                            .background(color = Color(0xFFffafcc).copy(0.5f))
+                            .padding(end = 5.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(45.dp)
+                                .background(color = Color(0xFFffafcc))
+                                .padding(start = 7.dp)
                         ) {
-                            Text(
-                                if (currentTitle == "") "Tune In..." else currentTitle,
-                                color = Color.White,
-                                maxLines = 1,
+                            Image(
+                                painter = rememberAsyncImagePainter(
+                                    ImageRequest.Builder(LocalContext.current)
+                                        .data(data = "https://firebasestorage.googleapis.com/v0/b/wprk-c6825.appspot.com/o/IMG_4018-removebg-preview%403x.png?alt=media&token=2c203484-1186-4b8e-81c7-5a3186d7640d")
+                                        .apply(block = fun ImageRequest.Builder.() {
+                                            crossfade(true)
+                                        }).build()
+                                ),
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop,
+                                contentDescription = null
                             )
                         }
+                    }
+                    Box(
+                        modifier = Modifier
+                            .background(color = Color(0xFFffafcc).copy(0.5f))
+                            .padding(start = 5.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(color = Color(0xFFffafcc))
+                                .padding(start = 7.dp)
+                        ) {
+
+                            IconButton(
+                                onClick = {
+                                    when (player.isPlaying) {
+                                        true -> player.pause()
+                                            .also {
+                                                onPlayerSwitch(false)
+                                                count--
+                                            }
+
+                                        false -> player.play()
+                                            .also {
+                                                onPlayerSwitch(true)
+                                                count++
+                                            }
+                                            .also {
+                                                currentTitle =
+                                                    player.mediaMetadata.title.toString()
+                                            }
+                                            .also { Log.d("MAIN", currentTitle) }
+                                            .also {
+                                                val remoteTitle =
+                                                    player.mediaMetadata.title.toString()
+                                                if (remoteTitle != currentTitle) currentTitle =
+                                                    remoteTitle
+                                            }
+
+                                    }
+                                },
+                                modifier = Modifier
+                                    .offset(x = (-10).dp)
+
+                            ) {
+                                Icon(
+                                    when (isPlaying) {
+                                        true -> Icons.Default.PauseCircle
+                                        false -> Icons.Default.PlayCircle
+                                    },
+                                    "",
+                                    tint = Color.White,
+                                    modifier = Modifier.size(44.dp, 44.dp)
+                                )
+                            }
+                        }
+                    }
 
                 }
+
             }
 
-            IconButton(onClick = {
-                when (player.isPlaying) {
-                    true -> player.pause()
-                        .also {
-                            onPlayerSwitch(false)
-                            count--
-                        }
 
-                    false -> player.play()
-                        .also {
-                            onPlayerSwitch(true)
-                            count++
-                        }
-                        .also { currentTitle = player.mediaMetadata.title.toString() }
-                        .also { Log.d("MAIN", currentTitle) }
-                        .also {
-                            val remoteTitle = player.mediaMetadata.title.toString()
-                            if (remoteTitle != currentTitle) currentTitle = remoteTitle
-                        }
-
-                }
-            }, modifier = Modifier.offset(x = (-10).dp)) {
-                Icon(
-                    when (isPlaying) {
-                        true -> Icons.Default.PauseCircle
-                        false -> Icons.Default.PlayCircle
-                    },
-                    "",
-                    tint = Color.White,
-                    modifier = Modifier.size(44.dp, 44.dp)
-                )
-            }
         }
     }
 

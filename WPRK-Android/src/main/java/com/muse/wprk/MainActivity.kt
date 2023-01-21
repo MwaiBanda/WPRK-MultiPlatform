@@ -67,11 +67,11 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
     lateinit var loudnessEnhancer: LoudnessEnhancer
     @Inject
     lateinit var audioManager: AudioManager
+    private var isPlaying by mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var isPlaying by rememberSaveable { mutableStateOf(false) }
             var currentShow: Show? by rememberSaveable { mutableStateOf(null) }
             var isConnected by remember { mutableStateOf(false) }
             ConnectivityStatus(LocalContext.current).observe(LocalLifecycleOwner.current) {
@@ -168,6 +168,11 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                 }
             }
         }
+        audioManager.requestAudioFocus(
+            this,
+            STREAM_MUSIC,
+            AUDIOFOCUS_GAIN
+        )
     }
 
     private fun onSwitchMediaURL(
@@ -233,12 +238,11 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
 
     override fun onResume() {
         super.onResume()
-        audioManager.requestAudioFocus(
-            this,
-            STREAM_MUSIC,
-            AUDIOFOCUS_GAIN
-        )
         enhanceAudio()
+        if (isPlaying) {
+            player.playWhenReady = true
+            player.play()
+        }
     }
 
     override fun onRestart() {
