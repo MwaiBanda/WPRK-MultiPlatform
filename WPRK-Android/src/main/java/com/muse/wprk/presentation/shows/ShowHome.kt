@@ -260,36 +260,43 @@ fun ShowHome(
 
 
         item {
-            Spacer(modifier = Modifier.height(10.dp))
-            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-            Spacer(modifier = Modifier.height(5.dp))
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
-                    Text(
-                        text = "Scheduled",
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White,
-                        style = MaterialTheme.typography.h5
-                    )
-                    Text(
-                        text = "Listings",
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.Gray,
-                        style = MaterialTheme.typography.h6
-                    )
+            Column {
+
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                Spacer(modifier = Modifier.height(5.dp))
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text(
+                            text = "Scheduled",
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White,
+                            style = MaterialTheme.typography.h5
+                        )
+                        Text(
+                            text = "Listings",
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.Gray,
+                            style = MaterialTheme.typography.h6
+                        )
+                    }
+                    Column(Modifier.padding(end = 10.dp), horizontalAlignment = Alignment.End) {
+                        Text(text = currentDayString, color = Color.Gray)
+                        Text(
+                            text = selectedDateString,
+                            color = Color.Gray,
+                            style = MaterialTheme.typography.caption
+                        )
+                    }
                 }
-                Column(Modifier.padding(end = 10.dp), horizontalAlignment = Alignment.End) {
-                    Text(text = currentDayString, color = Color.Gray)
-                    Text(
-                        text = selectedDateString,
-                        color = Color.Gray,
-                        style = MaterialTheme.typography.caption
-                    )
-                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                Spacer(modifier = Modifier.height(5.dp))
             }
 
         }

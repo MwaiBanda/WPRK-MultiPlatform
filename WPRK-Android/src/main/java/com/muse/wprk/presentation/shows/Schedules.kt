@@ -26,13 +26,8 @@ fun ScheduledShows(
     LazyColumn(state = rememberLazyListState(),
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 300.dp, max = 300.dp)) {
+            .heightIn(min = 285.dp, max = 285.dp)) {
         items(list) { show ->
-            if (show.id == list.first().id) {
-                Spacer(modifier = Modifier.height(5.dp))
-                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-                Spacer(modifier = Modifier.height(10.dp))
-            }
             ScheduleUnit(
                 title = show.title,
                 category = if (show.category == "unset") "WPRK" else show.category ?: "WPRK",
