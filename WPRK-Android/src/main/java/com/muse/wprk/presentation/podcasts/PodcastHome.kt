@@ -83,9 +83,6 @@ fun PodcastHome(
             .padding(start = 10.dp)
     ) {
         item {
-            Spacer(modifier = Modifier.height(5.dp))
-            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-            Spacer(modifier = Modifier.height(5.dp))
             Row(
                 Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -104,7 +101,7 @@ fun PodcastHome(
             }
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(1.dp))
         }
 
             item {
@@ -177,7 +174,7 @@ fun PodcastHome(
                                         25f
                                     )
                                 )
-                                .background(color =  Color.Transparent)
+                                .background(color = Color.Transparent)
                                 .height(65.dp)
                                 .border(
                                     1.dp,
@@ -270,38 +267,42 @@ fun PodcastHome(
         item {
             Spacer(modifier = Modifier.height(10.dp))
         }
-        itemsIndexed(episodes) { i, item ->
-            EpisodeRow(episode = item) { onEpisodeClick(it) }
-            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-            if (item.id == episodes.last().id) {
-                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-                Spacer(modifier = Modifier.height(15.dp))
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            navigateToDetail(
-                                podcasts[currentShow],
-                                getURL(podcasts, currentShow)
+        item {
+            LazyColumn(state = rememberLazyListState(), modifier = Modifier.heightIn(min = 405.dp, max = 405.dp)) {
+                itemsIndexed(episodes) { i, item ->
+                    EpisodeRow(episode = item) { onEpisodeClick(it) }
+                    Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                    if (item.id == episodes.last().id) {
+                        Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                        Spacer(modifier = Modifier.height(15.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    navigateToDetail(
+                                        podcasts[currentShow],
+                                        getURL(podcasts, currentShow)
+                                    )
+                                },
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "${if (podcasts.isEmpty()) 0 else podcasts[currentShow].episodesAvailable} Episodes Available",
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
                             )
-                        },
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = "${if (podcasts.isEmpty()) 0 else podcasts[currentShow].episodesAvailable} Episodes Available",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                    Text(
-                        text = "See More",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        modifier = Modifier.padding(end = 15.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.height(15.dp))
-                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                            Text(
+                                text = "See More",
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                modifier = Modifier.padding(end = 15.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(15.dp))
+                        Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
 
+                    }
+                }
             }
         }
 

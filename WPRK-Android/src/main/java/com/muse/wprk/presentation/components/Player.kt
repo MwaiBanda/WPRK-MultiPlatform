@@ -62,6 +62,18 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
             count++
         }
     }
+    LaunchedEffect(key1 = isPlaying, block = {
+        if (isPlaying) {
+            count--
+            val remoteTitle = player.mediaMetadata.title.toString()
+            if (remoteTitle != currentTitle && player.mediaMetadata.title.isNullOrEmpty().not()) currentTitle = remoteTitle
+        } else {
+            count++
+
+        }
+
+
+    })
     Column(
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.Start,
@@ -147,7 +159,6 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                                     )
                                 ) { width -> (width + (width.toDouble() * 0.3).toInt()) } + fadeOut()
                             }
-
                         },
                         modifier = Modifier
                             .widthIn(min = 50.dp)
@@ -175,13 +186,16 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                     Box(
                         modifier = Modifier
                             .background(color = Color(0xFFffafcc).copy(0.5f))
-                            .padding(end = 5.dp)
+                            .padding(end = 5.dp),
+                        contentAlignment = Alignment.Center
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(45.dp)
+                                .width(45.dp)
+                                .height(55.dp)
                                 .background(color = Color(0xFFffafcc))
-                                .padding(start = 7.dp)
+                                .padding(start = 7.dp),
+                            contentAlignment = Alignment.Center
                         ) {
                             Image(
                                 painter = rememberAsyncImagePainter(
@@ -191,7 +205,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                                             crossfade(true)
                                         }).build()
                                 ),
-                                modifier = Modifier.fillMaxSize(),
+                                modifier = Modifier.size(45.dp),
                                 contentScale = ContentScale.Crop,
                                 contentDescription = null
                             )
@@ -200,12 +214,14 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                     Box(
                         modifier = Modifier
                             .background(color = Color(0xFFffafcc).copy(0.5f))
-                            .padding(start = 5.dp)
+                            .padding(start = 5.dp),
+                        contentAlignment = Alignment.Center
                     ) {
                         Box(
                             modifier = Modifier
                                 .background(color = Color(0xFFffafcc))
-                                .padding(start = 7.dp)
+                                .padding(start = 7.dp),
+                            contentAlignment = Alignment.Center
                         ) {
 
                             IconButton(
@@ -214,25 +230,20 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                                         true -> player.pause()
                                             .also {
                                                 onPlayerSwitch(false)
-                                                count--
                                             }
 
                                         false -> player.play()
                                             .also {
                                                 onPlayerSwitch(true)
-                                                count++
                                             }
-                                            .also {
-                                                currentTitle =
-                                                    player.mediaMetadata.title.toString()
-                                            }
-                                            .also { Log.d("MAIN", currentTitle) }
                                             .also {
                                                 val remoteTitle =
                                                     player.mediaMetadata.title.toString()
                                                 if (remoteTitle != currentTitle) currentTitle =
                                                     remoteTitle
                                             }
+                                            .also { Log.d("MAIN", currentTitle) }
+
 
                                     }
                                 },

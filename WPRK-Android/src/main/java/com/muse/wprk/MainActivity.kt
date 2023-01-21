@@ -8,9 +8,11 @@ import android.media.AudioManager.*
 import android.media.audiofx.LoudnessEnhancer
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
@@ -168,6 +170,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                 }
             }
         }
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         audioManager.requestAudioFocus(
             this,
             STREAM_MUSIC,
@@ -238,11 +241,18 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
 
     override fun onResume() {
         super.onResume()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         enhanceAudio()
         if (isPlaying) {
             player.playWhenReady = true
             player.play()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     override fun onRestart() {

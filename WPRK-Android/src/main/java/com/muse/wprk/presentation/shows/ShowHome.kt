@@ -114,9 +114,6 @@ fun ShowHome(
     ) {
 
         item {
-            Spacer(modifier = Modifier.height(5.dp))
-            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-            Spacer(modifier = Modifier.height(5.dp))
             Row(
                 Modifier.fillMaxSize(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -131,7 +128,7 @@ fun ShowHome(
                     )
                     Text(text = "Tap Scheduled Shows ", color = Color.Gray)
                 }
-                LiveButton(Modifier.offset(y= 3.dp), onSwitchToDefault)
+                LiveButton(Modifier.offset(y = 3.dp), onSwitchToDefault)
             }
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
@@ -141,7 +138,7 @@ fun ShowHome(
         item {
             LazyRow(state = showState, modifier = Modifier.fillMaxWidth()) {
                 if (shows.isEmpty()) {
-                    itemsIndexed(MutableList(12){ return@MutableList 0 }) { i, _ ->
+                    itemsIndexed(MutableList(12) { return@MutableList 0 }) { i, _ ->
                         if (i != 0) Spacer(modifier = Modifier.width(10.dp))
                         Box(
                             modifier = Modifier
@@ -266,7 +263,11 @@ fun ShowHome(
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(5.dp))
-            Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Column {
                     Text(
                         text = "Scheduled",
@@ -281,7 +282,7 @@ fun ShowHome(
                         style = MaterialTheme.typography.h6
                     )
                 }
-                Column(Modifier.padding(end = 10.dp),horizontalAlignment = Alignment.End) {
+                Column(Modifier.padding(end = 10.dp), horizontalAlignment = Alignment.End) {
                     Text(text = currentDayString, color = Color.Gray)
                     Text(
                         text = selectedDateString,
@@ -293,8 +294,13 @@ fun ShowHome(
 
         }
         item {
-            ScheduledShows(list = if (scheduledShows.isEmpty()) empty else scheduledShows, onShowSetScheduleClick)
-
+            ScheduledShows(
+                list = if (scheduledShows.isEmpty()) empty else scheduledShows,
+                onShowSetScheduleClick
+            ) {
+                onShowClick(it)
+                navController.navigate("sDetail")
+            }
         }
     }
 }
@@ -303,7 +309,12 @@ fun ShowHome(
 @Composable
 fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black, Color.LightGray))
-    ShowHome(rememberNavController(), gradient = Color.Black, showsViewModel = hiltViewModel<ShowViewModel>(), onShowClick = {} , onShowSetScheduleClick = { _, _ -> }) {
+    ShowHome(
+        rememberNavController(),
+        gradient = Color.Black,
+        showsViewModel = hiltViewModel<ShowViewModel>(),
+        onShowClick = {},
+        onShowSetScheduleClick = { _, _ -> }) {
 
     }
 }

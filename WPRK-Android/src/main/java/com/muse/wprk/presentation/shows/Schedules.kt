@@ -1,10 +1,10 @@
 package com.muse.wprk.presentation.shows
 
 import android.content.Context
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,10 +17,17 @@ import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.presentation.ScheduleUnit
 
 @Composable
-fun ScheduledShows(list: List<Show>, onShowSetScheduleClick: (Context, Show) -> Unit) {
+fun ScheduledShows(
+    list: List<Show>,
+    onShowSetScheduleClick: (Context, Show) -> Unit,
+    onShowSelectedClick: (Show) -> Unit
+) {
     val context = LocalContext.current
-    Column(Modifier.fillMaxWidth()) {
-        list.forEach { show ->
+    LazyColumn(state = rememberLazyListState(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 300.dp, max = 300.dp)) {
+        items(list) { show ->
             if (show.id == list.first().id) {
                 Spacer(modifier = Modifier.height(5.dp))
                 Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
@@ -29,8 +36,9 @@ fun ScheduledShows(list: List<Show>, onShowSetScheduleClick: (Context, Show) -> 
             ScheduleUnit(
                 title = show.title,
                 category = if (show.category == "unset") "WPRK" else show.category ?: "WPRK",
-                time = show.getTime(showTime = ShowTime.START).toString(),
-                onShowSetScheduleClick = { onShowSetScheduleClick(context, show) }
+                time = show.getTime(showTime = ShowTime.START),
+                onShowSelectedClick = { onShowSelectedClick(show) },
+            onShowSetScheduleClick = { onShowSetScheduleClick(context, show) }
             )
             if (show.id != list.last().id) {
                 Spacer(modifier = Modifier.height(10.dp))
