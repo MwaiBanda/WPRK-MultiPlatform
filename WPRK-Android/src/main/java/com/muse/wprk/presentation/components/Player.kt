@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PauseCircle
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,8 +47,8 @@ import kotlinx.coroutines.delay
 @OptIn(ExperimentalAnimationApi::class, ExperimentalCoilApi::class)
 @Composable
 fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) -> Unit) {
-    var currentTitle by remember { mutableStateOf("") }
-    var count by remember { mutableStateOf(0) }
+    var currentTitle by rememberSaveable { mutableStateOf("") }
+    var count by rememberSaveable { mutableStateOf(0) }
 
     val onMediaMetadataChanged: (MediaMetadata) -> Unit = { mediaMetadata ->
         if (mediaMetadata.title != null) {
@@ -161,7 +162,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                             }
                         },
                         modifier = Modifier
-                            .widthIn(min = 50.dp)
+                            .widthIn(300.dp)
                             .layout { measurable, constraints ->
                                 val r =
                                     measurable.measure(constraints = constraints.copy(maxWidth = Constraints.Infinity))
@@ -170,7 +171,6 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                                     }
                                 })
                             }
-                            .wrapContentSize(unbounded = true)
                     ) {
                         Text(
                             if (currentTitle == "") "Tune In..." else "$currentTitle",
@@ -185,7 +185,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Box(
                         modifier = Modifier
-                            .background(color = Color(0xFFffafcc).copy(0.5f))
+                            .background(color = Color.Transparent)
                             .padding(end = 5.dp),
                         contentAlignment = Alignment.Center
                     ) {
@@ -193,7 +193,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                             modifier = Modifier
                                 .width(45.dp)
                                 .height(55.dp)
-                                .background(color = Color(0xFFffafcc))
+                                .background(color = Color(0xFFffafcc).copy(0.5f))
                                 .padding(start = 7.dp),
                             contentAlignment = Alignment.Center
                         ) {

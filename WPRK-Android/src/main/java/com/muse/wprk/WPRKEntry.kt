@@ -26,7 +26,7 @@ fun WPRKEntry(
     isPlaying: Boolean,
     isConnected: Boolean,
     onPlayPauseClick: (Boolean) -> Unit,
-    content: @Composable (NavHostController, PaddingValues) -> Unit
+    content: @Composable (NavHostController, ScaffoldState, PaddingValues) -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
@@ -34,8 +34,7 @@ fun WPRKEntry(
     SideEffect {
         systemUiController.setSystemBarsColor(color = Color.Black, darkIcons = useDarkIcons)
     }
-    val scaffoldState =
-        rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -59,7 +58,7 @@ fun WPRKEntry(
                         navController = navController,
                         paddingValues = it
                     ) { navController, innerPadding ->
-                        content(navController, innerPadding)
+                        content(navController, scaffoldState, innerPadding)
                     }
                 }
             )

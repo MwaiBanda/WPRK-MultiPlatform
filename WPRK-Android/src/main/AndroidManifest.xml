@@ -15,11 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.WPRK_concept">
+        android:theme="@style/Theme.WPRK">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.WPRK_concept.NoActionBar">
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:theme="@style/Theme.WPRK.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

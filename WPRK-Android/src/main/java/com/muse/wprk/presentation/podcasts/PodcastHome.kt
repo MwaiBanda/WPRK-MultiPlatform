@@ -101,7 +101,7 @@ fun PodcastHome(
             }
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-            Spacer(modifier = Modifier.height(1.dp))
+            Spacer(modifier = Modifier.height(10.dp))
         }
 
             item {
@@ -262,6 +262,7 @@ fun PodcastHome(
             }
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+
         }
 
         item {

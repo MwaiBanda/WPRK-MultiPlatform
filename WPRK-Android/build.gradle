@@ -14,8 +14,8 @@ android {
         applicationId "com.muse.wprk"
         minSdk 21
         targetSdk 31
-        versionCode 10
-        versionName "1.0.9"
+        versionCode 13
+        versionName "1.1.2"
 
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "com.muse.wprk.HiltTestRunner"
@@ -93,7 +93,7 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     implementation 'com.google.dagger:dagger:2.43'
     kapt 'com.google.dagger:dagger-compiler:2.43'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
 
     //Unit Testing
