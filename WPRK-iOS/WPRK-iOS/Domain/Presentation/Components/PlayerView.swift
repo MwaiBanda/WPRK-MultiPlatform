@@ -15,13 +15,14 @@ struct PlayerView: View {
    @State private var playing = false
 
     var body: some View {
-        HStack{
+        HStack(alignment: .center){
          Image("WPRKWhite")
                 .resizable()
-                .frame(width: 50, height: 50, alignment: .center)
+                .frame(width: 49, height: 49, alignment: .center)
                 .cornerRadius(10)
-                .padding()
-            .offset(y: 4)
+                .padding([.top, .bottom], 10)
+                .padding(.leading, 8)
+                .offset(y: 3)
 
             VStack {
                 HStack {
@@ -36,13 +37,14 @@ struct PlayerView: View {
                  Spacer()
                     
                 }
-                .offset(y: 14)
+                .offset(y: 12)
                 VStack {
                     MarqueeText(
                         text: $streamer.displayTitle)
                         .foregroundColor(.white)
-            
+                        .frame(maxWidth: .infinity)
                 }
+                Spacer()
             }
             
             Spacer()
@@ -69,7 +71,7 @@ struct PlayerView: View {
                 }.padding(.trailing)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: 70)
+        .frame(maxWidth: .infinity, maxHeight: 65)
         .background(Color(hex: 0xffafcc))
         .cornerRadius(10)
         .overlay(

@@ -53,7 +53,7 @@ struct MarqueeText: View {
                         .modifier(self.makeSlidingEffect().ignoredByLayout())
                         .animation(repeated, value: self.leftMost)
                         .clipped(antialiased: true)
-                        .offset(y: -8)//Text with animation
+                        .offset(y: -8)//Text with animation'
                 }
                 else {
                     HStack {

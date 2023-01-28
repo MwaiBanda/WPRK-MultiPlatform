@@ -127,6 +127,9 @@ struct MembershipHome: View {
         .padding(.top, 5)
         .foregroundColor(.white)
         .background(Color.white.opacity(0).ignoresSafeArea(.all))
+        .onAppear {
+            AppReviewRequest.RequestReviewWhenNeeeded()
+        }
     }
 }
 

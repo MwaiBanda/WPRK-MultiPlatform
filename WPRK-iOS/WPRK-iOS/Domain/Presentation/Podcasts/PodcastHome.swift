@@ -126,10 +126,9 @@ struct PodcastHome: View {
             .background(Color.white.opacity(0).ignoresSafeArea(.all))
             .redacted(reason: podcastViewModel.podcasts.isEmpty ? .placeholder : [])
             .onAppear {
+                AppReviewRequest.RequestReviewWhenNeeeded()
                 DispatchQueue.main.async() {
-                    AppReviewRequest.RequestReviewWhenNeeeded()
                     podcastViewModel.getPodcasts()
-                    
                 }
             }
         }

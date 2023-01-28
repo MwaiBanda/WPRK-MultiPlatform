@@ -1,6 +1,7 @@
 package com.mwaibanda.wprksdk.util
 
 object Constants {
+    const val ANNIVERSARY = "WPRK 70th Anniversary Show"
     const val PODCASTS_KEY = "podcasts"
     const val SHOWS_KEY = "shows"
     const val EPISODE_PREFIX = "ep-"

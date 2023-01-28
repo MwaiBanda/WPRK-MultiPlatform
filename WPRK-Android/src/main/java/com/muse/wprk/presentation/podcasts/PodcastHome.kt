@@ -36,6 +36,7 @@ import com.muse.wprk.presentation.components.LiveButton
 import com.muse.wprk.presentation.podcasts.PodcastViewModel
 import com.muse.wprk.presentation.parse
 import com.muse.wprk.presentation.swapList
+import com.mwaibanda.wprksdk.util.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
@@ -193,7 +194,7 @@ fun PodcastHome(
                         }
                     }
                 } else {
-                itemsIndexed(podcasts) { i, podcast ->
+                itemsIndexed(podcasts.filter { it.title != Constants.ANNIVERSARY }) { i, podcast ->
 
                     if (i != 0) Spacer(modifier = Modifier.width(10.dp))
                     Column(
