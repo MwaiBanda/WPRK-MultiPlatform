@@ -176,7 +176,11 @@ final class WPRKStreamer:  AVPlayer, ObservableObject {
         nowPlayingInfo[MPMediaItemPropertyTitle] = displayTitle
         nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPause ? 0 : 1
-        
+        if let image = UIImage(named: "WPRKBlack") {
+            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { size in
+                return image
+            }
+        }
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C422A0C2991C7590000505E /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 1C422A0B2991C7590000505E /* Introspect */; };
 		1CDAAE2F2976787D00D04D79 /* Show+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDAAE2E2976787D00D04D79 /* Show+Swift.swift */; };
 		638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */; };
 		8112C0EC27CAE867004319EE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8112C0EB27CAE867004319EE /* Launch Screen.storyboard */; };
@@ -120,6 +121,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81635F8227F65D6B00650F7D /* SDWebImageSwiftUI in Frameworks */,
+				1C422A0C2991C7590000505E /* Introspect in Frameworks */,
 				81C9E37827C7F430000E7A06 /* FirebaseAuth in Frameworks */,
 				81721C4627AE273C00C86F65 /* Lottie in Frameworks */,
 				81C9E37627C7F430000E7A06 /* FirebaseAnalytics in Frameworks */,
@@ -380,6 +382,7 @@
 				81C9E37527C7F430000E7A06 /* FirebaseAnalytics */,
 				81C9E37727C7F430000E7A06 /* FirebaseAuth */,
 				81635F8127F65D6B00650F7D /* SDWebImageSwiftUI */,
+				1C422A0B2991C7590000505E /* Introspect */,
 			);
 			productName = "WPRK-iOS";
 			productReference = 81721BE227AE264F00C86F65 /* WPRK.app */;
@@ -435,6 +438,7 @@
 				81721C4427AE273C00C86F65 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				81C9E37427C7F430000E7A06 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				81635F8027F65D6A00650F7D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				1C422A0A2991C7590000505E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 81721BE327AE264F00C86F65 /* Products */;
 			projectDirPath = "";
@@ -678,7 +682,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "WPRK-iOS/WPRK-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
@@ -699,7 +703,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.6;
+				MARKETING_VERSION = 0.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -716,7 +720,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "WPRK-iOS/WPRK-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WPRK-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 2HB3YHCHVH;
 				ENABLE_PREVIEWS = YES;
@@ -737,7 +741,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.6;
+				MARKETING_VERSION = 0.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -817,6 +821,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1C422A0A2991C7590000505E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.1.4;
+			};
+		};
 		81635F8027F65D6A00650F7D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
@@ -844,6 +856,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1C422A0B2991C7590000505E /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1C422A0A2991C7590000505E /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
 		81635F8127F65D6B00650F7D /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81635F8027F65D6A00650F7D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;

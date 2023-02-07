@@ -67,7 +67,7 @@ struct PlayerView: View {
                             "play.circle.fill")
                         .resizable()
                         .foregroundColor(.white)
-                        .frame(width: 45, height: 45)
+                        .frame(width: 37, height: 37)
                 }.padding(.trailing)
             }
         }

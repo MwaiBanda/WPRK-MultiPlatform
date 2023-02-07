@@ -35,94 +35,109 @@ struct MembershipHome: View {
         BusinessDeal(category: "CAFÉ", title: "Blackbird Comics & Coffeehouse", description: "10% off your purchase (cannot be combined with other discounts)", contact: "(321)316-4296", address: "500 E Horatio Ave, Ste 3, Maitland, FL 32751"),
         BusinessDeal(category: "FOOD", title: "Karina's Confectioneries", description: "$5 off any purchase of $75 or more and $10 off $150 or more for current WRK members (cannot be combined with other discounts)", contact: "hello@karinasconfectioneries.com", address: "3201 Corrine Dr, Orlando, FL 32803"),
         BusinessDeal(category: "CAFÉ", title: "KOS Coffee & Bodega", description: "Free Coffee (Drip, Espresso Based Drink, or Cold Brew)", contact: "info@choosekos.com", address: "129 W Fairbanks Ave, Winter Park, FL 32789"),
-
+        
     ]
     @State private var selected = "Account"
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack{
-             
-        VStack(alignment: .leading) {
-            HStack {
-                Text("Membership")
-                    .font(.title)
-                    .fontWeight(.heavy)
-                    .offset(y: -10)
-
-                Spacer()
-                LiveButton(streamer: streamer)
-
-            }
-            Text("Sign Up For WPRK")
-                .offset(y: -30)
-                .foregroundColor(.gray)
-        }.offset(y: 10)
-                Divider().background(Color(.lightGray))
-                    .offset(y: -15)
-            ZStack(alignment: .center) {
-            HStack {
-                Image("Card")
-                    .resizable()
-                    .cornerRadius(10)
-                    .frame(maxWidth: DeviceType.deviceIsPad ?  450 : screenBounds.width - 30, minHeight: 220, maxHeight: 220, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .foregroundColor(.gray)
-            }
-                VStack {
-                    Spacer()
-                    HStack {
-                        Button(action: { withAnimation(.spring()){
-                            guard let url = URL(string: "https://securelb.imodules.com/s/1282/giving/index.aspx?sid=1282&gid=1&pgid=1418&cid=2828&dids=95") else { return }
-                                UIApplication.shared.open(url)
-                        }
-                            let haptic = UIImpactFeedbackGenerator(style: .heavy)
-                            haptic.impactOccurred()
-                        } ){
-                            HStack(alignment: .lastTextBaseline) {
-                                Spacer()
-                                Text("Don't have membership? ")
-                                    .font(Font.subheadline.weight(.light)) +
-                                    Text("Register here")
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color(hex: 0xffafcc))
-                                Image(systemName: "hand.tap")
-                                    .font(Font.subheadline.weight(.light))
-                                Spacer()
-                            }.font(.caption)
-                            .foregroundColor(Color.white)
-                            .padding()
-                            
-
-                            
-                            
-                        }
-                     
-                    }
-                }
-            }
-                VStack(alignment: .leading) {
-            HStack {
-                Text("Featured Deals")
-                    .font(.title)
-                    .fontWeight(.heavy)
-                Spacer()
             
-                
-            }
-            Text("Discover Deals & Discounts Available Locally")
-                .foregroundColor(.gray)
-                }
-            Divider().background(Color(.lightGray))
-                ScrollView(showsIndicators: false) {
+            LazyVStack(pinnedViews: [.sectionHeaders]) {
+                Section {
                     
+                    
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Membership")
+                                .font(.title)
+                                .fontWeight(.heavy)
+                                .offset(y: -10)
+                            
+                            Spacer()
+                            LiveButton(streamer: streamer)
+                            
+                        }
+                        Text("Sign Up For WPRK")
+                            .offset(y: -30)
+                            .foregroundColor(.gray)
+                    }.offset(y: 10)
+                    Divider().background(Color(.lightGray))
+                        .offset(y: -15)
+                    ZStack(alignment: .center) {
+                        HStack {
+                            Image("Card")
+                                .resizable()
+                                .cornerRadius(10)
+                                .frame(maxWidth: DeviceType.deviceIsPad ?  450 : screenBounds.width - 30, minHeight: 220, maxHeight: 220, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                                .foregroundColor(.gray)
+                        }
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Button(action: { withAnimation(.spring()){
+                                    guard let url = URL(string: "https://securelb.imodules.com/s/1282/giving/index.aspx?sid=1282&gid=1&pgid=1418&cid=2828&dids=95") else { return }
+                                    UIApplication.shared.open(url)
+                                }
+                                    let haptic = UIImpactFeedbackGenerator(style: .heavy)
+                                    haptic.impactOccurred()
+                                } ){
+                                    HStack(alignment: .lastTextBaseline) {
+                                        Spacer()
+                                        Text("Don't have membership? ")
+                                            .font(Font.subheadline.weight(.light)) +
+                                        Text("Register here")
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color(hex: 0xffafcc))
+                                        Image(systemName: "hand.tap")
+                                            .font(Font.subheadline.weight(.light))
+                                        Spacer()
+                                    }.font(.caption)
+                                        .foregroundColor(Color.white)
+                                        .padding()
+                                    
+                                    
+                                    
+                                    
+                                }
+                                
+                            }
+                        }
+                    }
+                    
+                }
+                Section {
+                    
+                    ScrollView(showsIndicators: false) {
+                        
+                        
+                        ForEach(deals, id: \.id) { deal in
+                            ContentRow(business: deal)
+                            Divider().background(Color(.lightGray))
+                            
+                        }
+                    }
+                    
+                } header: {
+                    
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Featured Deals")
+                                .font(.title)
+                                .fontWeight(.heavy)
+                            Spacer()
+                            
+                            
+                        }
+                        Text("Discover Deals & Discounts Available Locally")
+                            .foregroundColor(.gray)
+                        Divider().background(Color(.lightGray))
+                        
+                    }
+                    .background(Color(.black))
+                    
+                }
                 
-            ForEach(deals, id: \.id) { deal in
-                ContentRow(business: deal)
-                Divider().background(Color(.lightGray))
-
+                Spacer()
             }
-                }.frame(height: DeviceType.deviceIsPad ? .infinity : (DeviceType.iPhone678  ||  DeviceType.iPhone12 || DeviceType.iPhoneX ? screenBounds.height - screenBounds.height * 0.43  : DeviceType.iPhone678p ? screenBounds.height - screenBounds.height * 0.4 : screenBounds.height - screenBounds.height * 0.385))
-            Spacer()
-        }
         }
         .padding(.top, 5)
         .foregroundColor(.white)
