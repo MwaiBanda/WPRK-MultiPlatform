@@ -1,10 +1,7 @@
 package com.muse.wprk.main
 
 import android.util.Log
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
 import com.mwaibanda.wprksdk.main.model.Episode
@@ -42,6 +38,7 @@ import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PodcastHome(
     navController: NavHostController,
@@ -54,8 +51,8 @@ fun PodcastHome(
     val lifecycle = LocalLifecycleOwner.current
     val mainColumnState = rememberLazyListState()
     val scheduleState = rememberLazyListState()
-    var currentShow by remember { mutableStateOf(0) }
-    var previousTab by remember { mutableStateOf(0) }
+    var selectedTabIndex by remember { mutableStateOf(0) }
+    var previousTabIndex by remember { mutableStateOf(0) }
     var isTabingForward by remember { mutableStateOf(false) }
     var episodes = remember { mutableStateListOf<Episode>() }
 
@@ -65,7 +62,7 @@ fun PodcastHome(
     LaunchedEffect(key1 = Unit) {
         podcastViewModel.getPodcasts {
             if (podcastViewModel.podcasts.value.orEmpty().isNotEmpty()) {
-                podcastViewModel.getFeaturedEpisodes(podcasts[currentShow].id)
+                podcastViewModel.getFeaturedEpisodes(podcasts[selectedTabIndex].id)
             }
         }
     }
@@ -148,10 +145,15 @@ fun PodcastHome(
 
                 }
             }
+item {
+    Spacer(modifier = Modifier.height(10.dp))
+
+}
+        stickyHeader {
+
+    Column(Modifier.background(Color.Black)) {
 
 
-        item {
-            Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Featured Episodes",
                 fontWeight = FontWeight.ExtraBold,
@@ -162,8 +164,7 @@ fun PodcastHome(
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(10.dp))
-        }
-        item {
+
             LazyRow(state = scheduleState, modifier = Modifier.fillMaxWidth()) {
                 if (podcasts.isEmpty()) {
                     itemsIndexed(MutableList(12){ return@MutableList 0 }) { i, _ ->
@@ -194,33 +195,33 @@ fun PodcastHome(
                         }
                     }
                 } else {
-                itemsIndexed(podcasts.filter { it.title != Constants.ANNIVERSARY }) { i, podcast ->
+                itemsIndexed(podcasts.filter { it.title != Constants.ANNIVERSARY }) { currentTabIndex, podcast ->
 
-                    if (i != 0) Spacer(modifier = Modifier.width(10.dp))
+                    if (currentTabIndex != 0) Spacer(modifier = Modifier.width(10.dp))
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier.clickable {
-                            currentShow = podcasts.indexOf(podcast)
-                            Log.d("MAIN", "[INDEX] $currentShow")
+                        selectedTabIndex = currentTabIndex
+                            Log.d("MAIN", "[INDEX] $currentTabIndex")
                             podcastViewModel.getFeaturedEpisodes(podcast.id)
                             coroutineScope.launch {
-                                if (previousTab < currentShow) {
+                                if (previousTabIndex < currentTabIndex) {
                                     isTabingForward = true
-                                    previousTab = currentShow
+                                    previousTabIndex = currentTabIndex
                                 } else {
                                     isTabingForward = false
-                                    previousTab = currentShow
+                                    previousTabIndex = currentTabIndex
                                 }
                                 if (isTabingForward) {
                                     when {
-                                        i > 1 || i == 1 -> {
-                                            scheduleState.animateScrollToItem(index = i)
+                                        currentTabIndex >= 1 -> {
+                                            scheduleState.animateScrollToItem(index = currentTabIndex)
                                         }
                                     }
                                 } else {
                                     when {
-                                        i > 1 || i == 1 -> {
-                                            scheduleState.animateScrollToItem(index = i - 1)
+                                        currentTabIndex >= 1 -> {
+                                            scheduleState.animateScrollToItem(index = currentTabIndex - 1)
                                         }
                                     }
                                 }
@@ -235,14 +236,14 @@ fun PodcastHome(
                                     )
                                 )
                                 .background(
-                                    color = if (currentShow == i) Color.Transparent else Color.parse(
+                                    color = if (currentTabIndex == selectedTabIndex) Color.Transparent else Color.parse(
                                         "#ffafcc"
                                     )
                                 )
                                 .height(65.dp)
                                 .border(
                                     1.dp,
-                                    color = if (currentShow == i) Color.Black else Color.White,
+                                    color = if (currentTabIndex == selectedTabIndex) Color.Black else Color.White,
                                     RoundedCornerShape(25f)
                                 )
                                 .padding(horizontal = 15.dp),
@@ -257,56 +258,59 @@ fun PodcastHome(
                         }
                     }
 
-                    if (i == 6) Spacer(modifier = Modifier.width(10.dp))
+                    if (currentTabIndex == 6) Spacer(modifier = Modifier.width(10.dp))
                 }
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
             Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
 
-        }
-
-        item {
             Spacer(modifier = Modifier.height(10.dp))
-        }
-        item {
-            LazyColumn(state = rememberLazyListState(), modifier = Modifier.heightIn(min = 405.dp, max = 405.dp)) {
-                itemsIndexed(episodes) { i, item ->
-                    EpisodeRow(episode = item) { onEpisodeClick(it) }
-                    Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-                    if (item.id == episodes.last().id) {
-                        Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-                        Spacer(modifier = Modifier.height(15.dp))
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    navigateToDetail(
-                                        podcasts[currentShow],
-                                        getURL(podcasts, currentShow)
-                                    )
-                                },
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = "${if (podcasts.isEmpty()) 0 else podcasts[currentShow].episodesAvailable} Episodes Available",
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            )
-                            Text(
-                                text = "See More",
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White,
-                                modifier = Modifier.padding(end = 15.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(15.dp))
-                        Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
 
+    }
+        }
+            item {
+                Column(Modifier.heightIn(min = 400.dp)) {
+                    episodes.forEachIndexed { i, item ->
+                        EpisodeRow(episode = item) { onEpisodeClick(it) }
+                        Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                        if (item.id == episodes.last().id) {
+                            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                            Spacer(modifier = Modifier.height(15.dp))
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        navigateToDetail(
+                                            podcasts[selectedTabIndex],
+                                            getURL(podcasts, selectedTabIndex)
+                                        )
+                                    },
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "${if (podcasts.isEmpty()) 0 else podcasts[selectedTabIndex].episodesAvailable} Episodes Available",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "See More",
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.White,
+                                    modifier = Modifier.padding(end = 15.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(15.dp))
+                            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+
+                        }
                     }
                 }
             }
-        }
+
+
+
+
 
     }
 }

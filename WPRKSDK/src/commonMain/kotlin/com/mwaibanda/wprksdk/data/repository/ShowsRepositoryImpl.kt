@@ -23,7 +23,7 @@ class ShowsRepositoryImpl(
             val remotePodcasts: ShowResponse = httpClient.get {
                 url("${Constants.SPINITRON_BASE_URL}/shows")
                 parameter("access-token", Constants.SPINITRON_KEY)
-            }.body<ShowsDTO>().collection.map { it.toShow() }
+            }.body<ShowsDTO>().collection?.map { it.toShow() }.orEmpty()
             setShowsUseCase(Constants.SHOWS_KEY, remotePodcasts)
         } catch (e: Exception) {
             return Resource.Error(e.message.toString())

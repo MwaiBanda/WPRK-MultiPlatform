@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DataDTO(
-    val id: String,
-    val type: String
+    val id: String?,
+    val type: String?
 )

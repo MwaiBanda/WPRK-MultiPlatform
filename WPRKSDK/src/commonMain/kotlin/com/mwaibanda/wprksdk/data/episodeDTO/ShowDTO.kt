@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ShowDTO(
-    val data: DataDTO
+    val data: DataDTO?
 )

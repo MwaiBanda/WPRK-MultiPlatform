@@ -41,7 +41,7 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.*
 
-@OptIn(ExperimentalCoilApi::class)
+@OptIn(ExperimentalCoilApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ShowHome(
     navController: NavController,
@@ -177,129 +177,129 @@ fun ShowHome(
                 }
             }
         }
-
         item {
-            Spacer(modifier = Modifier.height(20.dp))
-            Text(
-                text = "Schedule",
-                fontWeight = FontWeight.ExtraBold,
-                style = MaterialTheme.typography.h5,
-                color = Color.White
-            )
-            Text(text = "Tap To See See Scheduled Shows For The Day", color = Color.Gray)
-            Spacer(modifier = Modifier.height(10.dp))
-            Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
             Spacer(modifier = Modifier.height(10.dp))
         }
+        stickyHeader {
 
+        Column(Modifier.background(Color.Black)) {
 
-        item {
-            LazyRow(state = scheduleState, modifier = Modifier.fillMaxWidth()) {
-                itemsIndexed((0..6).toList()) { i, item ->
-                    if (i != 0) Spacer(modifier = Modifier.width(20.dp))
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.clickable {
-                            coroutineScope.launch {
-                                showsViewModel.onSelectedChange(i)
-                                selectedDate = when (i) {
-                                    0 -> {
-                                        mutableStateOf(showsViewModel.currentDay())
+                Text(
+                    text = "Schedule",
+                    fontWeight = FontWeight.ExtraBold,
+                    style = MaterialTheme.typography.h5,
+                    color = Color.White
+                )
+                Text(text = "Tap To See See Scheduled Shows For The Day", color = Color.Gray)
+                Spacer(modifier = Modifier.height(10.dp))
+                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                Spacer(modifier = Modifier.height(10.dp))
+
+                LazyRow(state = scheduleState, modifier = Modifier.fillMaxWidth()) {
+                    itemsIndexed((0..6).toList()) { i, item ->
+                        if (i != 0) Spacer(modifier = Modifier.width(20.dp))
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.clickable {
+                                coroutineScope.launch {
+                                    showsViewModel.onSelectedChange(i)
+                                    selectedDate = when (i) {
+                                        0 -> {
+                                            mutableStateOf(showsViewModel.currentDay())
+                                        }
+                                        else -> {
+                                            mutableStateOf(showsViewModel.getDayByOffset(i.toLong()))
+                                        }
                                     }
-                                    else -> {
-                                        mutableStateOf(showsViewModel.getDayByOffset(i.toLong()))
-                                    }
-                                }
-                                currentDayString = days[i]
-                                selectedDateString = selectedDate.value.toString()
-                                showsViewModel.onScheduleChange(selectedDate.value)
-                                Log.d("MAIN", "[SHOWS] ${scheduledShows}")
-                                Log.d("MAIN", "[SELECTED] $selectedDateString")
-                                when {
-                                    i == 2 -> {
-                                        scheduleState.animateScrollToItem(index = i - 2)
-                                    }
-                                    i > 1 || i == 1 -> {
-                                        scheduleState.animateScrollToItem(index = i - 1)
+                                    currentDayString = days[i]
+                                    selectedDateString = selectedDate.value.toString()
+                                    showsViewModel.onScheduleChange(selectedDate.value)
+                                    Log.d("MAIN", "[SHOWS] ${scheduledShows}")
+                                    Log.d("MAIN", "[SELECTED] $selectedDateString")
+                                    when {
+                                        i == 2 -> {
+                                            scheduleState.animateScrollToItem(index = i - 2)
+                                        }
+                                        i > 1 || i == 1 -> {
+                                            scheduleState.animateScrollToItem(index = i - 1)
+                                        }
                                     }
                                 }
                             }
-                        }
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .background(
-                                    color = if (currentDayString == days[i]) Color.White.copy(
-                                        0.2f
-                                    ) else Color.parse("#ffafcc")
-                                )
-                                .width(90.dp)
-                                .height(90.dp)
-                                .border(
-                                    1.dp,
-                                    color = if (currentDayString == days[i]) Color.Gray else Color.White,
-                                    CircleShape
-                                ),
-                            contentAlignment = Alignment.Center
                         ) {
+                            Box(
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .background(
+                                        color = if (currentDayString == days[i]) Color.White.copy(
+                                            0.2f
+                                        ) else Color.parse("#ffafcc")
+                                    )
+                                    .width(90.dp)
+                                    .height(90.dp)
+                                    .border(
+                                        1.dp,
+                                        color = if (currentDayString == days[i]) Color.Gray else Color.White,
+                                        CircleShape
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = days[item].take(3),
+                                    color = Color.White,
+                                    fontSize = 25.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            Text(text = days[item], color = Color.White)
+                        }
+
+                        if (i == 6) Spacer(modifier = Modifier.width(10.dp))
+                    }
+                }
+
+                Column {
+
+
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
                             Text(
-                                text = days[item].take(3),
+                                text = "Scheduled",
+                                fontWeight = FontWeight.ExtraBold,
                                 color = Color.White,
-                                fontSize = 25.sp,
-                                fontWeight = FontWeight.Bold
+                                style = MaterialTheme.typography.h5
+                            )
+                            Text(
+                                text = "Listings",
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.Gray,
+                                style = MaterialTheme.typography.h6
                             )
                         }
-                        Text(text = days[item], color = Color.White)
+                        Column(Modifier.padding(end = 10.dp), horizontalAlignment = Alignment.End) {
+                            Text(text = currentDayString, color = Color.Gray)
+                            Text(
+                                text = selectedDateString,
+                                color = Color.Gray,
+                                style = MaterialTheme.typography.caption
+                            )
+                        }
                     }
-
-                    if (i == 6) Spacer(modifier = Modifier.width(10.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
+                    Spacer(modifier = Modifier.height(5.dp))
                 }
+
             }
         }
 
-
-        item {
-            Column {
-
-
-                Spacer(modifier = Modifier.height(10.dp))
-                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-                Spacer(modifier = Modifier.height(5.dp))
-                Row(
-                    Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        Text(
-                            text = "Scheduled",
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White,
-                            style = MaterialTheme.typography.h5
-                        )
-                        Text(
-                            text = "Listings",
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.Gray,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-                    Column(Modifier.padding(end = 10.dp), horizontalAlignment = Alignment.End) {
-                        Text(text = currentDayString, color = Color.Gray)
-                        Text(
-                            text = selectedDateString,
-                            color = Color.Gray,
-                            style = MaterialTheme.typography.caption
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(10.dp))
-                Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
-                Spacer(modifier = Modifier.height(5.dp))
-            }
-
-        }
         item {
             ScheduledShows(
                 list = if (scheduledShows.isEmpty()) empty else scheduledShows,

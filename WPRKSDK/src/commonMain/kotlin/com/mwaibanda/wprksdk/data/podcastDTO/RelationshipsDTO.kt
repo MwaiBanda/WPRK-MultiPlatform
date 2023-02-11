@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RelationshipsDTO(
-    val episodes: EpisodesDTO
+    val episodes: EpisodesDTO?
 )

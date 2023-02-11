@@ -7,18 +7,18 @@ import kotlinx.serialization.SerialName
 @kotlinx.serialization.Serializable
 data class ShowDTO(
     @SerialName("_links")
-    val links: LinksDTO,
+    val links: LinksDTO?,
     val category: String? = null,
     val description: String,
     val duration: Int,
     val end: String,
-    val hide_dj: Int,
+    val hide_dj: Int?,
     val id: Int,
     val image: String,
-    val one_off: Boolean,
+    val one_off: Boolean?,
     val since: String? = null,
     val start: String,
-    val timezone: String,
+    val timezone: String?,
     val title: String,
     val url: String
 ) {
@@ -32,7 +32,7 @@ data class ShowDTO(
             image = image,
             since = since,
             start = start,
-            timezone = timezone,
+            timezone = timezone ?: "",
             title = title,
             url = url
         )

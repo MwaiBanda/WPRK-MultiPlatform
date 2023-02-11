@@ -41,9 +41,10 @@ final class PodcastViewModel: ObservableObject {
                                         self.featured.append($0)
                                     }
                                 }
+                            print("Fin")
+
                         } else {
-                            self.episodes +=  Array(Set(data.third as? [Episode] ?? [] + self.episodes))
-                            self.episodes = self.episodes.sorted(by: { return $0.number > $1.number })
+                            self.episodes +=  Array(Set(data.third as? [Episode] ?? [] + self.episodes)).sorted(by: { return $0.number > $1.number })
                         }
                     } else if let error = res.message {
                         print(error)
@@ -70,7 +71,6 @@ final class PodcastViewModel: ObservableObject {
     }
     
     private func getFeatured(showID: String) async {
-        featured.removeAll()
         await fetchEpisodes(isFeatured: true, showID: showID)
     }
     
@@ -84,8 +84,11 @@ final class PodcastViewModel: ObservableObject {
         let group = DispatchGroup()
         group.enter()
         await self.fetchPodcasts()
+        group.leave()
+        group.enter()
         await self.getFeatured(showID: podcasts.first?.id ?? "")
         group.leave()
+
     }
     
     func getPodcasts()  {

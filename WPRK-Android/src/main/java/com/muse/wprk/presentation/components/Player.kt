@@ -87,7 +87,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(65.dp) // ADD Clickable Navigate to Detail
+                .height(55.dp) // ADD Clickable Navigate to Detail
                 .clip(RoundedCornerShape(10.dp))
                 .background(color = Color.parse("#ffafcc"))
                 .border(1.dp, color = Color.White, RoundedCornerShape(10.dp)),
@@ -100,7 +100,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                 modifier = Modifier.fillMaxWidth()
             ) {
 
-                Column(Modifier.padding(start = 35.dp), horizontalAlignment = Alignment.Start) {
+                Column(Modifier.padding(start = 35.dp, top = 6.dp), horizontalAlignment = Alignment.Start) {
 
                     Text(
                         buildAnnotatedString {
@@ -163,6 +163,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                         },
                         modifier = Modifier
                             .widthIn(300.dp)
+                            .offset(y = (-5).dp)
                             .layout { measurable, constraints ->
                                 val r =
                                     measurable.measure(constraints = constraints.copy(maxWidth = Constraints.Infinity))
@@ -185,14 +186,15 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Box(
                         modifier = Modifier
+                            .fillMaxHeight()
                             .background(color = Color.Transparent)
                             .padding(end = 5.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Box(
                             modifier = Modifier
-                                .width(45.dp)
-                                .height(55.dp)
+                                .width(40.dp)
+                                .height(39.dp)
                                 .background(color = Color(0xFFffafcc).copy(0.5f))
                                 .padding(start = 7.dp),
                             contentAlignment = Alignment.Center
@@ -213,6 +215,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                     }
                     Box(
                         modifier = Modifier
+                            .fillMaxHeight()
                             .background(color = Color(0xFFffafcc).copy(0.5f))
                             .padding(start = 5.dp),
                         contentAlignment = Alignment.Center
@@ -258,7 +261,7 @@ fun WPRKPlayer(player: ExoPlayer, isPlaying: Boolean, onPlayerSwitch: (Boolean) 
                                     },
                                     "",
                                     tint = Color.White,
-                                    modifier = Modifier.size(44.dp, 44.dp)
+                                    modifier = Modifier.size(39.dp, 39.dp)
                                 )
                             }
                         }

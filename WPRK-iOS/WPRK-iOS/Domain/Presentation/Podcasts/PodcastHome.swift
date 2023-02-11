@@ -69,7 +69,7 @@ struct PodcastHome: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         if podcastViewModel.featured.isEmpty {
                             ForEach(0..<5, id: \.self) { i in
-                                ContentRow(episode: Episode(id: "", title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ornare dapibus. Cras eu metus scelerisque, ullamcorper ex vestibulum, pretium purus. Ut quis elementum sapien. Phasellus eget magna in nunc pharetra interdum eu id elit. Maecenas sapien lectus, congue ut semper et, malesuada vitae ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", number: 0, duration: "",  episodeURL: ""))
+                                ContentRow(episode: Episode(id: "", title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ornare dapibus. Cras eu metus scelerisque, ullamcorper ex vestibulum, pretium purus. Ut quis elementum sapien. Phasellus eget magna in nunc pharetra interdum eu id elit. Maecenas sapien lectus, congue ut semper et, malesuada vitae ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", number: 0, duration: "",  episodeURL: "", showId: ""))
                                     .redacted(reason: podcastViewModel.featured.isEmpty ? .placeholder : [])
 
                             }
@@ -107,7 +107,7 @@ struct PodcastHome: View {
                             }
                         }
                     }
-                    .frame(minHeight: 500)
+                    .frame(minHeight: 515)
                     
                 } header: {
                     
@@ -194,8 +194,10 @@ struct PodcastTabRow: View {
                                 .onTapGesture {
                                     DispatchQueue.main.async() {
                                         let group = DispatchGroup()
+                                        podcastViewModel.featured.removeAll()
                                         podcastViewModel.currentPage = 1
                                         podcastViewModel.selectedFeatured = i
+                                        
                                         group.enter()
                                         withAnimation(.easeIn(duration: 0.28)) {
                                             if i != podcastViewModel.podcasts.last {

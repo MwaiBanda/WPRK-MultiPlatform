@@ -38,7 +38,7 @@ struct PodcastDetail: View {
                         Divider()
                             .background(Color.gray)
                     }
-                    if podcastViewModel.canLoadMore {
+                    if podcastViewModel.canLoadMore && podcastViewModel.episodes.count > 9 && (podcastViewModel.episodes.last?.number ?? 0) > 1 {
                         Button { podcastViewModel.getEpisodes(showID: podcast.id) } label: {
                             Text("Load more...")
                                 .font(.headline)

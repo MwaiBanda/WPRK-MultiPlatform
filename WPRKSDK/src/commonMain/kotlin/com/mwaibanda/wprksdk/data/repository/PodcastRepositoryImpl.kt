@@ -33,7 +33,7 @@ class PodcastRepositoryImpl(
                 headers {
                     append("x-api-key", Constants.TRANSISTOR_KEY)
                 }
-            }.body<PodcastsDTO>().collection.map { it.toPodcast() }
+            }.body<PodcastsDTO>().collection?.map { it.toPodcast() }.orEmpty()
             setPodcastUseCase(Constants.PODCASTS_KEY, remotePodcasts)
         } catch (e: Exception) {
             return Resource.Error(e.message.toString())
@@ -69,7 +69,7 @@ class PodcastRepositoryImpl(
                 parameter("show_id", "$showID")
                 parameter("pagination[page]", "$pageNumber")
             }.body()
-            val remoteEpisodes = episodesDTO.episodes.map { it.toEpisode() }
+            val remoteEpisodes = episodesDTO.episodes?.map { it.toEpisode() }.orEmpty()
             val newlyCachedEpisodeResource = Triple(
                 (episodesDTO.meta?.currentPage ?: 1) <= (episodesDTO.meta?.totalPages ?: 1),
                 (episodesDTO.meta?.currentPage ?: 1),

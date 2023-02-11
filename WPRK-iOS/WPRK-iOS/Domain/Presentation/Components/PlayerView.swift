@@ -42,7 +42,6 @@ struct PlayerView: View {
                     MarqueeText(
                         text: $streamer.displayTitle)
                         .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
                 }
                 Spacer()
             }

@@ -9,5 +9,6 @@ data class Episode(
     val description: String,
     val number: Int,
     val duration: String,
-    val episodeURL: String
+    val episodeURL: String,
+    val showId: String
 )

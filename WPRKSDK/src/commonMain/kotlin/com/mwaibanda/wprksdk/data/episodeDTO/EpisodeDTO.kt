@@ -5,10 +5,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class EpisodeDTO(
-    val attributes: AttributesDTO? = null,
+    val attributes: AttributesDTO?,
     val id: String,
-    val relationships: RelationshipsDTO? = null,
-    val type: String
+    val relationships: RelationshipsDTO?,
+    val type: String?
 ){
     fun toEpisode(): Episode {
         return  Episode(
@@ -22,7 +22,8 @@ data class EpisodeDTO(
                 ?: "",
             number = attributes?.number ?: 0,
             duration = attributes?.duration_in_mmss ?: "",
-            episodeURL = attributes?.media_url ?: ""
+            episodeURL = attributes?.media_url ?: "",
+            showId = relationships?.show?.data?.id ?: ""
         )
     }
 }

@@ -23,11 +23,12 @@ fun ScheduledShows(
     onShowSelectedClick: (Show) -> Unit
 ) {
     val context = LocalContext.current
-    LazyColumn(state = rememberLazyListState(),
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 285.dp, max = 285.dp)) {
-        items(list) { show ->
+            .heightIn(min = 285.dp)
+    ) {
+        list.forEach { show ->
             ScheduleUnit(
                 title = show.title,
                 category = if (show.category == "unset") "WPRK" else show.category ?: "WPRK",
