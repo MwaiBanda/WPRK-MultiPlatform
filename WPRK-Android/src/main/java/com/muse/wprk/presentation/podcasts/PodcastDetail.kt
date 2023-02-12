@@ -126,7 +126,7 @@ fun PodcastDetail(
         }
         item {
             Column(Modifier.fillMaxWidth()) {
-                AnimatedVisibility(visible = canLoadMore, enter = fadeIn(), exit = fadeOut()) {
+                AnimatedVisibility(visible = canLoadMore && episodes.count() > 9 && episodes.last().number > 1, enter = fadeIn(), exit = fadeOut()) {
                     Column(
                         Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
