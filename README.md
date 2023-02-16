@@ -1,7 +1,6 @@
 # WPRK (Android, iOS & iPadOS)
 Multiplatform Radio &amp; Podcast Streaming App For WPRK, a licensed FCC broadcast station.
-Built in Kotlin Multiplatform Mobile(KMM) w/ SwiftUI & Jetpack Compose, the app allows users to connect to live music streams and cycle through
-podcasts which are playable as well. 
+Built in Kotlin Multiplatform Mobile(KMM) w/ SwiftUI & Jetpack Compose, the app allows users to browse and schedule reminders for shows, connect to live music streams and cycle through podcasts which are playable as well. 
 
 ### Download Via AppStore or PlayStore
 The app's are available for download on the app store & playstore for Android, iPhone & iPad
