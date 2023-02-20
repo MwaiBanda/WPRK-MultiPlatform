@@ -67,7 +67,8 @@ struct ShowHome: View {
                                 }
                             }
                         }
-                    }
+                    }.padding(.bottom, 5)
+
                     
                 }
                 
@@ -110,7 +111,7 @@ struct ShowHome: View {
                                     .fontWeight(.heavy)
                                 Spacer()
                             }
-                            .padding(.top)
+                           
                             Text("Tap To See Shows Scheduled For The Day")
                                 .foregroundColor(.gray)
                         }

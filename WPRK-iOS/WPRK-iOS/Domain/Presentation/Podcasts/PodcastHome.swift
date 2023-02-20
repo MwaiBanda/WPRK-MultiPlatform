@@ -145,6 +145,9 @@ struct PodcastHome: View {
                     podcastViewModel.getPodcasts()
                 }
             }
+            .onDisappear {
+                podcastViewModel.featured = []
+            }
         }
         .sheet(item: $selected) { podcast in
             ContentWrapper(streamer: streamer, navConfig: .detailConfig, navTitle: podcast.title) {
