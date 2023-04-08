@@ -26,33 +26,28 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import coil.transform.RoundedCornersTransformation
-import com.muse.wprk.core.utilities.ShowTime
 import com.mwaibanda.wprksdk.main.model.Show
 import com.muse.wprk.presentation.components.LiveButton
 import com.muse.wprk.presentation.shows.ShowViewModel
 import com.muse.wprk.presentation.shows.ScheduledShows
-import com.mwaibanda.wprksdk.main.model.Episode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import java.util.*
 
-@OptIn(ExperimentalCoilApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShowHome(
     navController: NavController,
-    gradient: Color,
+    background: Color,
     showsViewModel: ShowViewModel,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     onShowClick: (Show) -> Unit,
     onShowSetScheduleClick: (Context, Show) -> Unit,
     onSwitchToDefault: (String) -> Unit
 ) {
-    var days = remember {
+    val days = remember {
         mutableStateListOf(
             "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
         )
@@ -108,7 +103,7 @@ fun ShowHome(
     LazyColumn(
         state = mainColumnState,
         modifier = Modifier
-            .background(gradient)
+            .background(background)
             .fillMaxSize()
             .padding(start = 10.dp),
     ) {
@@ -150,8 +145,7 @@ fun ShowHome(
                     }
                 } else {
                     itemsIndexed(shows) { i, show ->
-                        var imageURL =
-                            URLEncoder.encode(show.image, StandardCharsets.UTF_8.toString())
+
                         if (i != 0) Spacer(modifier = Modifier.width(10.dp))
                         Box {
                             Image(
@@ -318,7 +312,7 @@ fun Preview() {
     val gradient = Brush.verticalGradient(listOf(Color.Black, Color.LightGray))
     ShowHome(
         rememberNavController(),
-        gradient = Color.Black,
+        background = Color.Black,
         showsViewModel = hiltViewModel<ShowViewModel>(),
         onShowClick = {},
         onShowSetScheduleClick = { _, _ -> }) {

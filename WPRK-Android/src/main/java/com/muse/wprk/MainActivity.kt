@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                     composable(ShowHome.route) {
                         ShowHome(
                             navController = navController,
-                            gradient = backgroundColor,
+                            background = backgroundColor,
                             showsViewModel = hiltViewModel(),
                             onShowClick = { currentShow = it },
                             onShowSetScheduleClick = { context, show ->
@@ -157,7 +157,6 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                         )) { backStackEntry ->
 
                         PodcastDetail(
-                            navController = navController,
                             thumbnailURL = backStackEntry.arguments?.getString("imageURL"),
                             showID = backStackEntry.arguments?.getString("showID"),
                             title = backStackEntry.arguments?.getString("title"),
@@ -173,7 +172,7 @@ class MainActivity : ComponentActivity(), OnAudioFocusChangeListener {
                     }
 
                     composable(Membership.route) {
-                        MembershipHome(backgroundColor = backgroundColor) {
+                        MembershipHome {
                             onSwitchMediaURL(it) {
                                 isPlaying = true
                             }

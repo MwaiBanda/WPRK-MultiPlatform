@@ -271,7 +271,7 @@ item {
         }
             item {
                 Column(Modifier.heightIn(min = 400.dp)) {
-                    episodes.forEachIndexed { i, item ->
+                    episodes.forEach { item ->
                         EpisodeRow(episode = item) { onEpisodeClick(it) }
                         Divider(color = Color.Gray.copy(0.3f), thickness = 1.dp)
                         if (item.id == episodes.last().id) {

@@ -11,7 +11,7 @@ import WPRKSDK
 @MainActor
 final class ShowViewModel: ObservableObject {
     @Published var shows = [Show]()
-    @Published var showsScheduled = [Show]()
+    @Published var scheduledShows = [Show]()
     @Published var currentDate = ""
     @Published var currentDay = ""
     @Published var selected: Show? = nil
@@ -21,7 +21,7 @@ final class ShowViewModel: ObservableObject {
             try await WPRK.shared.getShowUseCase.invoke { res in
                 if let shows = res.data {
                     self.shows = shows as? [Show] ?? []
-                    self.showsScheduled = (shows as? [Show] ?? []).filter({ $0.getDate() == self.currentDate})
+                    self.scheduledShows = (shows as? [Show] ?? []).filter({ $0.getDate() == self.currentDate})
                     print(shows)
                 }
             }
@@ -31,7 +31,7 @@ final class ShowViewModel: ObservableObject {
     }
     
     func getShows() {
-        Task.detached {
+        Task { @MainActor in
             await self.getShows()
         }
     }

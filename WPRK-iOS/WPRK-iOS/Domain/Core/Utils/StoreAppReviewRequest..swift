@@ -9,7 +9,7 @@ import SwiftUI
 import StoreKit
 
 enum AppReviewRequest {
-    static var threshold = 8
+    static var threshold = 12
     @AppStorage("runSinceLastRequest")  static var runSinceLastRequest = 0
     @AppStorage("version")  static var version = ""
     

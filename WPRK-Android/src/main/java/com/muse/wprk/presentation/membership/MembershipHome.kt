@@ -42,7 +42,7 @@ import com.mwaibanda.wprksdk.util.businessItems
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MembershipHome(backgroundColor: Color, onLiveButtonClick: (String) -> Unit) {
+fun MembershipHome(onLiveButtonClick: (String) -> Unit) {
     LazyColumn(
         Modifier
             .fillMaxSize()
@@ -124,8 +124,7 @@ fun MembershipHome(backgroundColor: Color, onLiveButtonClick: (String) -> Unit) 
 @Composable
 @Preview
 fun AccountsPreview() {
-    val gradient = Brush.verticalGradient(listOf(Color.Black, Color.LightGray))
-    MembershipHome(backgroundColor = Color.Black) { }
+    MembershipHome { }
 }
 
 fun Color.Companion.parse(colorString: String): Color =

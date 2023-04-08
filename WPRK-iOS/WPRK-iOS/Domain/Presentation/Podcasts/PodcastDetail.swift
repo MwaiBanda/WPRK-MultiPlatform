@@ -17,7 +17,7 @@ struct PodcastDetail: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(spacing: 0) {
-                ImageCover(imageUrl: podcast.thumbnailURL, category: "WPRK")
+                HeroImageGradient(imageUrl: podcast.thumbnailURL, category: "WPRK")
                 
                 VStack {
                     HStack {
@@ -64,36 +64,4 @@ struct PodcastDetail: View {
 
 
 
-struct ImageCover: View {
-    var imageUrl : String
-    var category: String
-    var body: some View {
-        ZStack {
-            WebImage(url: URL(string: imageUrl))
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            Color.black
-            WebImage(url: URL(string: imageUrl))
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .mask(LinearGradient(gradient: Gradient(stops: [.init(color: .clear, location: 0.2), .init(color: .black, location: 0.6)]), startPoint: .bottom, endPoint: .top))
-            VStack {
-                Spacer()
-                HStack {
-                    Text(category)
-                        .foregroundColor(.black)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 15)
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .padding(.leading)
-                    Spacer()
-                    
-                }
-            }.frame(maxHeight: 330)
-            
-        }
-        .frame(maxHeight: 350)
-        .clipped()
-    }
-}
+

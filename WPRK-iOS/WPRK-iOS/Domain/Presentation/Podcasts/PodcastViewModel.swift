@@ -41,7 +41,6 @@ final class PodcastViewModel: ObservableObject {
                                         self.featured.append($0)
                                     }
                                 }
-                            print("Fin")
 
                         } else {
                             self.episodes +=  Array(Set(data.third as? [Episode] ?? [] + self.episodes)).sorted(by: { return $0.number > $1.number })
@@ -75,7 +74,7 @@ final class PodcastViewModel: ObservableObject {
     }
     
     func getFeatured(showID: String) {
-        Task.detached {
+        Task { @MainActor in
             await self.getFeatured(showID: showID)
         }
     }
@@ -92,7 +91,7 @@ final class PodcastViewModel: ObservableObject {
     }
     
     func getPodcasts()  {
-        Task.detached {
+        Task { @MainActor in
             await self.getPodcasts()
         }
     }
@@ -102,7 +101,7 @@ final class PodcastViewModel: ObservableObject {
     }
     
     func getEpisodes(showID: String) {
-        Task.detached {
+        Task { @MainActor in
             await self.getEpisodes(showID: showID)
         }
     }

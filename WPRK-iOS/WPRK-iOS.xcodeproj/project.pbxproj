@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1C422A0C2991C7590000505E /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 1C422A0B2991C7590000505E /* Introspect */; };
+		1C8D9EF729E0FBD300A22698 /* TitledButtonTabRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D9EF629E0FBD300A22698 /* TitledButtonTabRow.swift */; };
+		1C8D9EF929E0FC1500A22698 /* Podcast+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D9EF829E0FC1500A22698 /* Podcast+Swift.swift */; };
+		1C8D9EFB29E0FE9300A22698 /* ScheduleUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D9EFA29E0FE9300A22698 /* ScheduleUnit.swift */; };
+		1C8D9EFD29E0FEE500A22698 /* ExpandableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D9EFC29E0FEE500A22698 /* ExpandableText.swift */; };
+		1C8D9EFF29E0FF4D00A22698 /* HeroImageGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C8D9EFE29E0FF4D00A22698 /* HeroImageGradient.swift */; };
 		1CDAAE2F2976787D00D04D79 /* Show+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDAAE2E2976787D00D04D79 /* Show+Swift.swift */; };
 		638420982446B18965EA78B6 /* Pods_WPRK_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */; };
 		8112C0EC27CAE867004319EE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8112C0EB27CAE867004319EE /* Launch Screen.storyboard */; };
@@ -67,6 +72,11 @@
 
 /* Begin PBXFileReference section */
 		04211E18AC96ABC55D91E0FA /* Pods_WPRK_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WPRK_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C8D9EF629E0FBD300A22698 /* TitledButtonTabRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitledButtonTabRow.swift; sourceTree = "<group>"; };
+		1C8D9EF829E0FC1500A22698 /* Podcast+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Podcast+Swift.swift"; sourceTree = "<group>"; };
+		1C8D9EFA29E0FE9300A22698 /* ScheduleUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleUnit.swift; sourceTree = "<group>"; };
+		1C8D9EFC29E0FEE500A22698 /* ExpandableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableText.swift; sourceTree = "<group>"; };
+		1C8D9EFE29E0FF4D00A22698 /* HeroImageGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroImageGradient.swift; sourceTree = "<group>"; };
 		1CDAAE2E2976787D00D04D79 /* Show+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Show+Swift.swift"; sourceTree = "<group>"; };
 		8112C0EB27CAE867004319EE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		8112C0ED27CAECE8004319EE /* PodcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodcastViewModel.swift; sourceTree = "<group>"; };
@@ -226,6 +236,7 @@
 				81721BFA27AE26BE00C86F65 /* Date+Swift.swift */,
 				81721BFB27AE26BE00C86F65 /* Color+Swift.swift */,
 				1CDAAE2E2976787D00D04D79 /* Show+Swift.swift */,
+				1C8D9EF829E0FC1500A22698 /* Podcast+Swift.swift */,
 			);
 			path = Exts;
 			sourceTree = "<group>";
@@ -309,6 +320,10 @@
 				81721C1927AE26BE00C86F65 /* ContentRow.swift */,
 				81721C1A27AE26BE00C86F65 /* PlayerView.swift */,
 				81721C1B27AE26BE00C86F65 /* MarqueeText.swift */,
+				1C8D9EF629E0FBD300A22698 /* TitledButtonTabRow.swift */,
+				1C8D9EFA29E0FE9300A22698 /* ScheduleUnit.swift */,
+				1C8D9EFC29E0FEE500A22698 /* ExpandableText.swift */,
+				1C8D9EFE29E0FF4D00A22698 /* HeroImageGradient.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -503,10 +518,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				81721C3B27AE26BE00C86F65 /* LottieView.swift in Sources */,
+				1C8D9EF929E0FC1500A22698 /* Podcast+Swift.swift in Sources */,
 				81721C2927AE26BE00C86F65 /* DeviceSizes.swift in Sources */,
 				81721C4227AE26BE00C86F65 /* MembershipHome.swift in Sources */,
 				81721C3527AE26BE00C86F65 /* ConnectivityWrapper.swift in Sources */,
+				1C8D9EF729E0FBD300A22698 /* TitledButtonTabRow.swift in Sources */,
 				81721C3E27AE26BE00C86F65 /* MarqueeText.swift in Sources */,
+				1C8D9EFF29E0FF4D00A22698 /* HeroImageGradient.swift in Sources */,
 				81721C2C27AE26BE00C86F65 /* StoreAppReviewRequest..swift in Sources */,
 				81721C3627AE26BE00C86F65 /* NavBar.swift in Sources */,
 				81721C2A27AE26BE00C86F65 /* NetworkService.swift in Sources */,
@@ -520,12 +538,14 @@
 				81721C2627AE26BE00C86F65 /* Color+Swift.swift in Sources */,
 				81721C2427AE26BE00C86F65 /* View+Swift.swift in Sources */,
 				81721C2B27AE26BE00C86F65 /* WPRKStreamer.swift in Sources */,
+				1C8D9EFD29E0FEE500A22698 /* ExpandableText.swift in Sources */,
 				81721C3127AE26BE00C86F65 /* ContentView.swift in Sources */,
 				1CDAAE2F2976787D00D04D79 /* Show+Swift.swift in Sources */,
 				81721C4027AE26BE00C86F65 /* ShowDetail.swift in Sources */,
 				81721C3D27AE26BE00C86F65 /* PlayerView.swift in Sources */,
 				81721C3C27AE26BE00C86F65 /* ContentRow.swift in Sources */,
 				81721C3F27AE26BE00C86F65 /* ShowHome.swift in Sources */,
+				1C8D9EFB29E0FE9300A22698 /* ScheduleUnit.swift in Sources */,
 				81721C3827AE26BE00C86F65 /* PodcastDetail.swift in Sources */,
 				81721C3927AE26BE00C86F65 /* PodcastHome.swift in Sources */,
 				81721C2827AE26BE00C86F65 /* Constants.swift in Sources */,
@@ -690,6 +710,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "WPRK-iOS/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = WPRK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
@@ -703,7 +724,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.9;
+				MARKETING_VERSION = 0.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -728,6 +749,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "WPRK-iOS/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = WPRK;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
@@ -741,7 +763,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.9;
+				MARKETING_VERSION = 0.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -9,32 +9,32 @@ data class ShowDTO(
     @SerialName("_links")
     val links: LinksDTO?,
     val category: String? = null,
-    val description: String,
-    val duration: Int,
-    val end: String,
+    val description: String?,
+    val duration: Int?,
+    val end: String?,
     val hide_dj: Int?,
-    val id: Int,
-    val image: String,
+    val id: Int?,
+    val image: String?,
     val one_off: Boolean?,
     val since: String? = null,
-    val start: String,
+    val start: String?,
     val timezone: String?,
-    val title: String,
-    val url: String
+    val title: String?,
+    val url: String?
 ) {
     fun toShow(): Show {
         return Show(
-            id = id,
+            id = id ?: (1000..9999).random(),
             category = category?.replace("unset","WPRK"),
-            description = description,
-            duration = duration,
-            end = end,
-            image = image,
+            description = description ?: "",
+            duration = duration ?: 0,
+            end = end ?: "",
+            image = image ?: "",
             since = since,
-            start = start,
+            start = start ?: "",
             timezone = timezone ?: "",
-            title = title,
-            url = url
+            title = title ?: "",
+            url = url ?: ""
         )
     }
 }

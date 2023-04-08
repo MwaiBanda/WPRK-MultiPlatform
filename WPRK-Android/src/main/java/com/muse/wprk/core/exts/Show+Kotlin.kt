@@ -26,7 +26,6 @@ private fun Show.getDate(showTime: ShowTime): String {
 
 @SuppressLint("SimpleDateFormat")
 fun Show.getTime(showTime: ShowTime): String {
-    val formatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH)
 
     val timeStr = when (showTime) {
         ShowTime.START -> {
@@ -44,7 +43,7 @@ fun Show.getTime(showTime: ShowTime): String {
 
             val res = try {
                 val sdf = SimpleDateFormat("H:mm")
-                val dateObj: Date = sdf.parse(date)
+                val dateObj: Date = sdf.parse(date) ?: Date()
                 SimpleDateFormat("h:mm a").format(dateObj)
             } catch (e: ParseException) {
                 e.printStackTrace()
@@ -56,7 +55,7 @@ fun Show.getTime(showTime: ShowTime): String {
             val date: String = end.drop(11).dropLast(8)
             val res = try {
                 val sdf = SimpleDateFormat("HH:mm")
-                val dateObj: Date = sdf.parse(date)
+                val dateObj: Date = sdf.parse(date) ?: Date()
                 SimpleDateFormat("h:mm a").format(dateObj)
             } catch (e: ParseException) {
                 e.printStackTrace()

@@ -38,7 +38,6 @@ import com.muse.wprk.presentation.swapList
 
 @Composable
 fun PodcastDetail(
-    navController: NavController,
     thumbnailURL: String?,
     showID: String?,
     title: String?,

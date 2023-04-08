@@ -18,7 +18,7 @@ struct PlayerView: View {
         HStack(alignment: .center){
          Image("WPRKWhite")
                 .resizable()
-                .frame(width: 49, height: 49, alignment: .center)
+                .frame(width: 46, height: 46, alignment: .center)
                 .cornerRadius(10)
                 .padding([.top, .bottom], 10)
                 .padding(.leading, 8)

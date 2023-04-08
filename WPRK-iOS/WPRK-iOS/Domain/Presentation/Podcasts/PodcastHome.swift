@@ -14,6 +14,8 @@ import Introspect
 struct PodcastHome: View {
     @ObservedObject var streamer: WPRKStreamer
     @State private var selected: Podcast? = nil
+    @State private var podcasts: [Podcast] = []
+    @State private var featuredEpisodes: [Episode] = []
     @ObservedObject var podcastViewModel: PodcastViewModel
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -37,7 +39,7 @@ struct PodcastHome: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         
                         HStack {
-                            if podcastViewModel.podcasts.isEmpty {
+                            if podcasts.isEmpty {
                                 ForEach(0..<10, id: \.self) { i in
                                     RoundedRectangle(cornerRadius: 10)
                                         .frame(width: 190, height: 200, alignment: .center)
@@ -45,7 +47,7 @@ struct PodcastHome: View {
                                         .redacted(reason: .placeholder)
                                 }
                             } else {
-                                ForEach(podcastViewModel.podcasts, id: \.id) { podcast in
+                                ForEach(podcasts, id: \.id) { podcast in
                                     WebImage(url: URL(string: podcast.thumbnailURL))
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
@@ -53,9 +55,7 @@ struct PodcastHome: View {
                                         .cornerRadius(10)
                                         .foregroundColor(.gray)
                                         .onTapGesture {
-                                            selected = podcast
-                                            podcastViewModel.currentPage = 1
-                                            podcastViewModel.episodes.removeAll()
+                                            onSelectPodcast(podcast: podcast)
                                             let haptic = UIImpactFeedbackGenerator(style: .soft)
                                             haptic.impactOccurred()
                                             
@@ -67,14 +67,14 @@ struct PodcastHome: View {
                 }
                 Section {
                     ScrollView(.vertical, showsIndicators: false) {
-                        if podcastViewModel.featured.isEmpty {
+                        if featuredEpisodes.isEmpty {
                             ForEach(0..<5, id: \.self) { i in
                                 ContentRow(episode: Episode(id: "", title: "Lorem ipsum dolor sit amet", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean laoreet ornare dapibus. Cras eu metus scelerisque, ullamcorper ex vestibulum, pretium purus. Ut quis elementum sapien. Phasellus eget magna in nunc pharetra interdum eu id elit. Maecenas sapien lectus, congue ut semper et, malesuada vitae ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.", number: 0, duration: "",  episodeURL: "", showId: ""))
                                     .redacted(reason: podcastViewModel.featured.isEmpty ? .placeholder : [])
-
+                                
                             }
                         } else {
-                            ForEach(podcastViewModel.featured, id: \.id) { i in
+                            ForEach(featuredEpisodes, id: \.id) { i in
                                 ContentRow(showTitle: podcastViewModel.selectedFeatured?.title, episode: i, streamer: streamer, paddingVertical: 10)
                                 if podcastViewModel.featured.last?.id != i.id {
                                     Divider().background(Color(.lightGray))
@@ -97,7 +97,8 @@ struct PodcastHome: View {
                                     }
                                     .padding(.vertical)
                                     .onTapGesture {
-                                        selected = podcastViewModel.selectedFeatured
+                                        guard let featuredPodcast = podcastViewModel.selectedFeatured else { return }
+                                        onSelectPodcast(podcast: featuredPodcast)
                                         let haptic = UIImpactFeedbackGenerator(style: .soft)
                                         haptic.impactOccurred()
                                     }
@@ -123,16 +124,27 @@ struct PodcastHome: View {
                         Text("Discover Popular Episodes From Our Podcasts")
                             .foregroundColor(.gray)
                         Divider().background(Color(.gray))
-                        PodcastTabRow(podcastViewModel: podcastViewModel)
+                        TitledButtonTabRow(
+                            podcasts: podcasts,
+                            selectedFeatured: podcastViewModel.selectedFeatured,
+                            onTabSelected: { i in
+                                podcastViewModel.featured.removeAll()
+                                podcastViewModel.currentPage = 1
+                                podcastViewModel.selectedFeatured = i
+                                podcastViewModel.getFeatured(showID: i.id)
+                                let haptic = UIImpactFeedbackGenerator(style: .soft)
+                                haptic.impactOccurred()
+                            }
+                        )
                         Divider().background(Color.gray)
                     }
                     .padding(.top, 5)
                     .background(Color(.black))
-
+                    
                 }
-
-            
-               
+                
+                
+                
                 Spacer()
             }
             .padding(.top, 5)
@@ -154,79 +166,21 @@ struct PodcastHome: View {
                 PodcastDetail(podcast: podcast, streamer: streamer, podcastViewModel: podcastViewModel)
             }
         }
+        .onReceive(podcastViewModel.$featured, perform: { featuredEpisodes in
+            self.featuredEpisodes = featuredEpisodes
+        })
+        .onReceive(podcastViewModel.$podcasts, perform: { podcasts in
+            self.podcasts = podcasts
+        })
     }
-}
-
-struct PodcastTabRow: View {
-    @ObservedObject var podcastViewModel: PodcastViewModel
-    var body: some View {
-        
-        ScrollViewReader { value in
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
-                    if podcastViewModel.podcasts.isEmpty {
-                        ForEach(0..<5, id: \.self) { i in
-                            VStack {
-                                Text("Lorem ipsum")
-                                    .fontWeight(.heavy)
-                            }
-                            .padding()
-                            .padding(.horizontal)
-                            .background(Color(hex: 0xffafcc))
-                            .cornerRadius(10)
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 1.5))
-                            .padding(2)
-                            .padding(.trailing)
-                            .redacted(reason: .placeholder)
-                        }
-                    } else {
-                        ForEach(podcastViewModel.podcasts.filter({ $0.title != Constants.ANNIVERSARY }), id: \.id) { i in
-                            HStack {
-                                VStack {
-                                    Text(i.title)
-                                        .fontWeight(.heavy)
-                                    
-                                }
-                                .padding()
-                                .padding(.horizontal)
-                                .background(i.title == podcastViewModel.selectedFeatured?.title  ? Color.clear : Color(hex: 0xffafcc))
-                                .cornerRadius(10)
-                                .overlay(i.title == podcastViewModel.selectedFeatured?.title ? RoundedRectangle(cornerRadius: 10).stroke(Color.clear, lineWidth: 1.5) : RoundedRectangle(cornerRadius: 10).stroke(Color.white, lineWidth: 1.5))
-                                .padding(2)
-                                .padding(.trailing)
-                                .onTapGesture {
-                                    DispatchQueue.main.async() {
-                                        let group = DispatchGroup()
-                                        podcastViewModel.featured.removeAll()
-                                        podcastViewModel.currentPage = 1
-                                        podcastViewModel.selectedFeatured = i
-                                        
-                                        group.enter()
-                                        withAnimation(.easeIn(duration: 0.28)) {
-                                            if i != podcastViewModel.podcasts.last {
-                                                value.scrollTo(i.title , anchor: .center)
-                                            } else {
-                                                value.scrollTo(i.title, anchor: .trailing)
-                                            }
-                                        }
-                                        podcastViewModel.getFeatured(showID: i.id)
-                                        let haptic = UIImpactFeedbackGenerator(style: .soft)
-                                        haptic.impactOccurred()
-                                        group.leave()
-                                    }
-                                }
-                                
-                            }.id(i.title)
-                        }
-                    }
-                }
-                
-            }
-        }
+    private func onSelectPodcast(podcast: Podcast) {
+        selected = podcast
+        podcastViewModel.currentPage = 1
+        podcastViewModel.episodes.removeAll()
     }
 }
 
 
-extension Podcast: Identifiable {
-    
-}
+
+
+

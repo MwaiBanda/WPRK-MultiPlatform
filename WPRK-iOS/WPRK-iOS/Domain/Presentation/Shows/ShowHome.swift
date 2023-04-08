@@ -8,6 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 import AVKit
+import WPRKSDK
 
 struct ShowHome: View {
     @ObservedObject var streamer: WPRKStreamer
@@ -16,8 +17,10 @@ struct ShowHome: View {
     ]
     @StateObject var showViewModel = ShowViewModel()
     @State private var reader: ScrollViewProxy?
-    
-    
+    @State private var selected: Show? = nil
+    @State private var shows: [Show] = []
+    @State private var scheduledShows: [Show] = []
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             LazyVStack(pinnedViews: [.sectionHeaders]) {
@@ -42,7 +45,7 @@ struct ShowHome: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            if showViewModel.shows.isEmpty {
+                            if shows.isEmpty {
                                 ForEach(0..<10, id: \.self) { i in
                                     RoundedRectangle(cornerRadius: 10)
                                         .frame(width: 190, height: 200, alignment: .center)
@@ -50,11 +53,12 @@ struct ShowHome: View {
                                         .redacted(reason: .placeholder)
                                 }
                             } else {
-                                ForEach(showViewModel.shows, id: \.id) { i in
+                                ForEach(shows, id: \.id) { i in
                                     VStack {
                                         WebImage(url: URL(string: i.image))
                                             .resizable()
                                             .onTapGesture {
+                                                selected = i
                                                 showViewModel.selected = i
                                                 let haptic = UIImpactFeedbackGenerator(style: .soft)
                                                 haptic.impactOccurred()
@@ -68,7 +72,7 @@ struct ShowHome: View {
                             }
                         }
                     }.padding(.bottom, 5)
-
+                    
                     
                 }
                 
@@ -77,22 +81,23 @@ struct ShowHome: View {
                     ScrollView(showsIndicators: false) {
                         ScrollViewReader { value in
                             VStack {
-                                if showViewModel.showsScheduled.isEmpty {
+                                if scheduledShows.isEmpty {
                                     ScheduleUnit(title: "Nothing Scheduled", category: "WPRK", startTime: "", endTime:"", currentDate: showViewModel.currentDate)
                                         .id(0)
                                         .padding(.top)
                                     Divider().background(Color(.lightGray))
                                 } else {
-                                    ForEach(Array(showViewModel.showsScheduled.enumerated()), id: \.element) { i, show in
+                                    ForEach(Array(scheduledShows.enumerated()), id: \.element) { i, show in
                                         ScheduleUnit(title: show.title, category: show.category ?? "WPRK", startTime: show.getTime12(time: .START), endTime: show.getTime12(time: .END), currentDate: showViewModel.currentDate)
                                             .id(i)
                                             .padding(.top)
                                             .onTapGesture {
                                                 showViewModel.selected = show
+                                                selected = show
                                                 let haptic = UIImpactFeedbackGenerator(style: .soft)
                                                 haptic.impactOccurred()
                                             }
-                                        if showViewModel.showsScheduled.last?.id != show.id  || showViewModel.showsScheduled.count < 3  {
+                                        if scheduledShows.last?.id != show.id  || scheduledShows.count < 3  {
                                             Divider().background(Color(.lightGray))
                                         }
                                     }
@@ -111,7 +116,7 @@ struct ShowHome: View {
                                     .fontWeight(.heavy)
                                 Spacer()
                             }
-                           
+                            
                             Text("Tap To See Shows Scheduled For The Day")
                                 .foregroundColor(.gray)
                         }
@@ -145,7 +150,7 @@ struct ShowHome: View {
                                                         showViewModel.currentDate = showViewModel.getDayByOffset(offset: i)
                                                     }
                                                     showViewModel.currentDay = days[i]
-                                                    showViewModel.showsScheduled = showViewModel.shows.filter({ $0.getDate() == showViewModel.currentDate})
+                                                    showViewModel.scheduledShows = showViewModel.shows.filter({ $0.getDate() == showViewModel.currentDate})
                                                     
                                                     let haptic =
                                                     UIImpactFeedbackGenerator(style: .soft)
@@ -202,7 +207,7 @@ struct ShowHome: View {
                 Spacer()
             }
         }
-        .redacted(reason: showViewModel.shows.isEmpty ? .placeholder : [])
+        .redacted(reason: shows.isEmpty ? .placeholder : [])
         .padding(.top, 5)
         .foregroundColor(.white)
         .background(Color.white.opacity(0).ignoresSafeArea(.all))
@@ -216,79 +221,21 @@ struct ShowHome: View {
             showViewModel.currentDate = showViewModel.getCurrent()
             showViewModel.currentDay = days.first ?? ""
         }
-        .sheet(item: $showViewModel.selected){ show in
+        .sheet(item: $selected){ show in
             ContentWrapper(streamer: streamer, navConfig: .detailConfig, navTitle: show.title) {
                 ShowDetail(show: show)
             }
         }
-    }
-}
-struct ScheduleUnit: View {
-    var title: String
-    var category: String
-    var startTime: String
-    var endTime: String
-    var currentDate: String
-    var body: some View {
-        HStack(alignment: .lastTextBaseline) {
-            VStack(alignment: .leading) {
-                Text(title)
-                    .fontWeight(.heavy)
-                    .font(.title3)
-                Text(category)
-                    .foregroundColor(.gray)
-                
-            }
-            Spacer()
-            
-            Menu {
-                
-                Button(action: {
-                    let dateAsString = "\(currentDate) \(startTime)"
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "yyyy-MM-dd h:mm a"
-                    
-                    let dueDate = dateFormatter.date(from: dateAsString)
-                    let content = UNMutableNotificationContent()
-                    content.title = "Reminder ⏰"
-                    
-                    let formatter = DateFormatter()
-                    formatter.dateStyle = .full
-                    formatter.timeStyle = .short
-                    content.body = "\(title) is now Live on WPRK 91.5FM"
-                    content.sound = UNNotificationSound.default
-                    
-                    let calendar = Calendar(identifier: .gregorian)
-                    let components = calendar.dateComponents([.month, .day, .hour, .minute], from: dueDate!)
-                    
-                    let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-                    
-                    let request = UNNotificationRequest(identifier: title, content: content, trigger: trigger)
-                    
-                    let center = UNUserNotificationCenter.current()
-                    center.add(request)
-                    let haptic = UINotificationFeedbackGenerator()
-                    haptic.notificationOccurred(.success)
-                }) {
-                    Label("Set Reminder", systemImage: "deskclock")
-                    
-                }
-            } label: {
-                VStack(alignment: .trailing, spacing: 0) {
-                    Image(systemName: "deskclock")
-                        .font(.title2)
-                        .foregroundColor(Color(.lightGray))
-                        .offset(y: 2)
-                        .padding(.bottom, 6)
-                        .opacity(startTime.isEmpty ? 0 : 1)
-                    Text(startTime)
-                        .fontWeight(.bold)
-                }
-                .padding(.trailing)
-            }
+        .onReceive(showViewModel.$shows) { shows in
+            self.shows = shows
+        }
+        .onReceive(showViewModel.$scheduledShows) { scheduledShows in
+            self.scheduledShows = scheduledShows
         }
     }
 }
+
+
 
 
 

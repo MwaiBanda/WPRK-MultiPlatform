@@ -7,7 +7,7 @@ struct MarqueeText: View {
     @State private var w: CGFloat = 0
     @State private var previousText: String = ""
     @State private var contentViewWidth: CGFloat = 0
-    @State private var animationDuration: Double = 7
+    @State private var animationDuration: Double = 4.5
     @Binding var text : String
     
     var body: some View {

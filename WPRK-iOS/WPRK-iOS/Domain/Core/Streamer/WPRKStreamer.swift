@@ -95,7 +95,7 @@ final class WPRKStreamer:  AVPlayer, ObservableObject {
     func initiateStream() {
         player.play()
         isPlaying = true
-        displayTitle = itemTitle
+        displayTitle = itemTitle 
         if showTitle.isEmpty {
             updateNowPlaying(isPause: true)
         } else {

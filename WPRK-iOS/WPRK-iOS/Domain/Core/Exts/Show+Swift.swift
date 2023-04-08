@@ -32,12 +32,12 @@ extension Show: Identifiable {
 
             let date = dateFormatter.date(from: dateAsString)
             dateFormatter.dateFormat = "h:mm a"
-            let Date12Str = dateFormatter.string(from: date!)
-            print("12 hour formatted Date:",Date12Str)
+            let Date12Str = dateFormatter.string(from: date ?? Date())
+//            print("12 hour formatted Date:",Date12Str)
             let Date12 = dateFormatter.date(from: Date12Str)
             let calendar = NSCalendar.autoupdatingCurrent
-            let newDateMinusFive = calendar.date(byAdding: .hour, value: -5, to: Date12!)
-            let newDateStr = dateFormatter.string(from: newDateMinusFive!)
+            let newDateMinusFive = calendar.date(byAdding: .hour, value: -5, to: Date12 ?? Date())
+            let newDateStr = dateFormatter.string(from: newDateMinusFive ?? Date())
             return newDateStr
         case .END:
             let dateAsString = getTime24(time: .END)
@@ -45,12 +45,12 @@ extension Show: Identifiable {
 
             let date = dateFormatter.date(from: dateAsString)
             dateFormatter.dateFormat = "h:mm a"
-            let Date12Str = dateFormatter.string(from: date!)
+            let Date12Str = dateFormatter.string(from: date ?? Date())
 //            print("12 hour formatted Date:",Date12Str)
             let Date12 = dateFormatter.date(from: Date12Str)
             let calendar = NSCalendar.autoupdatingCurrent
-            let newDateMinusFive = calendar.date(byAdding: .hour, value: -5, to: Date12!)
-            let newDateStr = dateFormatter.string(from: newDateMinusFive!)
+            let newDateMinusFive = calendar.date(byAdding: .hour, value: -5, to: Date12 ?? Date())
+            let newDateStr = dateFormatter.string(from: newDateMinusFive ?? Date())
             return newDateStr
         }
     }
@@ -67,12 +67,12 @@ extension Show: Identifiable {
                 
                 let date = dateFormatter.date(from: dateAsString + " " + timeAsString)
                 dateFormatter.dateFormat = "yyyy-MM-dd"
-                let Date12Str = dateFormatter.string(from: date!)
+                let Date12Str = dateFormatter.string(from: date ?? Date())
 //                print("12 hour formatted Date:",Date12Str)
                 let Date12 = dateFormatter.date(from: Date12Str)
                 let calendar = NSCalendar.autoupdatingCurrent
-                let newDateMinusFive = calendar.date(byAdding: .day, value: -1, to: Date12!)
-                let newDateStr = dateFormatter.string(from: newDateMinusFive!)
+                let newDateMinusFive = calendar.date(byAdding: .day, value: -1, to: Date12 ?? Date())
+                let newDateStr = dateFormatter.string(from: newDateMinusFive ?? Date())
                 return newDateStr
             }
         }
@@ -84,7 +84,7 @@ extension Show: Identifiable {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let date = dateFormatter.date(from: dateAsString)
         dateFormatter.dateFormat = "E, d MMM yyyy"
-        return dateFormatter.string(from: date!)
+        return dateFormatter.string(from: date ?? Date())
 
     }
 }
