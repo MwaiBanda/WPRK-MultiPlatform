@@ -174,7 +174,9 @@ struct PodcastHome: View {
         })
     }
     private func onSelectPodcast(podcast: Podcast) {
+        print("podcast[SELECTED] - \(podcast.title)")
         selected = podcast
+        podcastViewModel.selected = selected
         podcastViewModel.currentPage = 1
         podcastViewModel.episodes.removeAll()
     }

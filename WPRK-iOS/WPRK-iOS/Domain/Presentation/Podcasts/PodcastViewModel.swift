@@ -14,6 +14,7 @@ final class PodcastViewModel: ObservableObject {
     @Published var podcasts = [Podcast]()
     @Published var featured = [Episode]()
     @Published var episodes = [Episode]()
+    @Published var selected: Podcast? = nil
     @Published var selectedFeatured: Podcast? = nil
     @Published var canLoadMore = false
     @Published var currentPage = 1
@@ -43,7 +44,8 @@ final class PodcastViewModel: ObservableObject {
                                 }
 
                         } else {
-                            self.episodes +=  Array(Set(data.third as? [Episode] ?? [] + self.episodes)).sorted(by: { return $0.number > $1.number })
+                            self.episodes +=  Array(Set(data.third as? [Episode] ?? [] + self.episodes))
+                            self.episodes = Array(Set(self.episodes)).sorted(by: { return $0.number > $1.number })
                         }
                     } else if let error = res.message {
                         print(error)
@@ -100,9 +102,10 @@ final class PodcastViewModel: ObservableObject {
         await fetchEpisodes(showID: showID)
     }
     
-    func getEpisodes(showID: String) {
+    func getEpisodes(showID: String, onCompletion: @escaping () -> Void = {}) {
         Task { @MainActor in
             await self.getEpisodes(showID: showID)
+            onCompletion()
         }
     }
 }

@@ -724,7 +724,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -763,7 +763,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.1;
+				MARKETING_VERSION = 0.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mwaibanda.WPRK;
 				PRODUCT_NAME = WPRK;
 				SWIFT_EMIT_LOC_STRINGS = YES;
