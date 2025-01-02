@@ -1,13 +1,8 @@
 # WPRK(iOS & iPadOS)
 Radio &amp; Podcast Streaming App For WPRK, a licensed FCC broadcast station,
 The app allows users to connect to live music streams and cycle through
-podacasts which are playable as well. 
+podcasts which are playable as well. 
  
-### AppStore
-Get app on the app store <br><br>
-<a href="https://apps.apple.com/us/app/wprk/id1588434109"  target="_blank" rel="noopener noreferrer">
-![Download_on_the_App_Store_Badge_US-UK_blk_092917-0](https://user-images.githubusercontent.com/49708426/137259580-5fbacaac-7fd3-4946-9412-7f1447e19075.png)</a>
-
 ## TechStack
 - SwiftUI
 - AVFoundation
